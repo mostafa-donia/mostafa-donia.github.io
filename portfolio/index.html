@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mostafa Donia — Software & Embedded Systems</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Clean System / Web Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Clean Top Nav -->
+  <nav class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="#home" class="font-bold text-white text-base tracking-tight hover:text-blue-400 transition-colors">
+        Mostafa Donia
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="hidden sm:flex items-center space-x-5 text-sm text-slate-300">
+        <a href="#projects" class="hover:text-white">Projects</a>
+        <a href="#experience" class="hover:text-white">Experience</a>
+        <a href="#skills" class="hover:text-white">Skills</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="../resume/Mostafa_Donia_Resume.html" target="_blank" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700">
+          Resume
+        </a>
+        <a href="../cv/Mostafa_Donia_CV.html" target="_blank" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white">
+          CV
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Bottom Nav -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 border-t border-slate-800 px-4 py-2 flex items-center justify-around text-xs text-slate-400">
+    <a href="#home" class="flex flex-col items-center gap-0.5 hover:text-white">
+      <i data-lucide="home" class="w-4 h-4"></i>
+      <span>Home</span>
+    </a>
+    <a href="#projects" class="flex flex-col items-center gap-0.5 text-blue-400 font-medium">
+      <i data-lucide="layers" class="w-4 h-4"></i>
+      <span>Projects</span>
+    </a>
+    <a href="#experience" class="flex flex-col items-center gap-0.5 hover:text-white">
+      <i data-lucide="briefcase" class="w-4 h-4"></i>
+      <span>Experience</span>
+    </a>
+    <a href="#contact" class="flex flex-col items-center gap-0.5 hover:text-white">
+      <i data-lucide="mail" class="w-4 h-4"></i>
+      <span>Contact</span>
+    </a>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 py-10 space-y-16 pb-24 sm:pb-16">
+
+    <!-- Hero -->
+    <section id="home" class="space-y-4 pt-2">
+      <div class="inline-block px-2.5 py-1 rounded text-xs font-mono bg-blue-950/80 text-blue-300 border border-blue-900">
+        Communications Engineering Student @ Mansoura Univ · Available for Full-Time Roles
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+        Software & Embedded Systems Developer
+      </h1>
+
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+        I build Python desktop applications (PySide6/Qt), backend services (Flask/MySQL), and embedded hardware with microcontrollers (ESP32, Arduino, biometrics, RFID). Experienced technical leader who grew academy profit by 80% and student enrollment by 60% over 15 months as General Manager at ITS Techno Academy (2022–2026).
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        <a href="#projects" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold transition-colors">
+          View Projects
+        </a>
+        <a href="#contact" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-semibold transition-colors">
+          Contact Me
+        </a>
+        <a href="https://github.com/mostafa-donia" target="_blank" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-semibold transition-colors inline-flex items-center gap-1.5">
+          <i data-lucide="github" class="w-4 h-4"></i> GitHub
+        </a>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="space-y-6">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white">Projects</h2>
+        <p class="text-xs sm:text-sm text-slate-400">Applications and hardware systems built and deployed for real use.</p>
+      </div>
+
+      <div class="space-y-6">
+
+        <!-- 1. Kareem Shop Store System -->
+        <div class="rounded-xl bg-slate-800/60 border border-slate-700/60 overflow-hidden p-5 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <div class="text-xs text-blue-400 font-mono mb-1">Python · PySide6 · SQLite</div>
+              <h3 class="text-lg font-bold text-white">Store Management System (Kareem Shop)</h3>
+            </div>
+            <span class="self-start sm:self-auto px-2 py-0.5 rounded text-xs bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">
+              Deployed in store
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Store management desktop application built for retail operations with a clean Arabic RTL interface. Supports barcode scanner entry, dynamic item pricing, discounts, thermal receipt printing, customer debt ledgers, and revenue summaries.
+          </p>
+
+          <div class="cursor-pointer group relative rounded-lg overflow-hidden border border-slate-700 bg-slate-950 max-h-80" onclick="openModal('screenshots/kareem_shop.jpeg', 'Store Management System (Kareem Shop)')">
+            <img src="screenshots/kareem_shop.jpeg" alt="Kareem Shop Interface" class="w-full h-auto object-cover group-hover:opacity-90 transition-opacity">
+            <div class="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-black/80 text-white text-xs flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> Click to view screenshot
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Biometric Gym System -->
+        <div class="rounded-xl bg-slate-800/60 border border-slate-700/60 overflow-hidden p-5 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <div class="text-xs text-blue-400 font-mono mb-1">ESP32 · R307 Fingerprint · PySide6 · REST</div>
+              <h3 class="text-lg font-bold text-white">Biometric Gym Management & Hardware</h3>
+            </div>
+            <span class="self-start sm:self-auto px-2 py-0.5 rounded text-xs bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">
+              Deployed in gym
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Hardware and software access system for a commercial fitness gym. ESP32 microcontroller interfaces with an R307 optical fingerprint scanner and ST7796S TFT display. Includes offline Wi-Fi SoftAP fallback mode, member renewals, and automated WhatsApp alert triggers.
+          </p>
+
+          <div class="cursor-pointer group relative rounded-lg overflow-hidden border border-slate-700 bg-slate-950 max-h-80" onclick="openModal('screenshots/gym.jpeg', 'Biometric Gym Management System')">
+            <img src="screenshots/gym.jpeg" alt="Gym Management Interface" class="w-full h-auto object-cover group-hover:opacity-90 transition-opacity">
+            <div class="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-black/80 text-white text-xs flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> Click to view screenshot
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. El Helal Factory Management -->
+        <div class="rounded-xl bg-slate-800/60 border border-slate-700/60 overflow-hidden p-5 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <div class="text-xs text-blue-400 font-mono mb-1">Python · Operations Dashboard</div>
+              <h3 class="text-lg font-bold text-white">Factory Batch & Cold-Storage Manager (El Helal)</h3>
+            </div>
+            <span class="self-start sm:self-auto px-2 py-0.5 rounded text-xs bg-blue-950 text-blue-400 border border-blue-800 font-mono">
+              Deployed in factory
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Operations management dashboard for a strawberry processing and cold storage plant. Monitors batch intake, remaining freezer space (factory capacity), waste tracking, client credit balances, penalty warnings, and worker activity logs.
+          </p>
+
+          <div class="cursor-pointer group relative rounded-lg overflow-hidden border border-slate-700 bg-slate-950 max-h-80" onclick="openModal('screenshots/elhelal_inventory.jpeg', 'Factory Batch Dashboard (El Helal)')">
+            <img src="screenshots/elhelal_inventory.jpeg" alt="Factory Management Interface" class="w-full h-auto object-cover group-hover:opacity-90 transition-opacity">
+            <div class="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-black/80 text-white text-xs flex items-center gap-1">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> Click to view screenshot
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Projects Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60">
+            <div class="text-xs text-purple-400 font-mono mb-1">OpenCV · MediaPipe · Python</div>
+            <h4 class="font-bold text-white text-sm mb-1">Hand Landmark Tracking</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Camera vision program tracking 21 hand landmarks in real time for gesture recognition and interactive controls.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/60">
+            <div class="text-xs text-emerald-400 font-mono mb-1">ESP8266 · RC522 RFID · Relays</div>
+            <h4 class="font-bold text-white text-sm mb-1">13-Floor Elevator Controller</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Access control prototype designed for 38 apartments across 13 floors, switching floor relays based on RFID tags.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="space-y-4">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white">Experience</h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- ITS Techno Academy: Main 4-year tenure -->
+        <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+            <h3 class="font-bold text-white text-sm sm:text-base">ITS Techno Academy — General Manager & Technical Instructor</h3>
+            <span class="text-xs text-emerald-400 font-mono">2022 – 2026 (4 Years)</span>
+          </div>
+          <div class="text-xs text-slate-400 mb-2">El Mahalla El Kubra, Egypt</div>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-1 list-disc list-inside">
+            <li>Promoted from Technical Instructor to General Manager; led academy operations for 15 months (2024–2026).</li>
+            <li>Achieved an <strong>80% increase in profit</strong> and <strong>60% increase in student enrollment</strong> in one year.</li>
+            <li>Reorganized and updated the full technical curriculum across programming, robotics, and embedded systems.</li>
+            <li>Prepared and led student teams for regional and national robotics tournaments and competitions.</li>
+            <li>Built desktop database applications in Python (PySide6) for student registration, timetable tracking, and fees.</li>
+            <li>Taught 4 years of courses in Python, C/C++, Arduino, ESP32, computer vision, and robotics (2022–2026).</li>
+          </ul>
+        </div>
+
+        <!-- Genie Tech: Part-time / Freelance -->
+        <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+            <h3 class="font-bold text-white text-sm sm:text-base">Genie Tech — Technical Consultant</h3>
+            <span class="text-xs text-blue-400 font-mono">2026 – Present (Part-time / Freelance)</span>
+          </div>
+          <div class="text-xs text-slate-400 mb-2">Flexible / Consulting</div>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-1 list-disc list-inside">
+            <li>Provide part-time technical curriculum development and software consulting on a flexible basis.</li>
+            <li>Design advanced programming challenges and mentor student teams on project architecture.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="space-y-4">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white">Skills</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs sm:text-sm">
+        <div class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60">
+          <div class="font-bold text-white mb-1">Languages</div>
+          <p class="text-slate-300 leading-normal">Python, C, C++, MicroPython, JavaScript, SQL, HTML/CSS</p>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60">
+          <div class="font-bold text-white mb-1">Software & Backend</div>
+          <p class="text-slate-300 leading-normal">PySide6 (Qt GUI), Flask, REST APIs, MySQL, SQLite, JSON</p>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60">
+          <div class="font-bold text-white mb-1">Embedded & Hardware</div>
+          <p class="text-slate-300 leading-normal">ESP32, ESP8266, Arduino, PIC, Fingerprint Sensors, RFID, TFT</p>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60">
+          <div class="font-bold text-white mb-1">Tools & Management</div>
+          <p class="text-slate-300 leading-normal">Git, GitHub, Operations Leadership, Curriculum Design, CCTV</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="space-y-4 pt-4 border-t border-slate-800">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white">Contact</h2>
+        <p class="text-xs sm:text-sm text-slate-400">Available for full-time (8 hours/day) software engineering roles.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="mailto:mostafa.tarek.donia@gmail.com" class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60 hover:border-blue-500 transition-colors">
+          <div class="text-xs text-slate-400">Email</div>
+          <div class="text-xs sm:text-sm font-semibold text-white break-all mt-0.5">mostafa.tarek.donia@gmail.com</div>
+        </a>
+
+        <a href="tel:+201080922432" class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60 hover:border-emerald-500 transition-colors">
+          <div class="text-xs text-slate-400">Phone / WhatsApp</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">+20 108 092 2432</div>
+        </a>
+
+        <a href="https://github.com/mostafa-donia" target="_blank" class="p-3.5 rounded-lg bg-slate-800/50 border border-slate-700/60 hover:border-blue-500 transition-colors">
+          <div class="text-xs text-slate-400">GitHub</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">github.com/mostafa-donia</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>Mostafa Donia · El Mahalla El Kubra, Egypt</div>
+      <div class="flex items-center gap-4">
+        <a href="../resume/Mostafa_Donia_Resume.html" class="hover:text-slate-300">Resume</a>
+        <a href="../cv/Mostafa_Donia_CV.html" class="hover:text-slate-300">CV</a>
+        <a href="https://github.com/mostafa-donia" target="_blank" class="hover:text-slate-300">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Clean Screenshot Modal -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 hidden flex items-center justify-center p-3 sm:p-6" onclick="closeModal()">
+    <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between p-3 border-b border-slate-800 bg-slate-950">
+        <div id="modal-title" class="font-semibold text-white text-sm">Screenshot</div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-2 sm:p-4 bg-slate-950 flex justify-center">
+        <img id="modal-image" src="" alt="Project Screenshot" class="max-h-[75vh] w-auto rounded object-contain">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function openModal(src, title) {
+      document.getElementById('modal-image').src = src;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('image-modal').classList.remove('hidden');
+    }
+    function closeModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
+</body>
+</html>

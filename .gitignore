@@ -1,0 +1,8 @@
+# Ignore internal / heavy project source folders not meant for the public portfolio pages
+gym system/
+face_config_app/
+results_screenshots/
+resume/*.docx
+MOSTAFA_DONIA_FULL_PROFILE.md
+*.pyc
+__pycache__/

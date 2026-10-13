@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum Vitae — Eng. Mostafa Donia</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm 16mm 15mm 16mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, Calibri, Helvetica, sans-serif;
+      color: #111111;
+      background: #f4f4f4;
+      line-height: 1.4;
+      font-size: 10pt;
+    }
+    .cv-container {
+      max-width: 210mm;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 35px 42px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .cv-container {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        max-width: 100%;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+    .toolbar {
+      max-width: 210mm;
+      margin: 15px auto 5px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111827;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: Arial, sans-serif;
+    }
+    .btn {
+      background: #2563eb;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    header {
+      text-align: center;
+      border-bottom: 2px solid #222222;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 22pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .tagline {
+      font-size: 11.5pt;
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+    .contacts {
+      font-size: 9.5pt;
+      color: #333333;
+    }
+    .contacts a {
+      color: #111111;
+      text-decoration: none;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      border-bottom: 1px solid #333333;
+      padding-bottom: 3px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin-bottom: 6px;
+      text-align: justify;
+      color: #222222;
+    }
+    .skills-block {
+      margin-bottom: 8px;
+      font-size: 9.5pt;
+      line-height: 1.45;
+    }
+    .skills-block strong {
+      color: #000000;
+    }
+
+    .entry {
+      margin-bottom: 12px;
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+    }
+    .entry-sub {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5pt;
+      font-style: italic;
+      color: #333333;
+      margin-bottom: 3px;
+    }
+    ul {
+      margin-left: 20px;
+      margin-top: 3px;
+      margin-bottom: 4px;
+    }
+    li {
+      margin-bottom: 3px;
+      font-size: 9.5pt;
+      color: #222222;
+    }
+    li strong {
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar no-print">
+    <div>
+      <strong>Curriculum Vitae — Eng. Mostafa Donia</strong>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <a href="../index.html" class="btn" style="background:#4b5563;">Portfolio</a>
+      <a href="../resume/Mostafa_Donia_Resume.html" class="btn" style="background:#d97706;">1-Page Resume</a>
+      <button onclick="window.print()" class="btn">Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="cv-container">
+    <header>
+      <h1>ENG. MOSTAFA DONIA</h1>
+      <div class="tagline">Software & Embedded Systems Engineer | Technical Educator</div>
+      <div class="contacts">
+        El Mahalla El Kubra, Gharbia, Egypt | Phone: +20 108 092 2432 | Email: mostafa.tarek.donia@gmail.com | GitHub: github.com/mostafa-donia
+      </div>
+    </header>
+
+    <section>
+      <h2>Profile</h2>
+      <p>
+        Software and Embedded Systems Engineer with a practical background in Python desktop applications (PySide6), web services (Flask), and microcontroller programming (ESP32, Arduino). Built store management software, factory monitoring dashboards, and biometric access devices in active commercial use. Proven technical leadership as former General Manager of an academy, growing profit by 80% and student enrollment by 60% over 15 months, alongside 4 years of hands-on teaching in programming and robotics (2022–2026). Currently available for full-time software engineering roles.
+      </p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <div class="skills-block">
+        <strong>Languages:</strong> Python, C, C++, MicroPython, JavaScript, SQL, HTML, CSS<br>
+        <strong>Desktop & Software Architecture:</strong> PySide6, PySide2, Qt Framework, PyInstaller, Modular Application Design<br>
+        <strong>Backend & Web:</strong> Flask, REST APIs, HTTP, Client-Server Communication<br>
+        <strong>Databases & Storage:</strong> MySQL, SQLite, JSON, Local File Storage, Pandas<br>
+        <strong>Embedded Systems & Hardware:</strong> ESP32, ESP32-S3, ESP8266, Arduino, PIC Microcontrollers, R307 Fingerprint Sensor, RC522 RFID, ST7796S TFT, Relays, Wi-Fi Protocols<br>
+        <strong>Computer Vision:</strong> MediaPipe, OpenCV, Camera Video Streams<br>
+        <strong>Tools & Systems:</strong> Git, GitHub, VS Code, Figma, Windows, Linux, CCTV & Lab Network Setups
+      </div>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>ITS TECHNO ACADEMY</span>
+          <span>El Mahalla El Kubra, Egypt</span>
+        </div>
+        <div class="entry-sub">
+          <span>General Manager & Technical Instructor</span>
+          <span>2022 – 2026</span>
+        </div>
+        <ul>
+          <li><strong>General Management (15 Months, 2024–2026):</strong> Directed academy operations, achieving an 80% increase in profit and 60% increase in student enrollment in one year.</li>
+          <li><strong>Curriculum Restructuring:</strong> Reorganized and updated the full technical curriculum across programming, robotics, electronics, and embedded systems.</li>
+          <li><strong>Tournaments & Competitions:</strong> Prepared and organized students and teams for regional and national robotics tournaments (sumo, line-followers, technical challenges).</li>
+          <li><strong>Software Tools:</strong> Built desktop database applications in Python (PySide6) for student registration, timetable tracking, and accounting records.</li>
+          <li><strong>Technical Instruction (2022–2026):</strong> Delivered 4 years of hands-on training in Python, C/C++, Arduino, ESP32, computer vision, and robotics.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>GENIE TECH</span>
+          <span>Part-time / Freelance</span>
+        </div>
+        <div class="entry-sub">
+          <span>Technical Consultant & Curriculum Developer</span>
+          <span>2026 – Present</span>
+        </div>
+        <ul>
+          <li>Provide part-time technical curriculum development and software consulting on a flexible basis.</li>
+          <li>Design advanced programming challenges and mentor student teams on project architecture.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>INDEPENDENT TECHNICAL WORK</span>
+          <span>Egypt</span>
+        </div>
+        <div class="entry-sub">
+          <span>Systems & Hardware Integration</span>
+          <span>2019 – Present</span>
+        </div>
+        <ul>
+          <li>Built custom software and hardware solutions for local businesses (retail shops, gyms, production facilities).</li>
+          <li>Installed and configured CCTV surveillance cameras, network routers, and PC workstations.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+      <h2>Projects & Deployments</h2>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>Store Management System (Kareem Shop)</span>
+          <span>Python, PySide6, SQLite</span>
+        </div>
+        <div class="entry-sub">
+          <span>Production Retail System</span>
+          <span>El Mahalla El Kubra</span>
+        </div>
+        <ul>
+          <li>Store management desktop application built for retail operations with a custom Arabic RTL interface.</li>
+          <li>Supports barcode scanning, item lookups, pricing tiers, discounts, and thermal invoice printing.</li>
+          <li>Tracks customer balances, stock levels, and daily revenue numbers.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>Biometric Gym Management System</span>
+          <span>Python, PySide6, ESP32, R307 Biometric, REST API</span>
+        </div>
+        <div class="entry-sub">
+          <span>Production Gym Deployment</span>
+          <span>Commercial Fitness Facility</span>
+        </div>
+        <ul>
+          <li>Access control and membership software built for a commercial gym.</li>
+          <li>Runs on an ESP32 connected to an R307 optical fingerprint reader and an ST7796S TFT screen.</li>
+          <li>Features automatic Wi-Fi fallback mode so member check-ins work even during internet outages.</li>
+          <li>Includes a desktop PySide6 app for membership plans, renewals, expenses, and WhatsApp notifications.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>Factory Production & Cold-Storage Dashboard (El Helal)</span>
+          <span>Python, Desktop Dashboard</span>
+        </div>
+        <div class="entry-sub">
+          <span>Active Operations Software</span>
+          <span>Food Processing & Cold-Storage Plant</span>
+        </div>
+        <ul>
+          <li>Batch tracking software for a strawberry freezing and cold-storage facility (Deployed in factory).</li>
+          <li>Monitors available cold-room storage, raw batch intake, waste records, and penalty dates.</li>
+          <li>Maintains client balances, invoice warnings, and worker activity logs.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>Hand Landmark Tracking & Computer Vision</span>
+          <span>Python, OpenCV, MediaPipe</span>
+        </div>
+        <ul>
+          <li>Real-time camera application detecting 21 hand landmarks for gesture controls and classroom projects.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <span>Microcontroller & IoT Prototypes</span>
+          <span>ESP8266, ESP32-S3, Arduino, RFID</span>
+        </div>
+        <ul>
+          <li>Prototyped a 13-floor RFID apartment elevator controller using an ESP8266 and RC522 reader.</li>
+          <li>Interfaced TM1637 and MAX7219 digital displays with speed sensors (0–20 km/h) for treadmill monitoring.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="entry-header">
+          <span>MANSOURA UNIVERSITY</span>
+          <span>Mansoura, Egypt</span>
+        </div>
+        <div class="entry-sub">
+          <span>Bachelor of Engineering in Communications Engineering</span>
+          <span>Expected 2028 (Currently 2nd Year)</span>
+        </div>
+        <p style="font-size: 9pt; margin-top: 2px;">
+          Coursework: Microcontrollers, Embedded Systems, Digital Electronics, Circuit Analysis, Programming & Algorithms, Communications Systems Fundamentals.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Languages</h2>
+      <p style="font-size: 9.5pt;">
+        Arabic: Native | English: Professional Working Proficiency (B2)
+      </p>
+    </section>
+
+  </div>
+
+</body>
+</html>
