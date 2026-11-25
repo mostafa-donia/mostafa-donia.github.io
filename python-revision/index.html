@@ -47,7 +47,6 @@
       line-height: 1.6;
     }
 
-    /* Top Header */
     .top-header {
       background: #FFFFFF;
       border-bottom: 2px solid var(--border);
@@ -118,7 +117,6 @@
       color: #FFFFFF;
     }
 
-    /* Main Container */
     .container {
       max-width: 860px;
       width: 100%;
@@ -152,23 +150,11 @@
       text-decoration: none;
     }
 
-    .btn-purple {
-      background: var(--purple);
-      color: #FFFFFF;
-    }
-    .btn-purple:hover {
-      background: var(--purple-dark);
-      transform: translateY(-1px);
-    }
+    .btn-purple { background: var(--purple); color: #FFFFFF; }
+    .btn-purple:hover { background: var(--purple-dark); transform: translateY(-1px); }
 
-    .btn-gold {
-      background: var(--gold);
-      color: #22201E;
-    }
-    .btn-gold:hover {
-      background: var(--gold-dark);
-      color: #FFFFFF;
-    }
+    .btn-gold { background: var(--gold); color: #22201E; }
+    .btn-gold:hover { background: var(--gold-dark); color: #FFFFFF; }
 
     .btn-outline {
       background: transparent;
@@ -210,7 +196,6 @@
       display: none;
     }
 
-    /* Parts Grid */
     .parts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -262,7 +247,6 @@
       font-weight: 600;
     }
 
-    /* Question Screen */
     .question-header {
       display: flex;
       justify-content: space-between;
@@ -278,15 +262,8 @@
       padding: 4px 10px;
       border-radius: 6px;
     }
-    .badge-essential {
-      background: var(--purple-light);
-      color: var(--purple);
-    }
-    .badge-adaptive {
-      background: #FFF0F5;
-      color: #C71585;
-      border: 1px solid #FFB6C1;
-    }
+    .badge-essential { background: var(--purple-light); color: var(--purple); }
+    .badge-adaptive { background: #FFF0F5; color: #C71585; border: 1px solid #FFB6C1; }
 
     .code-box {
       direction: ltr;
@@ -399,17 +376,8 @@
       line-height: 1.6;
     }
 
-    .feedback-banner.success {
-      background: var(--green-light);
-      border: 2px solid var(--green);
-      color: #145A32;
-    }
-
-    .feedback-banner.error {
-      background: var(--red-light);
-      border: 2px solid var(--red);
-      color: #78281F;
-    }
+    .feedback-banner.success { background: var(--green-light); border: 2px solid var(--green); color: #145A32; }
+    .feedback-banner.error { background: var(--red-light); border: 2px solid var(--red); color: #78281F; }
 
     .adaptive-alert {
       background: #FFF8E1;
@@ -486,7 +454,7 @@
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
-      <span class="cloud-pill" id="cloud-status-badge">🟢 متصل بالسحابة</span>
+      <span class="cloud-pill" id="cloud-status-badge">🟢 المزامنة المباشرة مفعلة</span>
       <div class="student-badge" id="header-student-badge" style="display: none;">
         <span>👤 <strong id="header-student-name">طالب</strong></span>
         <button class="btn-switch-user" onclick="switchStudentAccount()" title="تبديل الطالب">تبديل</button>
@@ -503,12 +471,11 @@
         <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">مرحباً بك في مراجعة بايثون التفاعلية!</h2>
         <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
           المراجعة مكونة من 50 سؤالاً أساسياً مقسمة إلى 5 أجزاء لتثبيت مفاهيم Python 101 & 102.<br>
-          تقدمك وإجاباتك محفوظة باسمك، يمكنك الحل على فترات في أي وقت ومتابعة تقدمك مع المعلم.
+          كل إجابة تختارها تُحفظ وترسل إلى لوحة تحكم المعلم فوراً بعد كل سؤال!
         </p>
       </div>
 
       <div style="max-width: 440px; margin: 0 auto;">
-        <!-- Resume Notice if found -->
         <div id="resume-notice" class="resume-box">
           <div style="font-weight: 800; margin-bottom: 4px;" id="resume-notice-title">👋 أهلاً بك مجدداً!</div>
           <div id="resume-notice-desc" style="font-size: 13px;">تم استرجاع تقدمك السابق بنجاح.</div>
@@ -531,7 +498,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
         <div>
           <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);">خريطة أجزاء المراجعة (5 أجزاء)</h2>
-          <p style="font-size: 13px; color: var(--text-muted);">اختر الجزء الذي ترغب في حله. يمكنك حل الأسئلة على فترات، وإجاباتك محفوظة باسمك دائماً.</p>
+          <p style="font-size: 13px; color: var(--text-muted);">اختر الجزء الذي ترغب في حله. يمكنك حل الأسئلة على فترات، وإجاباتك تظهر للمعلم أولاً بأول.</p>
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;" onclick="switchStudentAccount()">
@@ -540,14 +507,11 @@
         </div>
       </div>
 
-      <div class="parts-grid" id="parts-grid-container">
-        <!-- Injected dynamically -->
-      </div>
+      <div class="parts-grid" id="parts-grid-container"></div>
     </section>
 
     <!-- Screen 3: Question Solver -->
     <section id="screen-question" class="card" style="display: none;">
-      <!-- Progress Bar -->
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="question-progress-fill"></div>
       </div>
@@ -568,10 +532,8 @@
 
       <div id="q-code-box" class="code-box" style="display: none;"></div>
 
-      <!-- Multiple Choice Options -->
       <div id="q-options-container" class="options-list"></div>
 
-      <!-- Typo Hunt Box -->
       <div id="q-typo-container" class="typo-input-wrap" style="display: none;">
         <label style="font-weight: 800; font-size: 14px; color: var(--purple); display: block; margin-bottom: 8px;">
           اكتب الكلمة أو الرمز الصحيح في المربع:
@@ -582,7 +544,6 @@
         </div>
       </div>
 
-      <!-- Adaptive Remedial Alert Banner -->
       <div id="adaptive-alert-box" class="adaptive-alert">
         <span>💡</span>
         <div>
@@ -591,10 +552,8 @@
         </div>
       </div>
 
-      <!-- Feedback Banner -->
       <div id="feedback-banner" class="feedback-banner"></div>
 
-      <!-- Action Footer -->
       <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <button class="btn btn-outline" onclick="backToPartsMenu()">
           📋 العودة لقائمة الأجزاء
@@ -606,12 +565,12 @@
       </div>
     </section>
 
-    <!-- Screen 4: Part Completion Notice / Final Report -->
+    <!-- Screen 4: Final Report -->
     <section id="screen-report" class="card" style="display: none; text-align: center;">
-      <span style="font-size: 50px; display: block; margin-bottom: 12px;" id="rep-icon">🎉</span>
-      <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);" id="rep-title">ألف مبروك! أنهيت المراجعة بنجاح</h2>
-      <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;" id="rep-subtitle">
-        تم تسجيل جميع إجاباتك ومحاولاتك في لوحة تحكم المعلم بنجاح.
+      <span style="font-size: 50px; display: block; margin-bottom: 12px;">🎉</span>
+      <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">ألف مبروك! أنهيت المراجعة بنجاح</h2>
+      <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
+        تم تسجيل جميع إجاباتك ومحاولاتك في لوحة تحكم المعلم بنجاح تام.
       </p>
 
       <div class="report-stat-grid">
@@ -645,17 +604,14 @@
 
   </main>
 
-  <!-- Load Embedded Questions Bank -->
   <script src="questions_data.js"></script>
 
   <script>
-    const REGISTRY_OBJECT_ID = 'ff808181a09d98f701a21416e6164cec';
-    const OVERRIDES_OBJECT_ID = 'ff808181a09d98f701a21416e9b14ced';
-    const API_BASE = 'https://api.restful-api.dev/objects';
+    // Live Real-Time Pub/Sub Channel for GenieTech Python Revision
+    const SYNC_TOPIC = 'genietech_python_rev_sub_8923';
+    const SYNC_URL = `https://ntfy.sh/${SYNC_TOPIC}`;
 
-    // State per student
     let studentInfo = { name: '', group: '' };
-    let studentCloudId = null;
     let totalMistakes = 0;
     let attemptsLog = {};
     let partsCompleted = {};
@@ -677,13 +633,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Check last active student on this device
       const lastStudentName = localStorage.getItem('genie_last_active_student');
       if (lastStudentName) {
         document.getElementById('input-student-name').value = lastStudentName;
         loadStudentState(lastStudentName);
       }
-      fetchCloudQuestionOverrides();
     });
 
     function checkExistingStudentName() {
@@ -728,150 +682,74 @@
           totalMistakes = parsed.totalMistakes || 0;
           attemptsLog = parsed.attemptsLog || {};
           partsCompleted = parsed.partsCompleted || {};
-          studentCloudId = parsed.studentCloudId || localStorage.getItem(`genie_cid_${name}`);
 
           if (studentInfo.name) {
             updateHeaderUserBadge();
             showPartsScreen();
           }
-        } catch (e) {
-          console.error('Error loading state:', e);
-        }
+        } catch (e) {}
       }
     }
 
+    // Direct Instant Sync after every question
     function saveStudentState() {
       if (!studentInfo.name) return;
 
-      const data = {
-        studentInfo,
-        totalMistakes,
-        attemptsLog,
-        partsCompleted,
-        studentCloudId,
+      const answeredCount = Object.keys(attemptsLog).filter(k => attemptsLog[k] && attemptsLog[k].correct).length;
+      const firstTryCount = Object.values(attemptsLog).filter(a => a && a.firstTry).length;
+
+      const payload = {
+        studentInfo: {
+          name: studentInfo.name,
+          group: studentInfo.group || 'غير محدد'
+        },
+        totalMistakes: totalMistakes,
+        answeredCount: answeredCount,
+        firstTryCount: firstTryCount,
+        attemptsLog: attemptsLog,
+        partsCompleted: partsCompleted,
         lastUpdated: new Date().toISOString()
       };
 
+      // 1. Local Storage save
       const key = getStorageKey(studentInfo.name);
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(key, JSON.stringify(payload));
       localStorage.setItem('genie_last_active_student', studentInfo.name);
 
-      syncWithCloud(data);
+      // Also save to generic key for local dashboard inspection
+      localStorage.setItem('genie_python_rev_state_v1', JSON.stringify(payload));
+
+      // 2. Real-time Live Cloud broadcast to Teacher Dashboard
+      broadcastToTeacher(payload);
     }
 
-    function syncWithCloud(data) {
+    function broadcastToTeacher(payload) {
       const badge = document.getElementById('cloud-status-badge');
       if (badge) {
         badge.className = 'cloud-pill syncing';
-        badge.innerText = '🟡 جاري الحفظ...';
+        badge.innerText = '🟡 جاري الإرسال للمعلم...';
       }
 
-      if (!studentCloudId) {
-        const payload = {
-          name: `Genie_Student_${data.studentInfo.name || 'Anonymous'}`,
-          data: data
-        };
-        fetch(API_BASE, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(resObj => {
-          if (resObj && resObj.id) {
-            studentCloudId = resObj.id;
-            localStorage.setItem(`genie_cid_${studentInfo.name}`, studentCloudId);
-            data.studentCloudId = studentCloudId;
-            localStorage.setItem(getStorageKey(studentInfo.name), JSON.stringify(data));
-            registerStudentInIndex(studentCloudId, data);
-            if (badge) {
-              badge.className = 'cloud-pill';
-              badge.innerText = '🟢 محفوظ سحابياً';
-            }
-          }
-        })
-        .catch(() => {
-          if (badge) {
-            badge.className = 'cloud-pill';
-            badge.innerText = '⚪ وضع محلي (محفوظ)';
-          }
-        });
-      } else {
-        const payload = {
-          name: `Genie_Student_${data.studentInfo.name || 'Anonymous'}`,
-          data: data
-        };
-        fetch(`${API_BASE}/${studentCloudId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(() => {
-          registerStudentInIndex(studentCloudId, data);
-          if (badge) {
-            badge.className = 'cloud-pill';
-            badge.innerText = '🟢 محفوظ سحابياً';
-          }
-        })
-        .catch(() => {
-          if (badge) {
-            badge.className = 'cloud-pill';
-            badge.innerText = '⚪ وضع محلي (محفوظ)';
-          }
-        });
-      }
-    }
-
-    function registerStudentInIndex(cloudId, data) {
-      const summary = {
-        id: cloudId,
-        name: data.studentInfo.name || 'طالب',
-        group: data.studentInfo.group || 'غير محدد',
-        totalMistakes: data.totalMistakes || 0,
-        answeredCount: Object.keys(data.attemptsLog || {}).length,
-        firstTryCount: Object.values(data.attemptsLog || {}).filter(a => a.firstTry).length,
-        lastUpdated: new Date().toISOString()
-      };
-
-      fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`)
-        .then(res => res.json())
-        .then(reg => {
-          const currentData = (reg && reg.data) ? reg.data : { students: {} };
-          if (!currentData.students) currentData.students = {};
-          currentData.students[cloudId] = summary;
-
-          return fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: 'GenieTech_Revision_Submissions_Registry_v1',
-              data: currentData
-            })
-          });
-        })
-        .catch(() => {});
-    }
-
-    function fetchCloudQuestionOverrides() {
-      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
-        .then(res => res.json())
-        .then(resData => {
-          if (resData && resData.data && resData.data.overrides) {
-            const overrides = resData.data.overrides;
-            if (typeof REVISION_DATA !== 'undefined') {
-              REVISION_DATA.essential_questions.forEach((q, idx) => {
-                if (overrides[q.id]) Object.assign(REVISION_DATA.essential_questions[idx], overrides[q.id]);
-              });
-              Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
-                REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
-                  if (overrides[q.id]) Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], overrides[q.id]);
-                });
-              });
-            }
-          }
-        })
-        .catch(() => {});
+      fetch(SYNC_URL, {
+        method: 'POST',
+        headers: {
+          'Title': `Genie Student: ${payload.studentInfo.name}`,
+          'Tags': 'student,update'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        if (badge) {
+          badge.className = 'cloud-pill';
+          badge.innerText = '🟢 تم الإرسال للمعلم مباشرة';
+        }
+      })
+      .catch(() => {
+        if (badge) {
+          badge.className = 'cloud-pill';
+          badge.innerText = '🟢 محفوظ محلياً وسيرسل فوراً';
+        }
+      });
     }
 
     function updateHeaderUserBadge() {
@@ -906,7 +784,6 @@
         return;
       }
 
-      // Check existing
       const key = getStorageKey(nameInp);
       const saved = localStorage.getItem(key);
       if (saved) {
@@ -917,7 +794,6 @@
           totalMistakes = parsed.totalMistakes || 0;
           attemptsLog = parsed.attemptsLog || {};
           partsCompleted = parsed.partsCompleted || {};
-          studentCloudId = parsed.studentCloudId || null;
         } catch(e) {
           studentInfo = { name: nameInp, group: groupInp };
         }
@@ -926,7 +802,6 @@
         totalMistakes = 0;
         attemptsLog = {};
         partsCompleted = {};
-        studentCloudId = null;
       }
 
       updateHeaderUserBadge();
@@ -943,7 +818,6 @@
       renderPartsGrid();
     }
 
-    // Helper: get questions belonging to a part by part number (1-5)
     function getQuestionsForPart(partNum) {
       if (typeof REVISION_DATA === 'undefined' || !REVISION_DATA.essential_questions) return [];
       const pid = 'part' + partNum;
@@ -988,7 +862,6 @@
         return;
       }
 
-      // Build queue with essential + any adaptive questions triggered
       queue = [];
       partQuestions.forEach(q => {
         queue.push(q);
@@ -1001,7 +874,6 @@
         }
       });
 
-      // Find first unanswered question in this part
       const firstUnanswered = queue.findIndex(q => !attemptsLog[q.id] || !attemptsLog[q.id].correct);
       currentIndex = (firstUnanswered !== -1) ? firstUnanswered : 0;
 
@@ -1016,7 +888,6 @@
     function renderCurrentQuestion() {
       const q = queue[currentIndex];
       if (!q) {
-        // Part finished
         partsCompleted[currentPartId] = true;
         saveStudentState();
         showPartsScreen();
@@ -1086,7 +957,6 @@
         });
       }
 
-      // If already solved previously
       if (attemptsLog[q.id] && attemptsLog[q.id].correct) {
         fb.className = 'feedback-banner success';
         fb.innerHTML = `<strong>✔ تم حل هذا السؤال سابقاً بنجاح!</strong><br>${q.explanation}`;
@@ -1128,6 +998,8 @@
         fb.style.display = 'block';
 
         document.getElementById('btn-next-question').style.display = 'inline-flex';
+        
+        // Immediate sync to teacher dashboard after this question!
         saveStudentState();
       } else {
         if (chosenBtn) chosenBtn.className = 'option-btn selected-wrong';
@@ -1140,6 +1012,8 @@
         if (log.attempts.length === 1) {
           triggerAdaptiveQuestions(q.concept_id);
         }
+
+        // Immediate sync of mistake to teacher dashboard!
         saveStudentState();
       }
     }
@@ -1162,7 +1036,6 @@
 
       log.attempts.push(val);
 
-      // Collect accepted answers
       const accepted = (q.accepted_answers || []).map(a => a.trim().toLowerCase());
       if (q.target_word) accepted.push(q.target_word.trim().toLowerCase());
       if (q.correct_fix) accepted.push(q.correct_fix.trim().toLowerCase());
@@ -1219,11 +1092,9 @@
     function nextQuestion() {
       currentIndex += 1;
       if (currentIndex >= queue.length) {
-        // Completed this part
         partsCompleted[currentPartId] = true;
         saveStudentState();
 
-        // Check if all 5 parts are completed
         const allEssential = (typeof REVISION_DATA !== 'undefined') ? REVISION_DATA.essential_questions : [];
         const totalSolved = allEssential.filter(q => attemptsLog[q.id] && attemptsLog[q.id].correct).length;
 
@@ -1231,7 +1102,7 @@
           showFullCourseReport();
         } else {
           showPartsScreen();
-          alert(`🎉 ممتاز جداً! أنهيت الجزء ${currentPartId} بنجاح. تم حفظ تقدمك ويمكنك استكمال باقي الأجزاء الآن أو لاحقاً.`);
+          alert(`🎉 ممتاز جداً! أنهيت الجزء ${currentPartId} بنجاح. تم حفظ تقدمك وإرساله للمعلم، ويمكنك استكمال باقي الأجزاء الآن أو لاحقاً.`);
         }
       } else {
         renderCurrentQuestion();

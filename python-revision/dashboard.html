@@ -258,7 +258,6 @@
       border-color: var(--purple);
     }
 
-    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -382,13 +381,13 @@
           <h1 style="font-size: 17px; font-weight: 900; color: var(--purple);">Genie Tech</h1>
           <span class="badge-admin">👨‍🏫 لوحة تحكم المعلم</span>
         </div>
-        <p style="font-size: 12px; color: var(--text-muted); font-weight: 700;">متابعة إجابات الطلاب وإدارة بنك الأسئلة (Cloud Sync)</p>
+        <p style="font-size: 12px; color: var(--text-muted); font-weight: 700;">متابعة إجابات الطلاب لحظياً بعد كل سؤال (Live Stream)</p>
       </div>
     </div>
 
     <div style="display: flex; align-items: center; gap: 12px;">
-      <span class="tag-status tag-green" id="server-status-pill">🟢 متصل بالسحابة</span>
-      <button class="btn btn-purple" onclick="refreshDashboardData()">🔄 تحديث البيانات</button>
+      <span class="tag-status tag-green" id="server-status-pill">🟢 متصل بالسيرفر المباشر (لايف)</span>
+      <button class="btn btn-purple" onclick="refreshDashboardData()">🔄 تحديث الآن</button>
     </div>
   </header>
 
@@ -442,8 +441,8 @@
 
       <div class="filter-bar">
         <div>
-          <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">سجل محاولات وإجابات الطلاب</h2>
-          <p style="font-size: 13px; color: var(--text-muted);">انقر على "تفاصيل الأداء" لمشاهدة اختيارات الطالب الخاطئة، وعدد محاولاته قبل الإجابة الصحيحة في كل سؤال.</p>
+          <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">سجل محاولات وإجابات الطلاب الحية</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">تصلك الإجابات والأخطاء لايف بعد كل سؤال يحله أي طالب دون الحاجة لضغط زر تسليم.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
           <input type="text" id="student-search-input" class="search-input" placeholder="🔍 بحث باسم الطالب أو المجموعة..." oninput="filterStudentsTable()">
@@ -467,7 +466,7 @@
             <tbody id="students-table-body">
               <tr>
                 <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
-                  جاري جلب بيانات الطلاب سحابياً...
+                  جاري الاتصال بقناة البث المباشر وجلب بيانات الطلاب...
                 </td>
               </tr>
             </tbody>
@@ -481,14 +480,11 @@
       <div class="filter-bar">
         <div>
           <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">بنك أسئلة بايثون (Python 101 & 102)</h2>
-          <p style="font-size: 13px; color: var(--text-muted);">يمكنك تعديل أي سؤال، كود، خيارات، أو شرح ونشر التعديلات سحابياً لتصل للطلاب فوراً.</p>
+          <p style="font-size: 13px; color: var(--text-muted);">يمكنك تعديل أي سؤال، كود، خيارات، أو شرح وتصدير النسخة المحدثة.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn btn-green" onclick="publishQuestionOverridesToCloud()">
-            🚀 نشر التعديلات سحابياً للطلاب
-          </button>
           <button class="btn btn-gold" onclick="downloadQuestionsFile()">
-            💾 تحميل ملف questions_data.js
+            💾 تحميل ملف questions_data.js المحدث
           </button>
         </div>
       </div>
@@ -531,8 +527,6 @@
         </div>
         <button class="close-btn" onclick="closeInspectModal()">&times;</button>
       </div>
-
-      <div id="modal-summary-stats" style="margin-bottom: 20px;"></div>
 
       <div style="font-weight: 800; margin-bottom: 14px; font-size: 15px; color: var(--purple);">
         📋 سجل إجابة ومحاولات كل سؤال بالتفصيل:
@@ -609,18 +603,127 @@
   <script src="questions_data.js"></script>
 
   <script>
-    const REGISTRY_OBJECT_ID = 'ff808181a09d98f701a21416e6164cec';
-    const OVERRIDES_OBJECT_ID = 'ff808181a09d98f701a21416e9b14ced';
-    const API_BASE = 'https://api.restful-api.dev/objects';
+    const SYNC_TOPIC = 'genietech_python_rev_sub_8923';
+    const SYNC_URL = `https://ntfy.sh/${SYNC_TOPIC}`;
 
-    let allStudents = [];
-    let questionOverrides = {};
+    // Map: student_name -> full student payload
+    let studentsMap = {};
     let activeEditingQId = null;
 
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. Load any local storage student first (instant display if same device)
+      loadLocalStorageStudents();
+
+      // 2. Poll past messages from ntfy topic (last 12 hours)
       refreshDashboardData();
-      fetchCloudOverrides();
+
+      // 3. Open real-time SSE listener for instant live incoming answers
+      initRealtimeListener();
     });
+
+    function loadLocalStorageStudents() {
+      // Scan localStorage for any students
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('genie_python_rev_st_')) {
+          try {
+            const data = JSON.parse(localStorage.getItem(k));
+            if (data && data.studentInfo && data.studentInfo.name) {
+              studentsMap[data.studentInfo.name] = data;
+            }
+          } catch(e) {}
+        }
+      }
+
+      // Check generic state
+      const generic = localStorage.getItem('genie_python_rev_state_v1');
+      if (generic) {
+        try {
+          const data = JSON.parse(generic);
+          if (data && data.studentInfo && data.studentInfo.name) {
+            studentsMap[data.studentInfo.name] = data;
+          }
+        } catch(e) {}
+      }
+
+      renderDashboard();
+    }
+
+    // Connect to Server-Sent Events for instant sub-second answer streaming
+    function initRealtimeListener() {
+      try {
+        const sse = new EventSource(`${SYNC_URL}/sse`);
+        sse.onmessage = (event) => {
+          try {
+            const parsed = JSON.parse(event.data);
+            if (parsed && parsed.message) {
+              const studentData = JSON.parse(parsed.message);
+              if (studentData && studentData.studentInfo && studentData.studentInfo.name) {
+                studentsMap[studentData.studentInfo.name] = studentData;
+                renderDashboard();
+                showLiveToast(studentData.studentInfo.name);
+              }
+            }
+          } catch(e) {}
+        };
+
+        sse.onerror = () => {
+          document.getElementById('server-status-pill').className = 'tag-status tag-yellow';
+          document.getElementById('server-status-pill').innerText = '🟡 متصل (وضع الاستطلاع الدوري)';
+        };
+
+        sse.onopen = () => {
+          document.getElementById('server-status-pill').className = 'tag-status tag-green';
+          document.getElementById('server-status-pill').innerText = '🟢 متصل بالبث المباشر (لايف)';
+        };
+      } catch(e) {}
+    }
+
+    function showLiveToast(studentName) {
+      const pill = document.getElementById('server-status-pill');
+      if (pill) {
+        const origText = pill.innerText;
+        pill.innerText = `⚡ تحديث جديد من الطالب: ${studentName}!`;
+        pill.className = 'tag-status tag-yellow';
+        setTimeout(() => {
+          pill.innerText = origText;
+          pill.className = 'tag-status tag-green';
+        }, 3000);
+      }
+    }
+
+    function refreshDashboardData() {
+      const pill = document.getElementById('server-status-pill');
+      pill.className = 'tag-status tag-yellow';
+      pill.innerText = '🟡 جاري جلب التحديثات...';
+
+      fetch(`${SYNC_URL}/json?poll=1`)
+        .then(res => res.text())
+        .then(rawText => {
+          pill.className = 'tag-status tag-green';
+          pill.innerText = '🟢 متصل بالسيرفر المباشر (لايف)';
+
+          const lines = rawText.trim().split('\n');
+          lines.forEach(line => {
+            if (line.trim()) {
+              try {
+                const msgObj = JSON.parse(line);
+                if (msgObj.message) {
+                  const studentData = JSON.parse(msgObj.message);
+                  if (studentData && studentData.studentInfo && studentData.studentInfo.name) {
+                    studentsMap[studentData.studentInfo.name] = studentData;
+                  }
+                }
+              } catch(e) {}
+            }
+          });
+
+          renderDashboard();
+        })
+        .catch(() => {
+          loadLocalStorageStudents();
+        });
+    }
 
     function switchTab(tab) {
       document.getElementById('tab-btn-students').className = `tab-btn ${tab === 'students' ? 'active' : ''}`;
@@ -634,65 +737,9 @@
       }
     }
 
-    function refreshDashboardData() {
-      const statusPill = document.getElementById('server-status-pill');
-      statusPill.className = 'tag-status tag-yellow';
-      statusPill.innerText = '🟡 جاري التحميل...';
-
-      fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`)
-        .then(res => res.json())
-        .then(resData => {
-          statusPill.className = 'tag-status tag-green';
-          statusPill.innerText = '🟢 متصل بالسحابة';
-
-          if (resData && resData.data && resData.data.students) {
-            allStudents = Object.values(resData.data.students);
-          } else {
-            allStudents = [];
-          }
-
-          renderDashboard();
-        })
-        .catch(() => {
-          statusPill.className = 'tag-status tag-yellow';
-          statusPill.innerText = '🟡 وضع العمل المحلي';
-          renderDashboard();
-        });
-    }
-
-    function fetchCloudOverrides() {
-      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
-        .then(res => res.json())
-        .then(resData => {
-          if (resData && resData.data && resData.data.overrides) {
-            questionOverrides = resData.data.overrides;
-            applyOverridesToLocalBank();
-          }
-        })
-        .catch(() => {});
-    }
-
-    function applyOverridesToLocalBank() {
-      if (typeof REVISION_DATA === 'undefined') return;
-
-      REVISION_DATA.essential_questions.forEach((q, idx) => {
-        if (questionOverrides[q.id]) {
-          Object.assign(REVISION_DATA.essential_questions[idx], questionOverrides[q.id]);
-        }
-      });
-
-      Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
-        REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
-          if (questionOverrides[q.id]) {
-            Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], questionOverrides[q.id]);
-          }
-        });
-      });
-    }
-
     function renderDashboard() {
-      const totalCount = allStudents.length;
-      document.getElementById('metric-total-students').innerText = totalCount;
+      const allStudents = Object.values(studentsMap);
+      document.getElementById('metric-total-students').innerText = allStudents.length;
 
       let totalMistakes = 0;
       let totalFirstTry = 0;
@@ -717,41 +764,50 @@
       const tbody = document.getElementById('students-table-body');
       tbody.innerHTML = '';
 
+      const allStudents = Object.values(studentsMap);
       const filtered = allStudents.filter(s => {
-        return (s.name || '').toLowerCase().includes(query) || (s.group || '').toLowerCase().includes(query);
+        const name = (s.studentInfo && s.studentInfo.name) || '';
+        const group = (s.studentInfo && s.studentInfo.group) || '';
+        return name.toLowerCase().includes(query) || group.toLowerCase().includes(query);
       });
 
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
-              لا توجد نتائج مطابقة للبحث أو لم يقم أي طالب ببدء المراجعة بعد.
+              لا توجد نتائج مطابقة للبحث أو لم يبدأ أي طالب بعد.
             </td>
           </tr>
         `;
         return;
       }
 
+      // Sort by lastUpdated descending (newest activity first)
+      filtered.sort((a, b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
+
       filtered.forEach(s => {
         const tr = document.createElement('tr');
-        const accuracy = (s.answeredCount > 0) ? Math.round((s.firstTryCount / s.answeredCount) * 100) : 0;
+        const stName = (s.studentInfo && s.studentInfo.name) || 'طالب';
+        const stGroup = (s.studentInfo && s.studentInfo.group) || 'غير محدد';
+        const answered = s.answeredCount || Object.keys(s.attemptsLog || {}).length || 0;
+        const accuracy = (answered > 0) ? Math.round(((s.firstTryCount || 0) / answered) * 100) : 0;
         const timeAgo = formatTimeAgo(s.lastUpdated);
 
         tr.innerHTML = `
-          <td style="font-weight: 800; color: var(--purple);">${s.name || 'طالب'}</td>
-          <td><span class="badge-admin" style="border: none;">${s.group || 'غير محدد'}</span></td>
-          <td><strong>${s.answeredCount || 0} / 50</strong></td>
+          <td style="font-weight: 800; color: var(--purple);">${stName}</td>
+          <td><span class="badge-admin" style="border: none;">${stGroup}</span></td>
+          <td><strong>${answered} / 50</strong></td>
           <td>
             <span style="color: ${accuracy >= 80 ? 'var(--green)' : (accuracy >= 50 ? 'var(--gold-dark)' : 'var(--red)')}; font-weight: 800;">
               ${accuracy}%
             </span>
           </td>
-          <td style="color: ${s.totalMistakes > 5 ? 'var(--red)' : 'inherit'}; font-weight: 800;">
+          <td style="color: ${(s.totalMistakes || 0) > 4 ? 'var(--red)' : 'inherit'}; font-weight: 800;">
             ${s.totalMistakes || 0}
           </td>
           <td style="font-size: 12px; color: var(--text-muted);">${timeAgo}</td>
           <td>
-            <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="inspectStudentDetails('${s.id}')">
+            <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="inspectStudentDetails('${stName}')">
               🔍 تفاصيل الأداء
             </button>
           </td>
@@ -761,40 +817,21 @@
     }
 
     function formatTimeAgo(isoString) {
-      if (!isoString) return 'غير متاح';
+      if (!isoString) return 'منذ لحظات';
       const diffSec = Math.floor((new Date() - new Date(isoString)) / 1000);
-      if (diffSec < 60) return 'منذ لحظات';
+      if (diffSec < 45) return 'الآن لايف ⚡';
       if (diffSec < 3600) return `منذ ${Math.floor(diffSec/60)} دقيقة`;
       if (diffSec < 86400) return `منذ ${Math.floor(diffSec/3600)} ساعة`;
       return `منذ ${Math.floor(diffSec/86400)} يوم`;
     }
 
-    function inspectStudentDetails(studentId) {
-      const studentSummary = allStudents.find(s => s.id === studentId);
-      if (!studentSummary) return;
+    function inspectStudentDetails(studentName) {
+      const studentData = studentsMap[studentName];
+      if (!studentData) return;
 
-      document.getElementById('modal-student-name').innerText = `تفاصيل إجابات الطالب: ${studentSummary.name}`;
-      document.getElementById('modal-student-meta').innerText = `المجموعة: ${studentSummary.group || 'غير محدد'} | آخر نشاط: ${formatTimeAgo(studentSummary.lastUpdated)}`;
+      document.getElementById('modal-student-name').innerText = `تفاصيل أداء الطالب: ${studentName}`;
+      document.getElementById('modal-student-meta').innerText = `المجموعة: ${(studentData.studentInfo && studentData.studentInfo.group) || 'غير محدد'} | آخر نشاط: ${formatTimeAgo(studentData.lastUpdated)}`;
 
-      const modalList = document.getElementById('modal-questions-list');
-      modalList.innerHTML = '<div style="text-align: center; padding: 20px;">جاري جلب تفاصيل كل سؤال سحابياً...</div>';
-      document.getElementById('inspect-modal').style.display = 'flex';
-
-      fetch(`${API_BASE}/${studentId}`)
-        .then(res => res.json())
-        .then(fullObj => {
-          if (fullObj && fullObj.data) {
-            renderStudentQuestionsInspection(fullObj.data);
-          } else {
-            modalList.innerHTML = '<div style="color: var(--red); padding: 20px;">تعذر تحميل تفاصيل الإجابات.</div>';
-          }
-        })
-        .catch(() => {
-          modalList.innerHTML = '<div style="color: var(--red); padding: 20px;">تعذر الاتصال بالسحابة.</div>';
-        });
-    }
-
-    function renderStudentQuestionsInspection(studentData) {
       const modalList = document.getElementById('modal-questions-list');
       modalList.innerHTML = '';
 
@@ -811,6 +848,7 @@
       const qIds = Object.keys(log);
       if (qIds.length === 0) {
         modalList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">لم يقم الطالب بحل أي سؤال بعد.</div>';
+        document.getElementById('inspect-modal').style.display = 'flex';
         return;
       }
 
@@ -838,7 +876,7 @@
 
         let attemptsHistoryHtml = '';
         if (att.attempts && att.attempts.length > 0) {
-          attemptsHistoryHtml = '<div style="margin-top: 10px; font-size: 13px;"><strong>سجل الاختيارات:</strong><ul style="padding-right: 20px; margin-top: 4px;">';
+          attemptsHistoryHtml = '<div style="margin-top: 10px; font-size: 13px;"><strong>سجل اختيارات الطالب:</strong><ul style="padding-right: 20px; margin-top: 4px;">';
           att.attempts.forEach((choice, cIdx) => {
             const isLastCorrect = (cIdx === att.attempts.length - 1 && isCorrect);
             attemptsHistoryHtml += `
@@ -863,12 +901,15 @@
         `;
         modalList.appendChild(item);
       });
+
+      document.getElementById('inspect-modal').style.display = 'flex';
     }
 
     function closeInspectModal() {
       document.getElementById('inspect-modal').style.display = 'none';
     }
 
+    // Question Bank Manager
     function renderQuestionsManager() {
       const container = document.getElementById('questions-editor-list');
       container.innerHTML = '';
@@ -902,11 +943,6 @@
                  (q.code || '').toLowerCase().includes(search) ||
                  (q.part_title || '').toLowerCase().includes(search);
         });
-      }
-
-      if (list.length === 0) {
-        container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">لا توجد أسئلة مطابقة للفلتر المحدد.</div>';
-        return;
       }
 
       list.forEach((q, idx) => {
@@ -1047,45 +1083,10 @@
       }
 
       Object.assign(q, updateData);
-      questionOverrides[activeEditingQId] = updateData;
 
       closeEditModal();
       renderQuestionsManager();
-      alert('✔ تم حفظ التعديل محلياً! اضغط على زر "🚀 نشر التعديلات سحابياً" لتصل للطلاب فوراً.');
-    }
-
-    function publishQuestionOverridesToCloud() {
-      const overrideCount = Object.keys(questionOverrides).length;
-      if (overrideCount === 0) {
-        alert('لم تقم بإجراء أي تعديلات جديدة على الأسئلة بعد!');
-        return;
-      }
-
-      if (!confirm(`هل أنت متأكد من رغبتك في نشر ${overrideCount} سؤالاً معدلاً إلى السحابة للطلاب؟`)) {
-        return;
-      }
-
-      const payload = {
-        name: 'GenieTech_Revision_Question_Overrides_v1',
-        data: {
-          version: 2,
-          updated_at: new Date().toISOString(),
-          overrides: questionOverrides
-        }
-      };
-
-      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(() => {
-        alert('✅ تم نشر التعديلات سحابياً بنجاح تام! ستظهر فوراً لأي طالب عند فتح الرابط.');
-      })
-      .catch(err => {
-        alert('حدث خطأ أثناء الاتصال بالسحابة: ' + err);
-      });
+      alert('✔ تم حفظ التعديل! يمكنك تحميل ملف questions_data.js بالضغط على زر "تحميل ملف questions_data.js".');
     }
 
     function downloadQuestionsFile() {
