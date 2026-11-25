@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genie Tech — منصة المراجعة التفاعلية الشاملة (Python 101 & 102)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --border: #E5DFD5;
+      --purple: #5B2E91;
+      --purple-dark: #3F1C69;
+      --purple-light: #F2ECFA;
+      --gold: #F5A623;
+      --gold-dark: #D48806;
+      --gold-light: #FFF8EB;
+      --green: #27AE60;
+      --green-light: #E8F8F0;
+      --red: #EB5757;
+      --red-light: #FDEEEE;
+      --text: #22201E;
+      --text-muted: #55504A;
+      --code-bg: #151520;
+    }
+
+    body {
+      font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .top-header {
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-logo {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .cloud-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .cloud-pill.syncing {
+      background: var(--gold-light);
+      color: var(--gold-dark);
+    }
+
+    .student-badge {
+      background: var(--purple-light);
+      color: var(--purple);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-purple {
+      background: var(--purple);
+      color: #FFFFFF;
+    }
+    .btn-purple:hover {
+      background: var(--purple-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #22201E;
+    }
+    .btn-gold:hover {
+      background: var(--gold-dark);
+      color: #FFFFFF;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+    }
+    .btn-outline:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      background: #FAF9F6;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--purple);
+      background: #FFFFFF;
+    }
+
+    /* Parts Grid */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .part-card {
+      background: #FFFFFF;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .part-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(91,46,145,0.08);
+    }
+
+    .part-card.completed {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .part-num {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--purple);
+      background: var(--purple-light);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .part-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .part-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Question Screen */
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge-tag {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .badge-essential {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+    .badge-adaptive {
+      background: #FFF0F5;
+      color: #C71585;
+      border: 1px solid #FFB6C1;
+    }
+
+    .code-box {
+      direction: ltr;
+      text-align: left;
+      background: var(--code-bg);
+      color: #F8F8F2;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 16px 0;
+      overflow-x: auto;
+      border: 2px solid #28283E;
+      line-height: 1.5;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: right;
+      padding: 14px 18px;
+      background: #FFFFFF;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      direction: rtl;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--purple);
+      background: var(--purple-light);
+      transform: translateX(-4px);
+    }
+
+    .option-btn.selected-correct {
+      background: var(--green-light);
+      border-color: var(--green);
+      color: #155724;
+    }
+
+    .option-btn.selected-wrong {
+      background: var(--red-light);
+      border-color: var(--red);
+      color: #721c24;
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(6px); }
+      75% { transform: translateX(-6px); }
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .typo-input-wrap {
+      margin: 20px 0;
+    }
+
+    .typo-input {
+      direction: ltr;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 12px 18px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 12px;
+      background: #FFFFFF;
+    }
+    .typo-input:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    .feedback-banner {
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-top: 16px;
+      display: none;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .feedback-banner.success {
+      background: var(--green-light);
+      border: 2px solid var(--green);
+      color: #145A32;
+    }
+
+    .feedback-banner.error {
+      background: var(--red-light);
+      border: 2px solid var(--red);
+      color: #78281F;
+    }
+
+    .adaptive-alert {
+      background: #FFF8E1;
+      border: 2px solid var(--gold);
+      color: #856404;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: #EAE6DF;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--purple));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .report-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .report-stat-box {
+      background: #FAF7F2;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .report-stat-val {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .report-stat-lbl {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .top-header { padding: 10px 16px; }
+      .container { padding: 16px 12px; }
+      .card { padding: 18px 14px; }
+      .code-box { font-size: 13px; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-brand">
+      <img src="logo.png" alt="Genie Tech Logo" class="header-logo" onerror="this.style.display='none'">
+      <div>
+        <h1 style="font-size: 16px; font-weight: 900; color: var(--purple);">Genie Tech</h1>
+        <p style="font-size: 11px; color: var(--gold-dark); font-weight: 700;">مراجعة Python 101 & 102 الشاملة</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="cloud-pill" id="cloud-status-badge">🟢 متصل بالسحابة</span>
+      <div class="student-badge" id="header-student-badge" style="display: none;">
+        👤 <span id="header-student-name">طالب</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Screen 1: Welcome & Name Input -->
+    <section id="screen-welcome" class="card">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="font-size: 40px; display: block; margin-bottom: 10px;">🚀</span>
+        <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">مرحباً بك في مراجعة بايثون التفاعلية!</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
+          المراجعة مكونة من 50 سؤالاً أساسياً لتثبيت أهم مفاهيم Python 101 & 102 بدون كتابة برامج طويلة.<br>
+          كل سؤال تجيب عليه بشكل خاطئ، سيقوم النظام تلقائياً بإضافة سؤالين تدريبيين لنفس المفهوم لتثبيته 100%!
+        </p>
+      </div>
+
+      <div style="max-width: 440px; margin: 0 auto;">
+        <label style="font-weight: 800; font-size: 14px; color: var(--purple);">اسمك ثلاثي (كما هو مسجل في Genie Tech):</label>
+        <input type="text" id="input-student-name" class="input-field" placeholder="مثال: أحمد محمد علي" autocomplete="name">
+
+        <label style="font-weight: 800; font-size: 14px; color: var(--purple);">المجموعة / اليوم:</label>
+        <input type="text" id="input-student-group" class="input-field" placeholder="مثال: Python 102 (السبت) أو Nov 11">
+
+        <button class="btn btn-purple" style="width: 100%; margin-top: 10px;" onclick="startRevision()">
+          ابدأ المراجعة الآن 🎯
+        </button>
+      </div>
+    </section>
+
+    <!-- Screen 2: Parts Dashboard -->
+    <section id="screen-parts" class="card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);">خريطة أجزاء المراجعة</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">يمكنك حل المراجعة جزءاً بجزء في أي وقت، وتقدمك محفوظ سحابياً تلقائياً.</p>
+        </div>
+        <button class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;" onclick="resetProgressConfirm()">
+          🔄 إعادة المراجعة من البداية
+        </button>
+      </div>
+
+      <div class="parts-grid" id="parts-grid-container">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- Screen 3: Question Solver -->
+    <section id="screen-question" class="card" style="display: none;">
+      <!-- Progress Bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="question-progress-fill"></div>
+      </div>
+
+      <div class="question-header">
+        <div>
+          <span class="badge-tag badge-essential" id="q-badge-type">سؤال أساسي</span>
+          <span style="font-size: 13px; color: var(--text-muted); font-weight: 700; margin-right: 8px;" id="q-part-label">الجزء 1</span>
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: var(--purple);" id="q-counter">
+          سؤال 1 / 10
+        </div>
+      </div>
+
+      <h3 id="q-title" style="font-size: 17px; font-weight: 800; margin-bottom: 12px; color: var(--text);">
+        عنوان السؤال
+      </h3>
+
+      <div id="q-code-box" class="code-box" style="display: none;"></div>
+
+      <!-- Multiple Choice Options -->
+      <div id="q-options-container" class="options-list"></div>
+
+      <!-- Typo Hunt Box -->
+      <div id="q-typo-container" class="typo-input-wrap" style="display: none;">
+        <label style="font-weight: 800; font-size: 14px; color: var(--purple); display: block; margin-bottom: 8px;">
+          اكتب التصحيح السليم (الرمز أو الكلمة الصحيحة فقط):
+        </label>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="typo-answer-input" class="typo-input" placeholder="Type correct code here...">
+          <button class="btn btn-purple" id="btn-check-typo" onclick="checkTypoAnswer()">تحقق من الحل ✔</button>
+        </div>
+      </div>
+
+      <!-- Adaptive Remedial Alert Banner -->
+      <div id="adaptive-alert-box" class="adaptive-alert">
+        <span>💡</span>
+        <div>
+          <strong>تم تفعيل أسئلة الدعم الذكي!</strong><br>
+          تمت إضافة سؤالين تدريبيين إضافيين لتثبيت هذا المفهوم وفهمه بشكل عملي ومبسط.
+        </div>
+      </div>
+
+      <!-- Feedback Banner -->
+      <div id="feedback-banner" class="feedback-banner"></div>
+
+      <!-- Action Footer -->
+      <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <button class="btn btn-outline" onclick="backToPartsMenu()">
+          📋 العودة لقائمة الأجزاء
+        </button>
+
+        <button class="btn btn-gold" id="btn-next-question" style="display: none;" onclick="nextQuestion()">
+          السؤال التالي ⬅
+        </button>
+      </div>
+    </section>
+
+    <!-- Screen 4: Final Report -->
+    <section id="screen-report" class="card" style="display: none; text-align: center;">
+      <span style="font-size: 50px; display: block; margin-bottom: 12px;">🎉</span>
+      <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">ألف مبروك! أنهيت المراجعة بنجاح</h2>
+      <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
+        تم تسجيل جميع إجاباتك ومحاولاتك في لوحة تحكم المعلم بنجاح.
+      </p>
+
+      <div class="report-stat-grid">
+        <div class="report-stat-box">
+          <div class="report-stat-val" id="rep-accuracy">0%</div>
+          <div class="report-stat-lbl">دقة أول محاولة</div>
+        </div>
+        <div class="report-stat-box">
+          <div class="report-stat-val" id="rep-essential-done">0 / 50</div>
+          <div class="report-stat-lbl">الأسئلة الأساسية المجابة</div>
+        </div>
+        <div class="report-stat-box">
+          <div class="report-stat-val" id="rep-adaptive-done">0</div>
+          <div class="report-stat-lbl">أسئلة الدعم الإضافية</div>
+        </div>
+        <div class="report-stat-box">
+          <div class="report-stat-val" id="rep-mistakes">0</div>
+          <div class="report-stat-lbl">إجمالي الأخطاء</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+        <button class="btn btn-purple" onclick="sendReportWhatsApp()">
+          📲 إرسال التقرير للمعلم عبر واتساب
+        </button>
+        <button class="btn btn-outline" onclick="backToPartsMenu()">
+          📋 مراجعة الأجزاء
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Load Embedded Questions Bank -->
+  <script src="questions_data.js"></script>
+
+  <script>
+    const REGISTRY_OBJECT_ID = 'ff808181a09d98f701a21416e6164cec';
+    const OVERRIDES_OBJECT_ID = 'ff808181a09d98f701a21416e9b14ced';
+    const API_BASE = 'https://api.restful-api.dev/objects';
+
+    const STORAGE_KEY = 'genie_python_rev_state_v1';
+    const CLOUD_ID_KEY = 'genie_student_cloud_id';
+
+    let studentInfo = { name: '', group: '' };
+    let studentCloudId = localStorage.getItem(CLOUD_ID_KEY) || null;
+    let totalMistakes = 0;
+    let attemptsLog = {};
+    let partsCompleted = {};
+    let currentPartId = 1;
+    let queue = [];
+    let currentIndex = 0;
+
+    const PARTS_META = [
+      { id: 1, title: 'المتغيرات ودوال الإدخال والطباعة', desc: 'Variables, print, input, data types & casting' },
+      { id: 2, title: 'العمليات الحسابية والمنطقية والتحقق', desc: 'Arithmetic, modulo, comparisons, and / or / not' },
+      { id: 3, title: 'الجمل الشرطية واتخاذ القرارات', desc: 'If, elif, else, nested conditions & validation' },
+      { id: 4, title: 'التكرار بالـ While Loops وتوليد العشوائي', desc: 'While loop, counters, break, infinite loops & random' },
+      { id: 5, title: 'صائد الأخطاء البرمجية وإصلاح الكود', desc: 'Typo hunting, syntax error detection & fixing bugs' }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      fetchCloudQuestionOverrides();
+    });
+
+    function fetchCloudQuestionOverrides() {
+      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
+        .then(res => res.json())
+        .then(resData => {
+          if (resData && resData.data && resData.data.overrides) {
+            const overrides = resData.data.overrides;
+            let count = 0;
+            if (typeof REVISION_DATA !== 'undefined') {
+              REVISION_DATA.essential_questions.forEach((q, idx) => {
+                if (overrides[q.id]) {
+                  Object.assign(REVISION_DATA.essential_questions[idx], overrides[q.id]);
+                  count++;
+                }
+              });
+              Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
+                REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
+                  if (overrides[q.id]) {
+                    Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], overrides[q.id]);
+                    count++;
+                  }
+                });
+              });
+              if (count > 0) {
+                console.log(`[GenieTech Cloud] Applied ${count} teacher question updates!`);
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.log('[GenieTech Cloud] Using default question bank:', err);
+        });
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          studentInfo = parsed.studentInfo || { name: '', group: '' };
+          totalMistakes = parsed.totalMistakes || 0;
+          attemptsLog = parsed.attemptsLog || {};
+          partsCompleted = parsed.partsCompleted || {};
+
+          if (studentInfo.name) {
+            updateHeaderUserBadge();
+            showPartsScreen();
+          }
+        } catch (e) {
+          console.error('Error loading local state:', e);
+        }
+      }
+    }
+
+    function saveState() {
+      const data = {
+        studentInfo,
+        totalMistakes,
+        attemptsLog,
+        partsCompleted,
+        lastUpdated: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      syncWithCloud(data);
+    }
+
+    function syncWithCloud(data) {
+      const badge = document.getElementById('cloud-status-badge');
+      if (badge) {
+        badge.className = 'cloud-pill syncing';
+        badge.innerText = '🟡 جاري الحفظ...';
+      }
+
+      if (!studentCloudId) {
+        const payload = {
+          name: `Genie_Student_${data.studentInfo.name || 'Anonymous'}`,
+          data: data
+        };
+        fetch(API_BASE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(resObj => {
+          if (resObj && resObj.id) {
+            studentCloudId = resObj.id;
+            localStorage.setItem(CLOUD_ID_KEY, studentCloudId);
+            registerStudentInIndex(studentCloudId, data);
+            if (badge) {
+              badge.className = 'cloud-pill';
+              badge.innerText = '🟢 محفوظ سحابياً';
+            }
+          }
+        })
+        .catch(() => {
+          if (badge) {
+            badge.className = 'cloud-pill';
+            badge.innerText = '⚪ وضع محلي (محفوظ)';
+          }
+        });
+      } else {
+        const payload = {
+          name: `Genie_Student_${data.studentInfo.name || 'Anonymous'}`,
+          data: data
+        };
+        fetch(`${API_BASE}/${studentCloudId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(() => {
+          registerStudentInIndex(studentCloudId, data);
+          if (badge) {
+            badge.className = 'cloud-pill';
+            badge.innerText = '🟢 محفوظ سحابياً';
+          }
+        })
+        .catch(() => {
+          if (badge) {
+            badge.className = 'cloud-pill';
+            badge.innerText = '⚪ وضع محلي (محفوظ)';
+          }
+        });
+      }
+    }
+
+    function registerStudentInIndex(cloudId, data) {
+      const summary = {
+        id: cloudId,
+        name: data.studentInfo.name || 'طالب',
+        group: data.studentInfo.group || 'غير محدد',
+        totalMistakes: data.totalMistakes || 0,
+        answeredCount: Object.keys(data.attemptsLog || {}).length,
+        firstTryCount: Object.values(data.attemptsLog || {}).filter(a => a.firstTry).length,
+        lastUpdated: new Date().toISOString()
+      };
+
+      fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`)
+        .then(res => res.json())
+        .then(reg => {
+          const currentData = (reg && reg.data) ? reg.data : { students: {} };
+          if (!currentData.students) currentData.students = {};
+          currentData.students[cloudId] = summary;
+
+          return fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: 'GenieTech_Revision_Submissions_Registry_v1',
+              data: currentData
+            })
+          });
+        })
+        .catch(() => {});
+    }
+
+    function updateHeaderUserBadge() {
+      const badge = document.getElementById('header-student-badge');
+      const nameEl = document.getElementById('header-student-name');
+      if (studentInfo.name) {
+        nameEl.innerText = studentInfo.name;
+        badge.style.display = 'flex';
+      }
+    }
+
+    function startRevision() {
+      const nameInp = document.getElementById('input-student-name').value.trim();
+      const groupInp = document.getElementById('input-student-group').value.trim();
+
+      if (!nameInp) {
+        alert('من فضلك اكتب اسمك لبدء المراجعة!');
+        return;
+      }
+
+      studentInfo = { name: nameInp, group: groupInp };
+      updateHeaderUserBadge();
+      saveState();
+      showPartsScreen();
+    }
+
+    function showPartsScreen() {
+      document.getElementById('screen-welcome').style.display = 'none';
+      document.getElementById('screen-question').style.display = 'none';
+      document.getElementById('screen-report').style.display = 'none';
+      document.getElementById('screen-parts').style.display = 'block';
+
+      renderPartsGrid();
+    }
+
+    function renderPartsGrid() {
+      const container = document.getElementById('parts-grid-container');
+      container.innerHTML = '';
+
+      PARTS_META.forEach(p => {
+        const partQuestions = (typeof REVISION_DATA !== 'undefined') ? 
+          REVISION_DATA.essential_questions.filter(q => q.part === p.id) : [];
+        const answeredInPart = partQuestions.filter(q => attemptsLog[q.id] && attemptsLog[q.id].correct).length;
+        const isDone = answeredInPart === partQuestions.length && partQuestions.length > 0;
+
+        const card = document.createElement('div');
+        card.className = `part-card ${isDone ? 'completed' : ''}`;
+        card.onclick = () => launchPart(p.id);
+
+        card.innerHTML = `
+          <span class="part-num">الجزء ${p.id}</span>
+          <div class="part-title">${p.title}</div>
+          <div class="part-meta" style="margin-bottom: 8px;">${p.desc}</div>
+          <div style="font-size: 13px; font-weight: 800; color: ${isDone ? 'var(--green)' : 'var(--purple)'};">
+            ${isDone ? '✔ مكتمل بالكامل' : `التقدم: ${answeredInPart} / ${partQuestions.length}`}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function launchPart(partId) {
+      currentPartId = partId;
+      if (typeof REVISION_DATA === 'undefined') {
+        alert('بنك الأسئلة قيد التحميل، يرجى الانتظار ثانية واحدة...');
+        return;
+      }
+
+      const partQuestions = REVISION_DATA.essential_questions.filter(q => q.part === partId);
+      
+      queue = [];
+      partQuestions.forEach(q => {
+        queue.push(q);
+        if (attemptsLog[q.id] && !attemptsLog[q.id].firstTry && attemptsLog[q.id].attempts && attemptsLog[q.id].attempts.length > 0) {
+          if (REVISION_DATA.adaptive_bank[q.concept_id]) {
+            REVISION_DATA.adaptive_bank[q.concept_id].forEach(rem => {
+              if (!queue.some(item => item.id === rem.id)) queue.push(rem);
+            });
+          }
+        }
+      });
+
+      currentIndex = queue.findIndex(q => !attemptsLog[q.id] || !attemptsLog[q.id].correct);
+      if (currentIndex === -1) currentIndex = 0;
+
+      document.getElementById('screen-welcome').style.display = 'none';
+      document.getElementById('screen-parts').style.display = 'none';
+      document.getElementById('screen-report').style.display = 'none';
+      document.getElementById('screen-question').style.display = 'block';
+
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const q = queue[currentIndex];
+      if (!q) {
+        showReportScreen();
+        return;
+      }
+
+      const totalInQueue = queue.length;
+      const progressPercent = Math.round(((currentIndex) / totalInQueue) * 100);
+      document.getElementById('question-progress-fill').style.width = progressPercent + '%';
+
+      const badgeType = document.getElementById('q-badge-type');
+      if (q.is_essential) {
+        badgeType.className = 'badge-tag badge-essential';
+        badgeType.innerText = 'سؤال أساسي';
+      } else {
+        badgeType.className = 'badge-tag badge-adaptive';
+        badgeType.innerText = '💡 سؤال تدريب إضافي (تثبيت المفهوم)';
+      }
+
+      document.getElementById('q-part-label').innerText = `الجزء ${q.part}`;
+      document.getElementById('q-counter').innerText = `سؤال ${currentIndex + 1} من ${totalInQueue}`;
+      document.getElementById('q-title').innerText = q.question;
+
+      const codeBox = document.getElementById('q-code-box');
+      if (q.code && q.code.trim()) {
+        codeBox.innerText = q.code;
+        codeBox.style.display = 'block';
+      } else {
+        codeBox.style.display = 'none';
+      }
+
+      const fb = document.getElementById('feedback-banner');
+      fb.style.display = 'none';
+      fb.className = 'feedback-banner';
+      document.getElementById('adaptive-alert-box').style.display = 'none';
+      document.getElementById('btn-next-question').style.display = 'none';
+
+      const optionsBox = document.getElementById('q-options-container');
+      const typoBox = document.getElementById('q-typo-container');
+
+      if (q.type === 'typo') {
+        optionsBox.style.display = 'none';
+        typoBox.style.display = 'block';
+        const typoInp = document.getElementById('typo-answer-input');
+        typoInp.value = '';
+        typoInp.disabled = false;
+        document.getElementById('btn-check-typo').disabled = false;
+        typoInp.focus();
+      } else {
+        typoBox.style.display = 'none';
+        optionsBox.style.display = 'flex';
+        optionsBox.innerHTML = '';
+
+        const letters = ['أ', 'ب', 'ج', 'د'];
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.id = `opt-btn-${idx}`;
+          btn.innerHTML = `
+            <span class="option-letter">${letters[idx] || (idx+1)}</span>
+            <span style="direction: ltr; text-align: left; font-family: ${opt.includes('(') || opt.includes('=') ? 'JetBrains Mono' : 'inherit'}; font-weight: 700;">${opt}</span>
+          `;
+          btn.onclick = () => selectOption(idx);
+          optionsBox.appendChild(btn);
+        });
+      }
+
+      if (attemptsLog[q.id] && attemptsLog[q.id].correct) {
+        fb.className = 'feedback-banner success';
+        fb.innerHTML = `<strong>✔ تم حل هذا السؤال سابقاً بنجاح!</strong><br>${q.explanation}`;
+        fb.style.display = 'block';
+        document.getElementById('btn-next-question').style.display = 'inline-flex';
+      }
+    }
+
+    function selectOption(selectedIdx) {
+      const q = queue[currentIndex];
+      if (!attemptsLog[q.id]) {
+        attemptsLog[q.id] = { attempts: [], correct: false, firstTry: false };
+      }
+
+      const log = attemptsLog[q.id];
+      if (log.correct) return;
+
+      const letters = ['أ', 'ب', 'ج', 'د'];
+      const chosenText = `${letters[selectedIdx]}: ${q.options[selectedIdx]}`;
+      log.attempts.push(chosenText);
+
+      const isCorrect = (selectedIdx === q.correct);
+      const chosenBtn = document.getElementById(`opt-btn-${selectedIdx}`);
+      const fb = document.getElementById('feedback-banner');
+
+      if (isCorrect) {
+        chosenBtn.className = 'option-btn selected-correct';
+        log.correct = true;
+        if (log.attempts.length === 1) {
+          log.firstTry = true;
+        }
+
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        fb.className = 'feedback-banner success';
+        fb.innerHTML = `<strong>✔ إجابة صحيحة وممتازة!</strong><br>${q.explanation}`;
+        fb.style.display = 'block';
+
+        document.getElementById('btn-next-question').style.display = 'inline-flex';
+        saveState();
+      } else {
+        chosenBtn.className = 'option-btn selected-wrong';
+        totalMistakes += 1;
+
+        fb.className = 'feedback-banner error';
+        fb.innerHTML = `<strong>❌ إجابة غير دقيقة!</strong> فكر مرة أخرى وجرب اختياراً آخر.<br>تلميح: ${q.explanation}`;
+        fb.style.display = 'block';
+
+        if (log.attempts.length === 1) {
+          triggerAdaptiveQuestions(q.concept_id);
+        }
+        saveState();
+      }
+    }
+
+    function checkTypoAnswer() {
+      const q = queue[currentIndex];
+      const inp = document.getElementById('typo-answer-input');
+      const val = inp.value.trim();
+
+      if (!val) {
+        alert('من فضلك اكتب التصحيح المقترح!');
+        return;
+      }
+
+      if (!attemptsLog[q.id]) {
+        attemptsLog[q.id] = { attempts: [], correct: false, firstTry: false };
+      }
+      const log = attemptsLog[q.id];
+      if (log.correct) return;
+
+      log.attempts.push(val);
+
+      const targetFix = (q.correct_fix || (q.options && q.options[q.correct]) || '').trim();
+      const isCorrect = (val.toLowerCase() === targetFix.toLowerCase());
+      const fb = document.getElementById('feedback-banner');
+
+      if (isCorrect) {
+        inp.disabled = true;
+        document.getElementById('btn-check-typo').disabled = true;
+        log.correct = true;
+        if (log.attempts.length === 1) {
+          log.firstTry = true;
+        }
+
+        fb.className = 'feedback-banner success';
+        fb.innerHTML = `<strong>✔ رائع جداً! تم تصحيح الخطأ بنجاح!</strong><br>${q.explanation}`;
+        fb.style.display = 'block';
+
+        document.getElementById('btn-next-question').style.display = 'inline-flex';
+        saveState();
+      } else {
+        totalMistakes += 1;
+
+        fb.className = 'feedback-banner error';
+        fb.innerHTML = `<strong>❌ غير صحيح تماماً!</strong> فكر في الكلمة أو الرمز السليم وحاول ثانية.<br>تلميح: ${q.explanation}`;
+        fb.style.display = 'block';
+
+        if (log.attempts.length === 1) {
+          triggerAdaptiveQuestions(q.concept_id);
+        }
+        saveState();
+      }
+    }
+
+    function triggerAdaptiveQuestions(conceptId) {
+      if (typeof REVISION_DATA !== 'undefined' && REVISION_DATA.adaptive_bank && REVISION_DATA.adaptive_bank[conceptId]) {
+        const remedialList = REVISION_DATA.adaptive_bank[conceptId];
+        let addedCount = 0;
+        remedialList.forEach(item => {
+          if (!queue.some(existing => existing.id === item.id)) {
+            queue.push(item);
+            addedCount++;
+          }
+        });
+
+        if (addedCount > 0) {
+          document.getElementById('adaptive-alert-box').style.display = 'flex';
+        }
+      }
+    }
+
+    function nextQuestion() {
+      currentIndex += 1;
+      if (currentIndex >= queue.length) {
+        partsCompleted[currentPartId] = true;
+        saveState();
+        showPartsScreen();
+      } else {
+        renderCurrentQuestion();
+      }
+    }
+
+    function backToPartsMenu() {
+      showPartsScreen();
+    }
+
+    function showReportScreen() {
+      document.getElementById('screen-welcome').style.display = 'none';
+      document.getElementById('screen-parts').style.display = 'none';
+      document.getElementById('screen-question').style.display = 'none';
+      document.getElementById('screen-report').style.display = 'block';
+
+      const essentialAnswered = Object.keys(attemptsLog).filter(k => k.startsWith('q_') && attemptsLog[k].correct).length;
+      const adaptiveAnswered = Object.keys(attemptsLog).filter(k => k.startsWith('rem_') && attemptsLog[k].correct).length;
+      const firstTryCount = Object.values(attemptsLog).filter(a => a.firstTry).length;
+      const totalAnswered = Object.values(attemptsLog).filter(a => a.correct).length;
+
+      const accuracy = totalAnswered > 0 ? Math.round((firstTryCount / totalAnswered) * 100) : 0;
+
+      document.getElementById('rep-accuracy').innerText = accuracy + '%';
+      document.getElementById('rep-essential-done').innerText = `${essentialAnswered} / 50`;
+      document.getElementById('rep-adaptive-done').innerText = adaptiveAnswered;
+      document.getElementById('rep-mistakes').innerText = totalMistakes;
+
+      saveState();
+    }
+
+    function sendReportWhatsApp() {
+      const firstTryCount = Object.values(attemptsLog).filter(a => a.firstTry).length;
+      const totalAnswered = Object.values(attemptsLog).filter(a => a.correct).length;
+      const accuracy = totalAnswered > 0 ? Math.round((firstTryCount / totalAnswered) * 100) : 0;
+
+      const text = `📊 *تقرير مراجعة بايثون (Genie Tech)*\n` +
+                   `👤 *اسم الطالب:* ${studentInfo.name}\n` +
+                   `🏷️ *المجموعة:* ${studentInfo.group || 'غير محدد'}\n` +
+                   `🎯 *نسبة الإتقان من أول مرة:* ${accuracy}%\n` +
+                   `✅ *الأسئلة الأساسية المجابة:* ${Object.keys(attemptsLog).length} / 50\n` +
+                   `❌ *إجمالي عدد الأخطاء:* ${totalMistakes}\n` +
+                   `🚀 تم إنهاء المراجعة بنجاح عبر منصة Genie Tech التفاعلية!`;
+
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
+    function resetProgressConfirm() {
+      if (confirm('هل أنت متأكد من رغبتك في إعادة المراجعة من الصفر ومسح التقدم المحفوظ؟')) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(CLOUD_ID_KEY);
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

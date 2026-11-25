@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genie Tech — لوحة تحكم المعلم وبنك الأسئلة (Teacher Dashboard)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --border: #E5DFD5;
+      --purple: #5B2E91;
+      --purple-dark: #3F1C69;
+      --purple-light: #F2ECFA;
+      --gold: #F5A623;
+      --gold-dark: #D48806;
+      --gold-light: #FFF8EB;
+      --green: #27AE60;
+      --green-light: #E8F8F0;
+      --red: #EB5757;
+      --red-light: #FDEEEE;
+      --text: #22201E;
+      --text-muted: #55504A;
+      --code-bg: #151520;
+    }
+
+    body {
+      font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .dashboard-header {
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-logo {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .badge-admin {
+      background: var(--purple-light);
+      color: var(--purple);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid var(--purple);
+    }
+
+    .tag-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-green { background: var(--green-light); color: var(--green); }
+    .tag-yellow { background: var(--gold-light); color: var(--gold-dark); }
+
+    /* Nav Tabs */
+    .tabs-nav {
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .tab-btn {
+      padding: 14px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--purple);
+    }
+
+    .tab-btn.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+    }
+
+    .main-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-purple { background: var(--purple); color: #FFFFFF; }
+    .btn-purple:hover { background: var(--purple-dark); transform: translateY(-1px); }
+
+    .btn-gold { background: var(--gold); color: #22201E; }
+    .btn-gold:hover { background: var(--gold-dark); color: #FFFFFF; }
+
+    .btn-green { background: var(--green); color: #FFFFFF; }
+    .btn-green:hover { background: #219653; color: #FFFFFF; }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    /* Stats Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: #FFFFFF;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .metric-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .metric-val {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--purple);
+      line-height: 1.1;
+    }
+
+    .metric-lbl {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    .data-table th {
+      background: #FAF7F2;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--purple);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .data-table tr:hover {
+      background: #FAF9F6;
+    }
+
+    /* Search & Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-input {
+      padding: 10px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      width: 280px;
+      background: #FFFFFF;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: 18px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: #FAF7F2;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .inspect-q-item {
+      background: #FAF7F2;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .inspect-q-item.correct-first {
+      border-right: 5px solid var(--green);
+    }
+
+    .inspect-q-item.correct-multi {
+      border-right: 5px solid var(--gold);
+    }
+
+    .inspect-q-item.unsolved {
+      border-right: 5px solid var(--red);
+    }
+
+    .code-preview {
+      direction: ltr;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--code-bg);
+      color: #F8F8F2;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin: 8px 0;
+      overflow-x: auto;
+    }
+
+    /* Question Editor Card in Tab 2 */
+    .editor-q-card {
+      background: #FFFFFF;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+    .editor-q-card:hover {
+      border-color: var(--purple);
+    }
+
+    .input-edit {
+      width: 100%;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    .input-edit:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    textarea.input-edit {
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 80px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-header { padding: 12px 16px; }
+      .tabs-nav { padding: 0 16px; overflow-x: auto; }
+      .main-wrap { padding: 16px 12px; }
+      .search-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="dash-brand">
+      <img src="logo.png" alt="Genie Tech Logo" class="dash-logo" onerror="this.style.display='none'">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h1 style="font-size: 17px; font-weight: 900; color: var(--purple);">Genie Tech</h1>
+          <span class="badge-admin">👨‍🏫 لوحة تحكم المعلم</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); font-weight: 700;">متابعة إجابات الطلاب وإدارة بنك الأسئلة (Cloud Sync)</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="tag-status tag-green" id="server-status-pill">🟢 متصل بالسحابة</span>
+      <button class="btn btn-purple" onclick="refreshDashboardData()">🔄 تحديث البيانات</button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" id="tab-btn-students" onclick="switchTab('students')">
+      📊 متابعة نتائج الطلاب والمحاولات
+    </button>
+    <button class="tab-btn" id="tab-btn-questions" onclick="switchTab('questions')">
+      📝 إدارة وتعديل بنك الأسئلة (150 سؤال)
+    </button>
+  </nav>
+
+  <main class="main-wrap">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: STUDENTS SUBMISSIONS & REVIEW -->
+    <!-- ======================================================== -->
+    <div id="tab-content-students">
+
+      <!-- Metrics Row -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon-box" style="background: var(--purple-light); color: var(--purple);">👥</div>
+          <div>
+            <div class="metric-val" id="metric-total-students">0</div>
+            <div class="metric-lbl">إجمالي الطلاب المسجلين</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box" style="background: var(--green-light); color: var(--green);">🎯</div>
+          <div>
+            <div class="metric-val" id="metric-avg-accuracy">0%</div>
+            <div class="metric-lbl">متوسط دقة أول محاولة</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box" style="background: var(--red-light); color: var(--red);">❌</div>
+          <div>
+            <div class="metric-val" id="metric-total-mistakes">0</div>
+            <div class="metric-lbl">إجمالي الأخطاء المسجلة</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box" style="background: var(--gold-light); color: var(--gold-dark);">💡</div>
+          <div>
+            <div class="metric-val" id="metric-adaptive-count">0</div>
+            <div class="metric-lbl">أسئلة الدعم المفعلة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action & Search Bar -->
+      <div class="filter-bar">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">سجل محاولات وإجابات الطلاب</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">انقر على "تفاصيل الأداء" لمشاهدة اختيارات الطالب الخاطئة، وعدد محاولاته قبل الإجابة الصحيحة.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="student-search-input" class="search-input" placeholder="🔍 بحث باسم الطالب أو المجموعة..." oninput="filterStudentsTable()">
+        </div>
+      </div>
+
+      <!-- Students Table Card -->
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>اسم الطالب</th>
+                <th>المجموعة</th>
+                <th>الأسئلة المكتملة</th>
+                <th>دقة أول محاولة</th>
+                <th>إجمالي الأخطاء</th>
+                <th>آخر نشاط</th>
+                <th>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="students-table-body">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                  جاري جلب بيانات الطلاب سحابياً...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: QUESTION BANK MANAGER & EDITOR -->
+    <!-- ======================================================== -->
+    <div id="tab-content-questions" style="display: none;">
+
+      <div class="filter-bar">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">بنك أسئلة بايثون (Python 101 & 102)</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">يمكنك تعديل أي سؤال، كود، خيارات، أو شرح ونشر التعديلات سحابياً لتصل للطلاب فوراً.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-green" onclick="publishQuestionOverridesToCloud()">
+            🚀 نشر التعديلات سحابياً للطلاب
+          </button>
+          <button class="btn btn-gold" onclick="downloadQuestionsFile()">
+            💾 تحميل ملف questions_data.js
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="card" style="padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple);">فلترة حسب الجزء:</label>
+          <select id="qb-filter-part" class="search-input" style="width: auto;" onchange="renderQuestionsManager()">
+            <option value="all">كل الأجزاء (1 - 5)</option>
+            <option value="1">الجزء 1: المتغيرات ودوال الإدخال</option>
+            <option value="2">الجزء 2: العمليات الحسابية والمنطقية</option>
+            <option value="3">الجزء 3: الجمل الشرطية واتخاذ القرار</option>
+            <option value="4">الجزء 4: التكرار بالـ While Loops والعشوائي</option>
+            <option value="5">الجزء 5: صائد الأخطاء البرمجية (Typo Hunt)</option>
+          </select>
+
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple); margin-right: 12px;">نوع السؤال:</label>
+          <select id="qb-filter-type" class="search-input" style="width: auto;" onchange="renderQuestionsManager()">
+            <option value="all">الكل (أساسي ودعم ذكي)</option>
+            <option value="essential">الأسئلة الأساسية فقط (50)</option>
+            <option value="adaptive">أسئلة الدعم الذكي فقط (100)</option>
+          </select>
+
+          <input type="text" id="qb-search-input" class="search-input" placeholder="🔍 بحث في نص السؤال أو الكود..." style="flex: 1;" oninput="renderQuestionsManager()">
+        </div>
+      </div>
+
+      <!-- Questions List Container -->
+      <div id="questions-editor-list">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: STUDENT PERFORMANCE INSPECTOR -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="inspect-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);" id="modal-student-name">تفاصيل أداء الطالب</h2>
+          <span style="font-size: 13px; color: var(--text-muted);" id="modal-student-meta">المجموعة ووقت التسليم</span>
+        </div>
+        <button class="close-btn" onclick="closeInspectModal()">&times;</button>
+      </div>
+
+      <div id="modal-summary-stats" style="margin-bottom: 20px;"></div>
+
+      <div style="font-weight: 800; margin-bottom: 14px; font-size: 15px; color: var(--purple);">
+        📋 سجل إجابة ومحاولات كل سؤال بالتفصيل:
+      </div>
+
+      <div id="modal-questions-list">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: QUESTION EDIT MODAL -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="edit-q-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);" id="edit-modal-title">تعديل السؤال</h2>
+          <span style="font-size: 12px; color: var(--text-muted);" id="edit-modal-qid">معرف السؤال: q_1_1</span>
+        </div>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <label style="font-weight: 800; font-size: 13px; color: var(--purple);">نص السؤال:</label>
+        <input type="text" id="edit-q-prompt" class="input-edit">
+
+        <label style="font-weight: 800; font-size: 13px; color: var(--purple);">كود بايثون (اختياري):</label>
+        <textarea id="edit-q-code" class="input-edit" placeholder="# Write Python snippet here..."></textarea>
+
+        <div id="edit-options-section">
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple);">الخيارات الأربعة والإجابة الصحيحة:</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <span style="font-size: 12px; font-weight: 700;">خيار أ:</span>
+              <input type="text" id="edit-opt-0" class="input-edit" style="direction: ltr;">
+            </div>
+            <div>
+              <span style="font-size: 12px; font-weight: 700;">خيار ب:</span>
+              <input type="text" id="edit-opt-1" class="input-edit" style="direction: ltr;">
+            </div>
+            <div>
+              <span style="font-size: 12px; font-weight: 700;">خيار ج:</span>
+              <input type="text" id="edit-opt-2" class="input-edit" style="direction: ltr;">
+            </div>
+            <div>
+              <span style="font-size: 12px; font-weight: 700;">خيار د:</span>
+              <input type="text" id="edit-opt-3" class="input-edit" style="direction: ltr;">
+            </div>
+          </div>
+
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple); margin-top: 8px; display: block;">رقم الخيار الصحيح:</label>
+          <select id="edit-q-correct" class="input-edit" style="width: 200px;">
+            <option value="0">خيار أ (أول خيار)</option>
+            <option value="1">خيار ب (ثاني خيار)</option>
+            <option value="2">خيار ج (ثالث خيار)</option>
+            <option value="3">خيار د (رابع خيار)</option>
+          </select>
+        </div>
+
+        <div id="edit-typo-section" style="display: none;">
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple);">التصحيح السليم (Correct Fix):</label>
+          <input type="text" id="edit-q-fix" class="input-edit" style="direction: ltr;">
+        </div>
+
+        <label style="font-weight: 800; font-size: 13px; color: var(--purple);">الشرح التوضيحي (بالمصري السهل):</label>
+        <textarea id="edit-q-explanation" class="input-edit" style="direction: rtl; min-height: 70px;"></textarea>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+          <button class="btn btn-outline" onclick="closeEditModal()">إلغاء</button>
+          <button class="btn btn-purple" onclick="saveEditedQuestion()">💾 حفظ التعديل</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Questions Data -->
+  <script src="questions_data.js"></script>
+
+  <script>
+    const REGISTRY_OBJECT_ID = 'ff808181a09d98f701a21416e6164cec';
+    const OVERRIDES_OBJECT_ID = 'ff808181a09d98f701a21416e9b14ced';
+    const API_BASE = 'https://api.restful-api.dev/objects';
+
+    let allStudents = [];
+    let questionOverrides = {};
+    let activeEditingQId = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      refreshDashboardData();
+      fetchCloudOverrides();
+    });
+
+    function switchTab(tab) {
+      document.getElementById('tab-btn-students').className = `tab-btn ${tab === 'students' ? 'active' : ''}`;
+      document.getElementById('tab-btn-questions').className = `tab-btn ${tab === 'questions' ? 'active' : ''}`;
+
+      document.getElementById('tab-content-students').style.display = tab === 'students' ? 'block' : 'none';
+      document.getElementById('tab-content-questions').style.display = tab === 'questions' ? 'block' : 'none';
+
+      if (tab === 'questions') {
+        renderQuestionsManager();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // DATA FETCHING & SYNC
+    // -------------------------------------------------------------
+    function refreshDashboardData() {
+      const statusPill = document.getElementById('server-status-pill');
+      statusPill.className = 'tag-status tag-yellow';
+      statusPill.innerText = '🟡 جاري التحميل...';
+
+      fetch(`${API_BASE}/${REGISTRY_OBJECT_ID}`)
+        .then(res => res.json())
+        .then(resData => {
+          statusPill.className = 'tag-status tag-green';
+          statusPill.innerText = '🟢 متصل بالسحابة';
+
+          if (resData && resData.data && resData.data.students) {
+            allStudents = Object.values(resData.data.students);
+          } else {
+            allStudents = [];
+          }
+
+          // Fallback to local storage if empty
+          if (allStudents.length === 0) {
+            loadLocalFallback();
+          }
+
+          renderDashboard();
+        })
+        .catch(() => {
+          statusPill.className = 'tag-status tag-yellow';
+          statusPill.innerText = '🟡 وضع العمل المحلي';
+          loadLocalFallback();
+          renderDashboard();
+        });
+    }
+
+    function loadLocalFallback() {
+      const local = localStorage.getItem('genie_python_rev_state_v1');
+      if (local) {
+        try {
+          const parsed = JSON.parse(local);
+          allStudents = [{
+            id: 'local_current',
+            name: (parsed.studentInfo && parsed.studentInfo.name) || 'طالب محلي',
+            group: (parsed.studentInfo && parsed.studentInfo.group) || 'Python 102',
+            totalMistakes: parsed.totalMistakes || 0,
+            answeredCount: Object.keys(parsed.attemptsLog || {}).length,
+            firstTryCount: Object.values(parsed.attemptsLog || {}).filter(a => a.firstTry).length,
+            lastUpdated: parsed.lastUpdated || new Date().toISOString(),
+            _localData: parsed
+          }];
+        } catch (e) {}
+      }
+    }
+
+    function fetchCloudOverrides() {
+      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
+        .then(res => res.json())
+        .then(resData => {
+          if (resData && resData.data && resData.data.overrides) {
+            questionOverrides = resData.data.overrides;
+            applyOverridesToLocalBank();
+            console.log('[Dashboard] Overrides loaded:', Object.keys(questionOverrides).length);
+          }
+        })
+        .catch(() => {});
+    }
+
+    function applyOverridesToLocalBank() {
+      if (typeof REVISION_DATA === 'undefined') return;
+
+      REVISION_DATA.essential_questions.forEach((q, idx) => {
+        if (questionOverrides[q.id]) {
+          Object.assign(REVISION_DATA.essential_questions[idx], questionOverrides[q.id]);
+        }
+      });
+
+      Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
+        REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
+          if (questionOverrides[q.id]) {
+            Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], questionOverrides[q.id]);
+          }
+        });
+      });
+    }
+
+    // -------------------------------------------------------------
+    // RENDER TAB 1: STUDENTS
+    // -------------------------------------------------------------
+    function renderDashboard() {
+      const totalCount = allStudents.length;
+      document.getElementById('metric-total-students').innerText = totalCount;
+
+      let totalMistakes = 0;
+      let totalFirstTry = 0;
+      let totalAnswered = 0;
+
+      allStudents.forEach(s => {
+        totalMistakes += (s.totalMistakes || 0);
+        totalFirstTry += (s.firstTryCount || 0);
+        totalAnswered += (s.answeredCount || 0);
+      });
+
+      const avgAccuracy = totalAnswered > 0 ? Math.round((totalFirstTry / totalAnswered) * 100) : 0;
+      document.getElementById('metric-avg-accuracy').innerText = `${avgAccuracy}%`;
+      document.getElementById('metric-total-mistakes').innerText = totalMistakes;
+      document.getElementById('metric-adaptive-count').innerText = totalMistakes > 0 ? Math.round(totalMistakes * 1.5) : 0;
+
+      filterStudentsTable();
+    }
+
+    function filterStudentsTable() {
+      const query = (document.getElementById('student-search-input').value || '').trim().toLowerCase();
+      const tbody = document.getElementById('students-table-body');
+      tbody.innerHTML = '';
+
+      const filtered = allStudents.filter(s => {
+        return (s.name || '').toLowerCase().includes(query) || (s.group || '').toLowerCase().includes(query);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
+              لا توجد نتائج مطابقة للبحث أو لم يقم أي طالب ببدء المراجعة بعد.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(s => {
+        const tr = document.createElement('tr');
+        const accuracy = (s.answeredCount > 0) ? Math.round((s.firstTryCount / s.answeredCount) * 100) : 0;
+        const timeAgo = formatTimeAgo(s.lastUpdated);
+
+        tr.innerHTML = `
+          <td style="font-weight: 800; color: var(--purple);">${s.name || 'طالب'}</td>
+          <td><span class="badge-admin" style="border: none;">${s.group || 'غير محدد'}</span></td>
+          <td><strong>${s.answeredCount || 0} / 50</strong></td>
+          <td>
+            <span style="color: ${accuracy >= 80 ? 'var(--green)' : (accuracy >= 50 ? 'var(--gold-dark)' : 'var(--red)')}; font-weight: 800;">
+              ${accuracy}%
+            </span>
+          </td>
+          <td style="color: ${s.totalMistakes > 5 ? 'var(--red)' : 'inherit'}; font-weight: 800;">
+            ${s.totalMistakes || 0}
+          </td>
+          <td style="font-size: 12px; color: var(--text-muted);">${timeAgo}</td>
+          <td>
+            <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="inspectStudentDetails('${s.id}')">
+              🔍 تفاصيل الأداء
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function formatTimeAgo(isoString) {
+      if (!isoString) return 'غير متاح';
+      const diffSec = Math.floor((new Date() - new Date(isoString)) / 1000);
+      if (diffSec < 60) return 'منذ لحظات';
+      if (diffSec < 3600) return `منذ ${Math.floor(diffSec/60)} دقيقة`;
+      if (diffSec < 86400) return `منذ ${Math.floor(diffSec/3600)} ساعة`;
+      return `منذ ${Math.floor(diffSec/86400)} يوم`;
+    }
+
+    // -------------------------------------------------------------
+    // INSPECT STUDENT DETAILS MODAL
+    // -------------------------------------------------------------
+    function inspectStudentDetails(studentId) {
+      const studentSummary = allStudents.find(s => s.id === studentId);
+      if (!studentSummary) return;
+
+      document.getElementById('modal-student-name').innerText = `تفاصيل إجابات الطالب: ${studentSummary.name}`;
+      document.getElementById('modal-student-meta').innerText = `المجموعة: ${studentSummary.group || 'غير محدد'} | آخر نشاط: ${formatTimeAgo(studentSummary.lastUpdated)}`;
+
+      const modalList = document.getElementById('modal-questions-list');
+      modalList.innerHTML = '<div style="text-align: center; padding: 20px;">جاري جلب تفاصيل كل سؤال سحابياً...</div>';
+      document.getElementById('inspect-modal').style.display = 'flex';
+
+      // If local data fallback
+      if (studentSummary._localData) {
+        renderStudentQuestionsInspection(studentSummary._localData);
+        return;
+      }
+
+      // Fetch student detailed object from restful-api.dev
+      fetch(`${API_BASE}/${studentId}`)
+        .then(res => res.json())
+        .then(fullObj => {
+          if (fullObj && fullObj.data) {
+            renderStudentQuestionsInspection(fullObj.data);
+          } else {
+            modalList.innerHTML = '<div style="color: var(--red); padding: 20px;">تعذر تحميل تفاصيل الإجابات.</div>';
+          }
+        })
+        .catch(() => {
+          modalList.innerHTML = '<div style="color: var(--red); padding: 20px;">تعذر الاتصال بالسحابة.</div>';
+        });
+    }
+
+    function renderStudentQuestionsInspection(studentData) {
+      const modalList = document.getElementById('modal-questions-list');
+      modalList.innerHTML = '';
+
+      const log = studentData.attemptsLog || {};
+      const questionsMap = {};
+
+      if (typeof REVISION_DATA !== 'undefined') {
+        REVISION_DATA.essential_questions.forEach(q => { questionsMap[q.id] = q; });
+        Object.values(REVISION_DATA.adaptive_bank).forEach(arr => {
+          arr.forEach(q => { questionsMap[q.id] = q; });
+        });
+      }
+
+      const qIds = Object.keys(log);
+      if (qIds.length === 0) {
+        modalList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">لم يقم الطالب بحل أي سؤال بعد.</div>';
+        return;
+      }
+
+      qIds.forEach((qId, index) => {
+        const att = log[qId];
+        const qInfo = questionsMap[qId] || { question: `سؤال #${qId}`, code: '', explanation: '' };
+
+        const attemptsCount = att.attempts ? att.attempts.length : 1;
+        const isFirstTry = att.firstTry;
+        const isCorrect = att.correct;
+
+        let statusClass = 'inspect-q-item unsolved';
+        let statusBadge = '<span class="tag-status" style="background: var(--red-light); color: var(--red);">❌ لم يحل بعد</span>';
+
+        if (isCorrect && isFirstTry) {
+          statusClass = 'inspect-q-item correct-first';
+          statusBadge = '<span class="tag-status tag-green">✔ صحيحة من أول محاولة</span>';
+        } else if (isCorrect) {
+          statusClass = 'inspect-q-item correct-multi';
+          statusBadge = `<span class="tag-status tag-yellow">⚠️ صحيحة بعد ${attemptsCount} محاولات</span>`;
+        }
+
+        const item = document.createElement('div');
+        item.className = statusClass;
+
+        // Build history of attempts
+        let attemptsHistoryHtml = '';
+        if (att.attempts && att.attempts.length > 0) {
+          attemptsHistoryHtml = '<div style="margin-top: 10px; font-size: 13px;"><strong>سجل الاختيارات:</strong><ul style="padding-right: 20px; margin-top: 4px;">';
+          att.attempts.forEach((choice, cIdx) => {
+            const isLastCorrect = (cIdx === att.attempts.length - 1 && isCorrect);
+            attemptsHistoryHtml += `
+              <li style="color: ${isLastCorrect ? 'var(--green)' : 'var(--red)'}; font-weight: 700;">
+                المحاولة ${cIdx + 1}: ${choice} ${isLastCorrect ? '✔ (إجابة صحيحة)' : '❌ (خاطئة)'}
+              </li>
+            `;
+          });
+          attemptsHistoryHtml += '</ul></div>';
+        }
+
+        item.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-weight: 900; color: var(--purple);">سؤال ${index + 1}: ${qInfo.question}</span>
+            ${statusBadge}
+          </div>
+          ${qInfo.code ? `<div class="code-preview">${qInfo.code}</div>` : ''}
+          ${attemptsHistoryHtml}
+          <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted); background: #FFFFFF; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);">
+            💡 <strong>الشرح:</strong> ${qInfo.explanation || 'غير متاح'}
+          </div>
+        `;
+        modalList.appendChild(item);
+      });
+    }
+
+    function closeInspectModal() {
+      document.getElementById('inspect-modal').style.display = 'none';
+    }
+
+    // -------------------------------------------------------------
+    // TAB 2: QUESTIONS MANAGER & INLINE EDITOR
+    // -------------------------------------------------------------
+    function renderQuestionsManager() {
+      const container = document.getElementById('questions-editor-list');
+      container.innerHTML = '';
+
+      if (typeof REVISION_DATA === 'undefined') {
+        container.innerHTML = '<div style="text-align: center; padding: 20px;">جاري تحميل بنك الأسئلة...</div>';
+        return;
+      }
+
+      const partFilter = document.getElementById('qb-filter-part').value;
+      const typeFilter = document.getElementById('qb-filter-type').value;
+      const search = (document.getElementById('qb-search-input').value || '').trim().toLowerCase();
+
+      let list = [];
+      if (typeFilter === 'all' || typeFilter === 'essential') {
+        list = list.concat(REVISION_DATA.essential_questions);
+      }
+      if (typeFilter === 'all' || typeFilter === 'adaptive') {
+        Object.values(REVISION_DATA.adaptive_bank).forEach(arr => {
+          list = list.concat(arr);
+        });
+      }
+
+      // Filter by part
+      if (partFilter !== 'all') {
+        const pNum = parseInt(partFilter);
+        list = list.filter(q => q.part === pNum);
+      }
+
+      // Filter by search
+      if (search) {
+        list = list.filter(q => {
+          return (q.question || '').toLowerCase().includes(search) || 
+                 (q.code || '').toLowerCase().includes(search) ||
+                 (q.concept_title || '').toLowerCase().includes(search);
+        });
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">لا توجد أسئلة مطابقة للفلتر المحدد.</div>';
+        return;
+      }
+
+      list.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'editor-q-card';
+
+        const isEssential = q.is_essential;
+        const badgeType = isEssential ? 
+          '<span class="tag-status" style="background: var(--purple-light); color: var(--purple);">سؤال أساسي</span>' :
+          '<span class="tag-status" style="background: #FFF0F5; color: #C71585; border: 1px solid #FFB6C1;">💡 سؤال دعم ذكي</span>';
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              ${badgeType}
+              <span style="font-size: 13px; font-weight: 800; color: var(--purple);">الجزء ${q.part} — ${q.concept_title || ''}</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono';">(${q.id})</span>
+            </div>
+            <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="openEditModal('${q.id}')">
+              ✏️ تعديل السؤال
+            </button>
+          </div>
+
+          <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px;">
+            ${idx + 1}. ${q.question}
+          </div>
+
+          ${q.code ? `<div class="code-preview">${q.code}</div>` : ''}
+
+          ${q.type === 'mcq' && q.options ? `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 10px 0;">
+              ${q.options.map((opt, oIdx) => `
+                <div style="background: ${oIdx === q.correct ? 'var(--green-light)' : '#FAF7F2'}; border: 1px solid ${oIdx === q.correct ? 'var(--green)' : 'var(--border)'}; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
+                  ${oIdx === q.correct ? '✔' : '○'} <span style="direction: ltr; font-family: 'JetBrains Mono';">${opt}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div style="background: var(--purple-light); padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; color: var(--purple); margin: 8px 0;">
+              🔍 سؤال صيد الخطأ (Typo) — التصحيح المطلوب: <code style="font-family: 'JetBrains Mono';">${q.correct_fix || ''}</code>
+            </div>
+          `}
+
+          <div style="font-size: 13px; color: var(--text-muted); margin-top: 8px; background: #FAF9F6; padding: 8px 12px; border-radius: 6px;">
+            💡 <strong>الشرح بالمصري:</strong> ${q.explanation}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function findQuestionById(qid) {
+      if (typeof REVISION_DATA === 'undefined') return null;
+      let found = REVISION_DATA.essential_questions.find(q => q.id === qid);
+      if (found) return found;
+
+      for (let arr of Object.values(REVISION_DATA.adaptive_bank)) {
+        found = arr.find(q => q.id === qid);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function openEditModal(qid) {
+      activeEditingQId = qid;
+      const q = findQuestionById(qid);
+      if (!q) return;
+
+      document.getElementById('edit-modal-title').innerText = `تعديل: ${q.concept_title || q.id}`;
+      document.getElementById('edit-modal-qid').innerText = `معرف السؤال: ${q.id} (الجزء ${q.part})`;
+
+      document.getElementById('edit-q-prompt').value = q.question || '';
+      document.getElementById('edit-q-code').value = q.code || '';
+      document.getElementById('edit-q-explanation').value = q.explanation || '';
+
+      if (q.type === 'typo') {
+        document.getElementById('edit-options-section').style.display = 'none';
+        document.getElementById('edit-typo-section').style.display = 'block';
+        document.getElementById('edit-q-fix').value = q.correct_fix || (q.options ? q.options[q.correct] : '');
+      } else {
+        document.getElementById('edit-options-section').style.display = 'block';
+        document.getElementById('edit-typo-section').style.display = 'none';
+
+        for (let i = 0; i < 4; i++) {
+          document.getElementById(`edit-opt-${i}`).value = (q.options && q.options[i]) ? q.options[i] : '';
+        }
+        document.getElementById('edit-q-correct').value = q.correct !== undefined ? q.correct : 0;
+      }
+
+      document.getElementById('edit-q-modal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-q-modal').style.display = 'none';
+      activeEditingQId = null;
+    }
+
+    function saveEditedQuestion() {
+      if (!activeEditingQId) return;
+      const q = findQuestionById(activeEditingQId);
+      if (!q) return;
+
+      const newPrompt = document.getElementById('edit-q-prompt').value.trim();
+      const newCode = document.getElementById('edit-q-code').value;
+      const newExpl = document.getElementById('edit-q-explanation').value.trim();
+
+      if (!newPrompt) {
+        alert('من فضلك اكتب نص السؤال!');
+        return;
+      }
+
+      const updateData = {
+        question: newPrompt,
+        code: newCode,
+        explanation: newExpl
+      };
+
+      if (q.type === 'typo') {
+        updateData.correct_fix = document.getElementById('edit-q-fix').value.trim();
+      } else {
+        updateData.options = [
+          document.getElementById('edit-opt-0').value.trim(),
+          document.getElementById('edit-opt-1').value.trim(),
+          document.getElementById('edit-opt-2').value.trim(),
+          document.getElementById('edit-opt-3').value.trim()
+        ];
+        updateData.correct = parseInt(document.getElementById('edit-q-correct').value);
+      }
+
+      // Update in memory
+      Object.assign(q, updateData);
+
+      // Record in overrides object
+      questionOverrides[activeEditingQId] = updateData;
+
+      closeEditModal();
+      renderQuestionsManager();
+      alert('✔ تم حفظ التعديل محلياً! لا تنسَ الضغط على زر "🚀 نشر التعديلات سحابياً" لتصل للطلاب فوراً.');
+    }
+
+    function publishQuestionOverridesToCloud() {
+      const overrideCount = Object.keys(questionOverrides).length;
+      if (overrideCount === 0) {
+        alert('لم تقم بإجراء أي تعديلات جديدة على الأسئلة بعد!');
+        return;
+      }
+
+      if (!confirm(`هل أنت متأكد من رغبتك في نشر ${overrideCount} سؤالاً معدلاً إلى السحابة للطلاب؟`)) {
+        return;
+      }
+
+      const payload = {
+        name: 'GenieTech_Revision_Question_Overrides_v1',
+        data: {
+          version: 2,
+          updated_at: new Date().toISOString(),
+          overrides: questionOverrides
+        }
+      };
+
+      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(() => {
+        alert('✅ تم نشر التعديلات سحابياً بنجاح تام! ستظهر فوراً لأي طالب عند فتح الرابط على هاتفه أو لابتوبه.');
+      })
+      .catch(err => {
+        alert('حدث خطأ أثناء الاتصال بالسحابة: ' + err);
+      });
+    }
+
+    function downloadQuestionsFile() {
+      if (typeof REVISION_DATA === 'undefined') return;
+      const fileContent = "const REVISION_DATA = " + JSON.stringify(REVISION_DATA, null, 2) + ";\n";
+      const blob = new Blob([fileContent], { type: 'application/javascript;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'questions_data.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>
