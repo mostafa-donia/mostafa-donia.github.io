@@ -47,7 +47,7 @@
       line-height: 1.6;
     }
 
-    /* Header */
+    /* Top Header */
     .top-header {
       background: #FFFFFF;
       border-bottom: 2px solid var(--border);
@@ -99,7 +99,23 @@
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+    }
+
+    .btn-switch-user {
+      background: transparent;
+      border: 1px solid var(--purple);
+      color: var(--purple);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-switch-user:hover {
+      background: var(--purple);
+      color: #FFFFFF;
     }
 
     /* Main Container */
@@ -183,6 +199,17 @@
       background: #FFFFFF;
     }
 
+    .resume-box {
+      background: var(--gold-light);
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #7B5200;
+      display: none;
+    }
+
     /* Parts Grid */
     .parts-grid {
       display: grid;
@@ -226,7 +253,7 @@
       font-size: 16px;
       font-weight: 800;
       color: var(--text);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .part-meta {
@@ -461,7 +488,8 @@
     <div style="display: flex; align-items: center; gap: 10px;">
       <span class="cloud-pill" id="cloud-status-badge">🟢 متصل بالسحابة</span>
       <div class="student-badge" id="header-student-badge" style="display: none;">
-        👤 <span id="header-student-name">طالب</span>
+        <span>👤 <strong id="header-student-name">طالب</strong></span>
+        <button class="btn-switch-user" onclick="switchStudentAccount()" title="تبديل الطالب">تبديل</button>
       </div>
     </div>
   </header>
@@ -474,19 +502,25 @@
         <span style="font-size: 40px; display: block; margin-bottom: 10px;">🚀</span>
         <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">مرحباً بك في مراجعة بايثون التفاعلية!</h2>
         <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
-          المراجعة مكونة من 50 سؤالاً أساسياً لتثبيت أهم مفاهيم Python 101 & 102 بدون كتابة برامج طويلة.<br>
-          كل سؤال تجيب عليه بشكل خاطئ، سيقوم النظام تلقائياً بإضافة سؤالين تدريبيين لنفس المفهوم لتثبيته 100%!
+          المراجعة مكونة من 50 سؤالاً أساسياً مقسمة إلى 5 أجزاء لتثبيت مفاهيم Python 101 & 102.<br>
+          تقدمك وإجاباتك محفوظة باسمك، يمكنك الحل على فترات في أي وقت ومتابعة تقدمك مع المعلم.
         </p>
       </div>
 
       <div style="max-width: 440px; margin: 0 auto;">
+        <!-- Resume Notice if found -->
+        <div id="resume-notice" class="resume-box">
+          <div style="font-weight: 800; margin-bottom: 4px;" id="resume-notice-title">👋 أهلاً بك مجدداً!</div>
+          <div id="resume-notice-desc" style="font-size: 13px;">تم استرجاع تقدمك السابق بنجاح.</div>
+        </div>
+
         <label style="font-weight: 800; font-size: 14px; color: var(--purple);">اسمك ثلاثي (كما هو مسجل في Genie Tech):</label>
-        <input type="text" id="input-student-name" class="input-field" placeholder="مثال: أحمد محمد علي" autocomplete="name">
+        <input type="text" id="input-student-name" class="input-field" placeholder="مثال: أحمد محمد علي" autocomplete="name" oninput="checkExistingStudentName()">
 
         <label style="font-weight: 800; font-size: 14px; color: var(--purple);">المجموعة / اليوم:</label>
         <input type="text" id="input-student-group" class="input-field" placeholder="مثال: Python 102 (السبت) أو Nov 11">
 
-        <button class="btn btn-purple" style="width: 100%; margin-top: 10px;" onclick="startRevision()">
+        <button class="btn btn-purple" id="btn-start-action" style="width: 100%; margin-top: 10px;" onclick="startOrResumeRevision()">
           ابدأ المراجعة الآن 🎯
         </button>
       </div>
@@ -496,12 +530,14 @@
     <section id="screen-parts" class="card" style="display: none;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
         <div>
-          <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);">خريطة أجزاء المراجعة</h2>
-          <p style="font-size: 13px; color: var(--text-muted);">يمكنك حل المراجعة جزءاً بجزء في أي وقت، وتقدمك محفوظ سحابياً تلقائياً.</p>
+          <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);">خريطة أجزاء المراجعة (5 أجزاء)</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">اختر الجزء الذي ترغب في حله. يمكنك حل الأسئلة على فترات، وإجاباتك محفوظة باسمك دائماً.</p>
         </div>
-        <button class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;" onclick="resetProgressConfirm()">
-          🔄 إعادة المراجعة من البداية
-        </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;" onclick="switchStudentAccount()">
+            👤 تبديل الطالب
+          </button>
+        </div>
       </div>
 
       <div class="parts-grid" id="parts-grid-container">
@@ -522,7 +558,7 @@
           <span style="font-size: 13px; color: var(--text-muted); font-weight: 700; margin-right: 8px;" id="q-part-label">الجزء 1</span>
         </div>
         <div style="font-size: 13px; font-weight: 800; color: var(--purple);" id="q-counter">
-          سؤال 1 / 10
+          سؤال 1 من 10
         </div>
       </div>
 
@@ -538,7 +574,7 @@
       <!-- Typo Hunt Box -->
       <div id="q-typo-container" class="typo-input-wrap" style="display: none;">
         <label style="font-weight: 800; font-size: 14px; color: var(--purple); display: block; margin-bottom: 8px;">
-          اكتب التصحيح السليم (الرمز أو الكلمة الصحيحة فقط):
+          اكتب الكلمة أو الرمز الصحيح في المربع:
         </label>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <input type="text" id="typo-answer-input" class="typo-input" placeholder="Type correct code here...">
@@ -570,11 +606,11 @@
       </div>
     </section>
 
-    <!-- Screen 4: Final Report -->
+    <!-- Screen 4: Part Completion Notice / Final Report -->
     <section id="screen-report" class="card" style="display: none; text-align: center;">
-      <span style="font-size: 50px; display: block; margin-bottom: 12px;">🎉</span>
-      <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);">ألف مبروك! أنهيت المراجعة بنجاح</h2>
-      <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
+      <span style="font-size: 50px; display: block; margin-bottom: 12px;" id="rep-icon">🎉</span>
+      <h2 style="font-size: 24px; font-weight: 900; color: var(--purple);" id="rep-title">ألف مبروك! أنهيت المراجعة بنجاح</h2>
+      <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;" id="rep-subtitle">
         تم تسجيل جميع إجاباتك ومحاولاتك في لوحة تحكم المعلم بنجاح.
       </p>
 
@@ -601,8 +637,8 @@
         <button class="btn btn-purple" onclick="sendReportWhatsApp()">
           📲 إرسال التقرير للمعلم عبر واتساب
         </button>
-        <button class="btn btn-outline" onclick="backToPartsMenu()">
-          📋 مراجعة الأجزاء
+        <button class="btn btn-gold" onclick="backToPartsMenu()">
+          📋 متابعة باقي الأجزاء
         </button>
       </div>
     </section>
@@ -617,11 +653,9 @@
     const OVERRIDES_OBJECT_ID = 'ff808181a09d98f701a21416e9b14ced';
     const API_BASE = 'https://api.restful-api.dev/objects';
 
-    const STORAGE_KEY = 'genie_python_rev_state_v1';
-    const CLOUD_ID_KEY = 'genie_student_cloud_id';
-
+    // State per student
     let studentInfo = { name: '', group: '' };
-    let studentCloudId = localStorage.getItem(CLOUD_ID_KEY) || null;
+    let studentCloudId = null;
     let totalMistakes = 0;
     let attemptsLog = {};
     let partsCompleted = {};
@@ -630,80 +664,98 @@
     let currentIndex = 0;
 
     const PARTS_META = [
-      { id: 1, title: 'المتغيرات ودوال الإدخال والطباعة', desc: 'Variables, print, input, data types & casting' },
-      { id: 2, title: 'العمليات الحسابية والمنطقية والتحقق', desc: 'Arithmetic, modulo, comparisons, and / or / not' },
-      { id: 3, title: 'الجمل الشرطية واتخاذ القرارات', desc: 'If, elif, else, nested conditions & validation' },
-      { id: 4, title: 'التكرار بالـ While Loops وتوليد العشوائي', desc: 'While loop, counters, break, infinite loops & random' },
-      { id: 5, title: 'صائد الأخطاء البرمجية وإصلاح الكود', desc: 'Typo hunting, syntax error detection & fixing bugs' }
+      { id: 1, part_id: 'part1', title: 'المتغيرات وأنواع البيانات والإدخال', desc: 'Variables, print, input, data types & casting (10 أسئلة)' },
+      { id: 2, part_id: 'part2', title: 'العمليات الحسابية والمنطقية والمقارنات', desc: 'Arithmetic, modulo, comparisons, and / or / not (10 أسئلة)' },
+      { id: 3, part_id: 'part3', title: 'الجمل الشرطية واتخاذ القرار', desc: 'If, elif, else, nested conditions & validation (10 أسئلة)' },
+      { id: 4, part_id: 'part4', title: 'التكرار بالـ While Loops والعشوائي', desc: 'While loop, counters, break & random (10 أسئلة)' },
+      { id: 5, part_id: 'part5', title: 'اختبارات الكتابة وصيد الأخطاء المطبعية', desc: 'Typo hunting, keyword syntax errors & typing (10 أسئلة)' }
     ];
 
+    function getStorageKey(name) {
+      const clean = (name || '').trim().toLowerCase().replace(/\s+/g, '_');
+      return clean ? `genie_python_rev_st_${clean}` : 'genie_python_rev_state_v1';
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      loadState();
+      // Check last active student on this device
+      const lastStudentName = localStorage.getItem('genie_last_active_student');
+      if (lastStudentName) {
+        document.getElementById('input-student-name').value = lastStudentName;
+        loadStudentState(lastStudentName);
+      }
       fetchCloudQuestionOverrides();
     });
 
-    function fetchCloudQuestionOverrides() {
-      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
-        .then(res => res.json())
-        .then(resData => {
-          if (resData && resData.data && resData.data.overrides) {
-            const overrides = resData.data.overrides;
-            let count = 0;
-            if (typeof REVISION_DATA !== 'undefined') {
-              REVISION_DATA.essential_questions.forEach((q, idx) => {
-                if (overrides[q.id]) {
-                  Object.assign(REVISION_DATA.essential_questions[idx], overrides[q.id]);
-                  count++;
-                }
-              });
-              Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
-                REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
-                  if (overrides[q.id]) {
-                    Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], overrides[q.id]);
-                    count++;
-                  }
-                });
-              });
-              if (count > 0) {
-                console.log(`[GenieTech Cloud] Applied ${count} teacher question updates!`);
-              }
-            }
-          }
-        })
-        .catch(err => {
-          console.log('[GenieTech Cloud] Using default question bank:', err);
-        });
-    }
+    function checkExistingStudentName() {
+      const name = document.getElementById('input-student-name').value.trim();
+      const noticeBox = document.getElementById('resume-notice');
+      const startBtn = document.getElementById('btn-start-action');
 
-    function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!name) {
+        noticeBox.style.display = 'none';
+        startBtn.innerText = 'ابدأ المراجعة الآن 🎯';
+        return;
+      }
+
+      const key = getStorageKey(name);
+      const saved = localStorage.getItem(key);
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          studentInfo = parsed.studentInfo || { name: '', group: '' };
+          const answered = Object.keys(parsed.attemptsLog || {}).length;
+          document.getElementById('resume-notice-title').innerText = `👋 أهلاً بك مجدداً يا ${name}!`;
+          document.getElementById('resume-notice-desc').innerText = `تم استرجاع تقدمك السابق بنجاح (${answered} سؤال مجاب، و ${parsed.totalMistakes || 0} أخطاء). يمكنك المتابعة من حيث توقفت.`;
+          noticeBox.style.display = 'block';
+          startBtn.innerText = 'استكمال المراجعة 🎯';
+          if (parsed.studentInfo && parsed.studentInfo.group && !document.getElementById('input-student-group').value) {
+            document.getElementById('input-student-group').value = parsed.studentInfo.group;
+          }
+          return;
+        } catch(e) {}
+      }
+
+      noticeBox.style.display = 'none';
+      startBtn.innerText = 'ابدأ المراجعة الآن 🎯';
+    }
+
+    function loadStudentState(name) {
+      const key = getStorageKey(name);
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          studentInfo = parsed.studentInfo || { name: name, group: '' };
           totalMistakes = parsed.totalMistakes || 0;
           attemptsLog = parsed.attemptsLog || {};
           partsCompleted = parsed.partsCompleted || {};
+          studentCloudId = parsed.studentCloudId || localStorage.getItem(`genie_cid_${name}`);
 
           if (studentInfo.name) {
             updateHeaderUserBadge();
             showPartsScreen();
           }
         } catch (e) {
-          console.error('Error loading local state:', e);
+          console.error('Error loading state:', e);
         }
       }
     }
 
-    function saveState() {
+    function saveStudentState() {
+      if (!studentInfo.name) return;
+
       const data = {
         studentInfo,
         totalMistakes,
         attemptsLog,
         partsCompleted,
+        studentCloudId,
         lastUpdated: new Date().toISOString()
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+      const key = getStorageKey(studentInfo.name);
+      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem('genie_last_active_student', studentInfo.name);
+
       syncWithCloud(data);
     }
 
@@ -728,7 +780,9 @@
         .then(resObj => {
           if (resObj && resObj.id) {
             studentCloudId = resObj.id;
-            localStorage.setItem(CLOUD_ID_KEY, studentCloudId);
+            localStorage.setItem(`genie_cid_${studentInfo.name}`, studentCloudId);
+            data.studentCloudId = studentCloudId;
+            localStorage.setItem(getStorageKey(studentInfo.name), JSON.stringify(data));
             registerStudentInIndex(studentCloudId, data);
             if (badge) {
               badge.className = 'cloud-pill';
@@ -799,6 +853,27 @@
         .catch(() => {});
     }
 
+    function fetchCloudQuestionOverrides() {
+      fetch(`${API_BASE}/${OVERRIDES_OBJECT_ID}`)
+        .then(res => res.json())
+        .then(resData => {
+          if (resData && resData.data && resData.data.overrides) {
+            const overrides = resData.data.overrides;
+            if (typeof REVISION_DATA !== 'undefined') {
+              REVISION_DATA.essential_questions.forEach((q, idx) => {
+                if (overrides[q.id]) Object.assign(REVISION_DATA.essential_questions[idx], overrides[q.id]);
+              });
+              Object.keys(REVISION_DATA.adaptive_bank).forEach(conceptId => {
+                REVISION_DATA.adaptive_bank[conceptId].forEach((q, idx) => {
+                  if (overrides[q.id]) Object.assign(REVISION_DATA.adaptive_bank[conceptId][idx], overrides[q.id]);
+                });
+              });
+            }
+          }
+        })
+        .catch(() => {});
+    }
+
     function updateHeaderUserBadge() {
       const badge = document.getElementById('header-student-badge');
       const nameEl = document.getElementById('header-student-name');
@@ -808,7 +883,21 @@
       }
     }
 
-    function startRevision() {
+    function switchStudentAccount() {
+      document.getElementById('screen-welcome').style.display = 'block';
+      document.getElementById('screen-parts').style.display = 'none';
+      document.getElementById('screen-question').style.display = 'none';
+      document.getElementById('screen-report').style.display = 'none';
+      document.getElementById('header-student-badge').style.display = 'none';
+
+      document.getElementById('input-student-name').value = '';
+      document.getElementById('input-student-group').value = '';
+      document.getElementById('resume-notice').style.display = 'none';
+      document.getElementById('btn-start-action').innerText = 'ابدأ المراجعة الآن 🎯';
+      document.getElementById('input-student-name').focus();
+    }
+
+    function startOrResumeRevision() {
       const nameInp = document.getElementById('input-student-name').value.trim();
       const groupInp = document.getElementById('input-student-group').value.trim();
 
@@ -817,9 +906,31 @@
         return;
       }
 
-      studentInfo = { name: nameInp, group: groupInp };
+      // Check existing
+      const key = getStorageKey(nameInp);
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          studentInfo = parsed.studentInfo || { name: nameInp, group: groupInp };
+          if (groupInp) studentInfo.group = groupInp;
+          totalMistakes = parsed.totalMistakes || 0;
+          attemptsLog = parsed.attemptsLog || {};
+          partsCompleted = parsed.partsCompleted || {};
+          studentCloudId = parsed.studentCloudId || null;
+        } catch(e) {
+          studentInfo = { name: nameInp, group: groupInp };
+        }
+      } else {
+        studentInfo = { name: nameInp, group: groupInp };
+        totalMistakes = 0;
+        attemptsLog = {};
+        partsCompleted = {};
+        studentCloudId = null;
+      }
+
       updateHeaderUserBadge();
-      saveState();
+      saveStudentState();
       showPartsScreen();
     }
 
@@ -832,13 +943,19 @@
       renderPartsGrid();
     }
 
+    // Helper: get questions belonging to a part by part number (1-5)
+    function getQuestionsForPart(partNum) {
+      if (typeof REVISION_DATA === 'undefined' || !REVISION_DATA.essential_questions) return [];
+      const pid = 'part' + partNum;
+      return REVISION_DATA.essential_questions.filter(q => q.part_id === pid || q.part === partNum);
+    }
+
     function renderPartsGrid() {
       const container = document.getElementById('parts-grid-container');
       container.innerHTML = '';
 
       PARTS_META.forEach(p => {
-        const partQuestions = (typeof REVISION_DATA !== 'undefined') ? 
-          REVISION_DATA.essential_questions.filter(q => q.part === p.id) : [];
+        const partQuestions = getQuestionsForPart(p.id);
         const answeredInPart = partQuestions.filter(q => attemptsLog[q.id] && attemptsLog[q.id].correct).length;
         const isDone = answeredInPart === partQuestions.length && partQuestions.length > 0;
 
@@ -851,7 +968,7 @@
           <div class="part-title">${p.title}</div>
           <div class="part-meta" style="margin-bottom: 8px;">${p.desc}</div>
           <div style="font-size: 13px; font-weight: 800; color: ${isDone ? 'var(--green)' : 'var(--purple)'};">
-            ${isDone ? '✔ مكتمل بالكامل' : `التقدم: ${answeredInPart} / ${partQuestions.length}`}
+            ${isDone ? '✔ مكتمل بالكامل (10 / 10)' : `التقدم: ${answeredInPart} / ${partQuestions.length}`}
           </div>
         `;
         container.appendChild(card);
@@ -865,13 +982,18 @@
         return;
       }
 
-      const partQuestions = REVISION_DATA.essential_questions.filter(q => q.part === partId);
-      
+      const partQuestions = getQuestionsForPart(partId);
+      if (partQuestions.length === 0) {
+        alert('لم يتم العثور على أسئلة لهذا الجزء!');
+        return;
+      }
+
+      // Build queue with essential + any adaptive questions triggered
       queue = [];
       partQuestions.forEach(q => {
         queue.push(q);
         if (attemptsLog[q.id] && !attemptsLog[q.id].firstTry && attemptsLog[q.id].attempts && attemptsLog[q.id].attempts.length > 0) {
-          if (REVISION_DATA.adaptive_bank[q.concept_id]) {
+          if (REVISION_DATA.adaptive_bank && REVISION_DATA.adaptive_bank[q.concept_id]) {
             REVISION_DATA.adaptive_bank[q.concept_id].forEach(rem => {
               if (!queue.some(item => item.id === rem.id)) queue.push(rem);
             });
@@ -879,8 +1001,9 @@
         }
       });
 
-      currentIndex = queue.findIndex(q => !attemptsLog[q.id] || !attemptsLog[q.id].correct);
-      if (currentIndex === -1) currentIndex = 0;
+      // Find first unanswered question in this part
+      const firstUnanswered = queue.findIndex(q => !attemptsLog[q.id] || !attemptsLog[q.id].correct);
+      currentIndex = (firstUnanswered !== -1) ? firstUnanswered : 0;
 
       document.getElementById('screen-welcome').style.display = 'none';
       document.getElementById('screen-parts').style.display = 'none';
@@ -893,7 +1016,10 @@
     function renderCurrentQuestion() {
       const q = queue[currentIndex];
       if (!q) {
-        showReportScreen();
+        // Part finished
+        partsCompleted[currentPartId] = true;
+        saveStudentState();
+        showPartsScreen();
         return;
       }
 
@@ -910,7 +1036,7 @@
         badgeType.innerText = '💡 سؤال تدريب إضافي (تثبيت المفهوم)';
       }
 
-      document.getElementById('q-part-label').innerText = `الجزء ${q.part}`;
+      document.getElementById('q-part-label').innerText = `الجزء ${currentPartId}`;
       document.getElementById('q-counter').innerText = `سؤال ${currentIndex + 1} من ${totalInQueue}`;
       document.getElementById('q-title').innerText = q.question;
 
@@ -931,7 +1057,9 @@
       const optionsBox = document.getElementById('q-options-container');
       const typoBox = document.getElementById('q-typo-container');
 
-      if (q.type === 'typo') {
+      const isTyping = (q.type === 'typing' || q.type === 'typo');
+
+      if (isTyping) {
         optionsBox.style.display = 'none';
         typoBox.style.display = 'block';
         const typoInp = document.getElementById('typo-answer-input');
@@ -945,7 +1073,7 @@
         optionsBox.innerHTML = '';
 
         const letters = ['أ', 'ب', 'ج', 'د'];
-        q.options.forEach((opt, idx) => {
+        (q.options || []).forEach((opt, idx) => {
           const btn = document.createElement('button');
           btn.className = 'option-btn';
           btn.id = `opt-btn-${idx}`;
@@ -958,6 +1086,7 @@
         });
       }
 
+      // If already solved previously
       if (attemptsLog[q.id] && attemptsLog[q.id].correct) {
         fb.className = 'feedback-banner success';
         fb.innerHTML = `<strong>✔ تم حل هذا السؤال سابقاً بنجاح!</strong><br>${q.explanation}`;
@@ -976,15 +1105,16 @@
       if (log.correct) return;
 
       const letters = ['أ', 'ب', 'ج', 'د'];
-      const chosenText = `${letters[selectedIdx]}: ${q.options[selectedIdx]}`;
+      const chosenText = `${letters[selectedIdx] || selectedIdx}: ${q.options[selectedIdx]}`;
       log.attempts.push(chosenText);
 
-      const isCorrect = (selectedIdx === q.correct);
+      const targetCorrect = (q.correct_index !== undefined) ? q.correct_index : q.correct;
+      const isCorrect = (selectedIdx === targetCorrect);
       const chosenBtn = document.getElementById(`opt-btn-${selectedIdx}`);
       const fb = document.getElementById('feedback-banner');
 
       if (isCorrect) {
-        chosenBtn.className = 'option-btn selected-correct';
+        if (chosenBtn) chosenBtn.className = 'option-btn selected-correct';
         log.correct = true;
         if (log.attempts.length === 1) {
           log.firstTry = true;
@@ -998,9 +1128,9 @@
         fb.style.display = 'block';
 
         document.getElementById('btn-next-question').style.display = 'inline-flex';
-        saveState();
+        saveStudentState();
       } else {
-        chosenBtn.className = 'option-btn selected-wrong';
+        if (chosenBtn) chosenBtn.className = 'option-btn selected-wrong';
         totalMistakes += 1;
 
         fb.className = 'feedback-banner error';
@@ -1010,7 +1140,7 @@
         if (log.attempts.length === 1) {
           triggerAdaptiveQuestions(q.concept_id);
         }
-        saveState();
+        saveStudentState();
       }
     }
 
@@ -1032,8 +1162,13 @@
 
       log.attempts.push(val);
 
-      const targetFix = (q.correct_fix || (q.options && q.options[q.correct]) || '').trim();
-      const isCorrect = (val.toLowerCase() === targetFix.toLowerCase());
+      // Collect accepted answers
+      const accepted = (q.accepted_answers || []).map(a => a.trim().toLowerCase());
+      if (q.target_word) accepted.push(q.target_word.trim().toLowerCase());
+      if (q.correct_fix) accepted.push(q.correct_fix.trim().toLowerCase());
+      if (q.options && q.correct_index !== undefined) accepted.push((q.options[q.correct_index] || '').trim().toLowerCase());
+
+      const isCorrect = accepted.includes(val.toLowerCase());
       const fb = document.getElementById('feedback-banner');
 
       if (isCorrect) {
@@ -1049,7 +1184,7 @@
         fb.style.display = 'block';
 
         document.getElementById('btn-next-question').style.display = 'inline-flex';
-        saveState();
+        saveStudentState();
       } else {
         totalMistakes += 1;
 
@@ -1060,7 +1195,7 @@
         if (log.attempts.length === 1) {
           triggerAdaptiveQuestions(q.concept_id);
         }
-        saveState();
+        saveStudentState();
       }
     }
 
@@ -1084,9 +1219,20 @@
     function nextQuestion() {
       currentIndex += 1;
       if (currentIndex >= queue.length) {
+        // Completed this part
         partsCompleted[currentPartId] = true;
-        saveState();
-        showPartsScreen();
+        saveStudentState();
+
+        // Check if all 5 parts are completed
+        const allEssential = (typeof REVISION_DATA !== 'undefined') ? REVISION_DATA.essential_questions : [];
+        const totalSolved = allEssential.filter(q => attemptsLog[q.id] && attemptsLog[q.id].correct).length;
+
+        if (totalSolved >= 50) {
+          showFullCourseReport();
+        } else {
+          showPartsScreen();
+          alert(`🎉 ممتاز جداً! أنهيت الجزء ${currentPartId} بنجاح. تم حفظ تقدمك ويمكنك استكمال باقي الأجزاء الآن أو لاحقاً.`);
+        }
       } else {
         renderCurrentQuestion();
       }
@@ -1096,25 +1242,25 @@
       showPartsScreen();
     }
 
-    function showReportScreen() {
+    function showFullCourseReport() {
       document.getElementById('screen-welcome').style.display = 'none';
       document.getElementById('screen-parts').style.display = 'none';
       document.getElementById('screen-question').style.display = 'none';
       document.getElementById('screen-report').style.display = 'block';
 
-      const essentialAnswered = Object.keys(attemptsLog).filter(k => k.startsWith('q_') && attemptsLog[k].correct).length;
-      const adaptiveAnswered = Object.keys(attemptsLog).filter(k => k.startsWith('rem_') && attemptsLog[k].correct).length;
+      const essentialCount = Object.keys(attemptsLog).filter(k => k.startsWith('Q') && !k.includes('_alt') && attemptsLog[k].correct).length;
+      const adaptiveCount = Object.keys(attemptsLog).filter(k => k.includes('_alt') && attemptsLog[k].correct).length;
       const firstTryCount = Object.values(attemptsLog).filter(a => a.firstTry).length;
       const totalAnswered = Object.values(attemptsLog).filter(a => a.correct).length;
 
       const accuracy = totalAnswered > 0 ? Math.round((firstTryCount / totalAnswered) * 100) : 0;
 
       document.getElementById('rep-accuracy').innerText = accuracy + '%';
-      document.getElementById('rep-essential-done').innerText = `${essentialAnswered} / 50`;
-      document.getElementById('rep-adaptive-done').innerText = adaptiveAnswered;
+      document.getElementById('rep-essential-done').innerText = `${essentialCount} / 50`;
+      document.getElementById('rep-adaptive-done').innerText = adaptiveCount;
       document.getElementById('rep-mistakes').innerText = totalMistakes;
 
-      saveState();
+      saveStudentState();
     }
 
     function sendReportWhatsApp() {
@@ -1128,18 +1274,10 @@
                    `🎯 *نسبة الإتقان من أول مرة:* ${accuracy}%\n` +
                    `✅ *الأسئلة الأساسية المجابة:* ${Object.keys(attemptsLog).length} / 50\n` +
                    `❌ *إجمالي عدد الأخطاء:* ${totalMistakes}\n` +
-                   `🚀 تم إنهاء المراجعة بنجاح عبر منصة Genie Tech التفاعلية!`;
+                   `🚀 تم حفظ التقدم سحابياً عبر منصة Genie Tech التفاعلية!`;
 
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
-    }
-
-    function resetProgressConfirm() {
-      if (confirm('هل أنت متأكد من رغبتك في إعادة المراجعة من الصفر ومسح التقدم المحفوظ؟')) {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem(CLOUD_ID_KEY);
-        location.reload();
-      }
     }
   </script>
 </body>

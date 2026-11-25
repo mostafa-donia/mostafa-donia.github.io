@@ -92,7 +92,6 @@
     .tag-green { background: var(--green-light); color: var(--green); }
     .tag-yellow { background: var(--gold-light); color: var(--gold-dark); }
 
-    /* Nav Tabs */
     .tabs-nav {
       background: #FFFFFF;
       border-bottom: 2px solid var(--border);
@@ -117,14 +116,8 @@
       transition: all 0.2s;
     }
 
-    .tab-btn:hover {
-      color: var(--purple);
-    }
-
-    .tab-btn.active {
-      color: var(--purple);
-      border-bottom-color: var(--purple);
-    }
+    .tab-btn:hover { color: var(--purple); }
+    .tab-btn.active { color: var(--purple); border-bottom-color: var(--purple); }
 
     .main-wrap {
       max-width: 1200px;
@@ -176,7 +169,6 @@
       color: var(--purple);
     }
 
-    /* Stats Grid */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -219,7 +211,6 @@
       margin-top: 4px;
     }
 
-    /* Table */
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -242,11 +233,8 @@
       font-weight: 600;
     }
 
-    .data-table tr:hover {
-      background: #FAF9F6;
-    }
+    .data-table tr:hover { background: #FAF9F6; }
 
-    /* Search & Filter Bar */
     .filter-bar {
       display: flex;
       justify-content: space-between;
@@ -328,17 +316,9 @@
       margin-bottom: 14px;
     }
 
-    .inspect-q-item.correct-first {
-      border-right: 5px solid var(--green);
-    }
-
-    .inspect-q-item.correct-multi {
-      border-right: 5px solid var(--gold);
-    }
-
-    .inspect-q-item.unsolved {
-      border-right: 5px solid var(--red);
-    }
+    .inspect-q-item.correct-first { border-right: 5px solid var(--green); }
+    .inspect-q-item.correct-multi { border-right: 5px solid var(--gold); }
+    .inspect-q-item.unsolved { border-right: 5px solid var(--red); }
 
     .code-preview {
       direction: ltr;
@@ -353,7 +333,6 @@
       overflow-x: auto;
     }
 
-    /* Question Editor Card in Tab 2 */
     .editor-q-card {
       background: #FFFFFF;
       border: 2px solid var(--border);
@@ -362,9 +341,7 @@
       margin-bottom: 16px;
       transition: all 0.2s;
     }
-    .editor-q-card:hover {
-      border-color: var(--purple);
-    }
+    .editor-q-card:hover { border-color: var(--purple); }
 
     .input-edit {
       width: 100%;
@@ -377,10 +354,7 @@
       margin-top: 6px;
       margin-bottom: 12px;
     }
-    .input-edit:focus {
-      outline: none;
-      border-color: var(--purple);
-    }
+    .input-edit:focus { outline: none; border-color: var(--purple); }
 
     textarea.input-edit {
       font-family: 'JetBrains Mono', monospace;
@@ -430,12 +404,8 @@
 
   <main class="main-wrap">
 
-    <!-- ======================================================== -->
-    <!-- TAB 1: STUDENTS SUBMISSIONS & REVIEW -->
-    <!-- ======================================================== -->
+    <!-- TAB 1: STUDENTS SUBMISSIONS -->
     <div id="tab-content-students">
-
-      <!-- Metrics Row -->
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-icon-box" style="background: var(--purple-light); color: var(--purple);">👥</div>
@@ -470,18 +440,16 @@
         </div>
       </div>
 
-      <!-- Action & Search Bar -->
       <div class="filter-bar">
         <div>
           <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">سجل محاولات وإجابات الطلاب</h2>
-          <p style="font-size: 13px; color: var(--text-muted);">انقر على "تفاصيل الأداء" لمشاهدة اختيارات الطالب الخاطئة، وعدد محاولاته قبل الإجابة الصحيحة.</p>
+          <p style="font-size: 13px; color: var(--text-muted);">انقر على "تفاصيل الأداء" لمشاهدة اختيارات الطالب الخاطئة، وعدد محاولاته قبل الإجابة الصحيحة في كل سؤال.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
           <input type="text" id="student-search-input" class="search-input" placeholder="🔍 بحث باسم الطالب أو المجموعة..." oninput="filterStudentsTable()">
         </div>
       </div>
 
-      <!-- Students Table Card -->
       <div class="card" style="padding: 0; overflow: hidden;">
         <div style="overflow-x: auto;">
           <table class="data-table">
@@ -506,14 +474,10 @@
           </table>
         </div>
       </div>
-
     </div>
 
-    <!-- ======================================================== -->
-    <!-- TAB 2: QUESTION BANK MANAGER & EDITOR -->
-    <!-- ======================================================== -->
+    <!-- TAB 2: QUESTION BANK MANAGER -->
     <div id="tab-content-questions" style="display: none;">
-
       <div class="filter-bar">
         <div>
           <h2 style="font-size: 18px; font-weight: 900; color: var(--purple);">بنك أسئلة بايثون (Python 101 & 102)</h2>
@@ -529,17 +493,16 @@
         </div>
       </div>
 
-      <!-- Filters Row -->
       <div class="card" style="padding: 16px; margin-bottom: 20px;">
         <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
           <label style="font-weight: 800; font-size: 13px; color: var(--purple);">فلترة حسب الجزء:</label>
           <select id="qb-filter-part" class="search-input" style="width: auto;" onchange="renderQuestionsManager()">
             <option value="all">كل الأجزاء (1 - 5)</option>
-            <option value="1">الجزء 1: المتغيرات ودوال الإدخال</option>
-            <option value="2">الجزء 2: العمليات الحسابية والمنطقية</option>
-            <option value="3">الجزء 3: الجمل الشرطية واتخاذ القرار</option>
-            <option value="4">الجزء 4: التكرار بالـ While Loops والعشوائي</option>
-            <option value="5">الجزء 5: صائد الأخطاء البرمجية (Typo Hunt)</option>
+            <option value="part1">الجزء 1: المتغيرات ودوال الإدخال</option>
+            <option value="part2">الجزء 2: العمليات الحسابية والمنطقية</option>
+            <option value="part3">الجزء 3: الجمل الشرطية واتخاذ القرار</option>
+            <option value="part4">الجزء 4: التكرار بالـ While Loops والعشوائي</option>
+            <option value="part5">الجزء 5: اختبارات الكتابة وصيد الأخطاء</option>
           </select>
 
           <label style="font-weight: 800; font-size: 13px; color: var(--purple); margin-right: 12px;">نوع السؤال:</label>
@@ -553,18 +516,12 @@
         </div>
       </div>
 
-      <!-- Questions List Container -->
-      <div id="questions-editor-list">
-        <!-- Rendered dynamically -->
-      </div>
-
+      <div id="questions-editor-list"></div>
     </div>
 
   </main>
 
-  <!-- ======================================================== -->
-  <!-- MODAL 1: STUDENT PERFORMANCE INSPECTOR -->
-  <!-- ======================================================== -->
+  <!-- MODAL 1: INSPECTION -->
   <div class="modal-overlay" id="inspect-modal">
     <div class="modal-box">
       <div class="modal-header">
@@ -581,21 +538,17 @@
         📋 سجل إجابة ومحاولات كل سؤال بالتفصيل:
       </div>
 
-      <div id="modal-questions-list">
-        <!-- Injected dynamically -->
-      </div>
+      <div id="modal-questions-list"></div>
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- MODAL 2: QUESTION EDIT MODAL -->
-  <!-- ======================================================== -->
+  <!-- MODAL 2: EDIT QUESTION -->
   <div class="modal-overlay" id="edit-q-modal">
     <div class="modal-box">
       <div class="modal-header">
         <div>
           <h2 style="font-size: 20px; font-weight: 900; color: var(--purple);" id="edit-modal-title">تعديل السؤال</h2>
-          <span style="font-size: 12px; color: var(--text-muted);" id="edit-modal-qid">معرف السؤال: q_1_1</span>
+          <span style="font-size: 12px; color: var(--text-muted);" id="edit-modal-qid">معرف السؤال: Q01</span>
         </div>
         <button class="close-btn" onclick="closeEditModal()">&times;</button>
       </div>
@@ -638,7 +591,7 @@
         </div>
 
         <div id="edit-typo-section" style="display: none;">
-          <label style="font-weight: 800; font-size: 13px; color: var(--purple);">التصحيح السليم (Correct Fix):</label>
+          <label style="font-weight: 800; font-size: 13px; color: var(--purple);">الكلمة أو الكود الصحيح (Target Word):</label>
           <input type="text" id="edit-q-fix" class="input-edit" style="direction: ltr;">
         </div>
 
@@ -653,7 +606,6 @@
     </div>
   </div>
 
-  <!-- Load Questions Data -->
   <script src="questions_data.js"></script>
 
   <script>
@@ -682,9 +634,6 @@
       }
     }
 
-    // -------------------------------------------------------------
-    // DATA FETCHING & SYNC
-    // -------------------------------------------------------------
     function refreshDashboardData() {
       const statusPill = document.getElementById('server-status-pill');
       statusPill.className = 'tag-status tag-yellow';
@@ -702,38 +651,13 @@
             allStudents = [];
           }
 
-          // Fallback to local storage if empty
-          if (allStudents.length === 0) {
-            loadLocalFallback();
-          }
-
           renderDashboard();
         })
         .catch(() => {
           statusPill.className = 'tag-status tag-yellow';
           statusPill.innerText = '🟡 وضع العمل المحلي';
-          loadLocalFallback();
           renderDashboard();
         });
-    }
-
-    function loadLocalFallback() {
-      const local = localStorage.getItem('genie_python_rev_state_v1');
-      if (local) {
-        try {
-          const parsed = JSON.parse(local);
-          allStudents = [{
-            id: 'local_current',
-            name: (parsed.studentInfo && parsed.studentInfo.name) || 'طالب محلي',
-            group: (parsed.studentInfo && parsed.studentInfo.group) || 'Python 102',
-            totalMistakes: parsed.totalMistakes || 0,
-            answeredCount: Object.keys(parsed.attemptsLog || {}).length,
-            firstTryCount: Object.values(parsed.attemptsLog || {}).filter(a => a.firstTry).length,
-            lastUpdated: parsed.lastUpdated || new Date().toISOString(),
-            _localData: parsed
-          }];
-        } catch (e) {}
-      }
     }
 
     function fetchCloudOverrides() {
@@ -743,7 +667,6 @@
           if (resData && resData.data && resData.data.overrides) {
             questionOverrides = resData.data.overrides;
             applyOverridesToLocalBank();
-            console.log('[Dashboard] Overrides loaded:', Object.keys(questionOverrides).length);
           }
         })
         .catch(() => {});
@@ -767,9 +690,6 @@
       });
     }
 
-    // -------------------------------------------------------------
-    // RENDER TAB 1: STUDENTS
-    // -------------------------------------------------------------
     function renderDashboard() {
       const totalCount = allStudents.length;
       document.getElementById('metric-total-students').innerText = totalCount;
@@ -849,9 +769,6 @@
       return `منذ ${Math.floor(diffSec/86400)} يوم`;
     }
 
-    // -------------------------------------------------------------
-    // INSPECT STUDENT DETAILS MODAL
-    // -------------------------------------------------------------
     function inspectStudentDetails(studentId) {
       const studentSummary = allStudents.find(s => s.id === studentId);
       if (!studentSummary) return;
@@ -863,13 +780,6 @@
       modalList.innerHTML = '<div style="text-align: center; padding: 20px;">جاري جلب تفاصيل كل سؤال سحابياً...</div>';
       document.getElementById('inspect-modal').style.display = 'flex';
 
-      // If local data fallback
-      if (studentSummary._localData) {
-        renderStudentQuestionsInspection(studentSummary._localData);
-        return;
-      }
-
-      // Fetch student detailed object from restful-api.dev
       fetch(`${API_BASE}/${studentId}`)
         .then(res => res.json())
         .then(fullObj => {
@@ -926,7 +836,6 @@
         const item = document.createElement('div');
         item.className = statusClass;
 
-        // Build history of attempts
         let attemptsHistoryHtml = '';
         if (att.attempts && att.attempts.length > 0) {
           attemptsHistoryHtml = '<div style="margin-top: 10px; font-size: 13px;"><strong>سجل الاختيارات:</strong><ul style="padding-right: 20px; margin-top: 4px;">';
@@ -960,9 +869,6 @@
       document.getElementById('inspect-modal').style.display = 'none';
     }
 
-    // -------------------------------------------------------------
-    // TAB 2: QUESTIONS MANAGER & INLINE EDITOR
-    // -------------------------------------------------------------
     function renderQuestionsManager() {
       const container = document.getElementById('questions-editor-list');
       container.innerHTML = '';
@@ -986,18 +892,15 @@
         });
       }
 
-      // Filter by part
       if (partFilter !== 'all') {
-        const pNum = parseInt(partFilter);
-        list = list.filter(q => q.part === pNum);
+        list = list.filter(q => q.part_id === partFilter);
       }
 
-      // Filter by search
       if (search) {
         list = list.filter(q => {
           return (q.question || '').toLowerCase().includes(search) || 
                  (q.code || '').toLowerCase().includes(search) ||
-                 (q.concept_title || '').toLowerCase().includes(search);
+                 (q.part_title || '').toLowerCase().includes(search);
         });
       }
 
@@ -1015,11 +918,14 @@
           '<span class="tag-status" style="background: var(--purple-light); color: var(--purple);">سؤال أساسي</span>' :
           '<span class="tag-status" style="background: #FFF0F5; color: #C71585; border: 1px solid #FFB6C1;">💡 سؤال دعم ذكي</span>';
 
+        const correctIdx = (q.correct_index !== undefined) ? q.correct_index : q.correct;
+        const isTyping = (q.type === 'typing' || q.type === 'typo');
+
         card.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               ${badgeType}
-              <span style="font-size: 13px; font-weight: 800; color: var(--purple);">الجزء ${q.part} — ${q.concept_title || ''}</span>
+              <span style="font-size: 13px; font-weight: 800; color: var(--purple);">${q.part_title || ''}</span>
               <span style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono';">(${q.id})</span>
             </div>
             <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="openEditModal('${q.id}')">
@@ -1033,17 +939,17 @@
 
           ${q.code ? `<div class="code-preview">${q.code}</div>` : ''}
 
-          ${q.type === 'mcq' && q.options ? `
+          ${!isTyping && q.options ? `
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 10px 0;">
               ${q.options.map((opt, oIdx) => `
-                <div style="background: ${oIdx === q.correct ? 'var(--green-light)' : '#FAF7F2'}; border: 1px solid ${oIdx === q.correct ? 'var(--green)' : 'var(--border)'}; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
-                  ${oIdx === q.correct ? '✔' : '○'} <span style="direction: ltr; font-family: 'JetBrains Mono';">${opt}</span>
+                <div style="background: ${oIdx === correctIdx ? 'var(--green-light)' : '#FAF7F2'}; border: 1px solid ${oIdx === correctIdx ? 'var(--green)' : 'var(--border)'}; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
+                  ${oIdx === correctIdx ? '✔' : '○'} <span style="direction: ltr; font-family: 'JetBrains Mono';">${opt}</span>
                 </div>
               `).join('')}
             </div>
           ` : `
             <div style="background: var(--purple-light); padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; color: var(--purple); margin: 8px 0;">
-              🔍 سؤال صيد الخطأ (Typo) — التصحيح المطلوب: <code style="font-family: 'JetBrains Mono';">${q.correct_fix || ''}</code>
+              🔍 سؤال كتابة واكتشاف خطأ — الكلمة المطلوبة: <code style="font-family: 'JetBrains Mono';">${q.target_word || (q.accepted_answers ? q.accepted_answers[0] : '')}</code>
             </div>
           `}
 
@@ -1072,17 +978,19 @@
       const q = findQuestionById(qid);
       if (!q) return;
 
-      document.getElementById('edit-modal-title').innerText = `تعديل: ${q.concept_title || q.id}`;
-      document.getElementById('edit-modal-qid').innerText = `معرف السؤال: ${q.id} (الجزء ${q.part})`;
+      document.getElementById('edit-modal-title').innerText = `تعديل: ${q.id} (${q.part_title || ''})`;
+      document.getElementById('edit-modal-qid').innerText = `معرف السؤال: ${q.id}`;
 
       document.getElementById('edit-q-prompt').value = q.question || '';
       document.getElementById('edit-q-code').value = q.code || '';
       document.getElementById('edit-q-explanation').value = q.explanation || '';
 
-      if (q.type === 'typo') {
+      const isTyping = (q.type === 'typing' || q.type === 'typo');
+
+      if (isTyping) {
         document.getElementById('edit-options-section').style.display = 'none';
         document.getElementById('edit-typo-section').style.display = 'block';
-        document.getElementById('edit-q-fix').value = q.correct_fix || (q.options ? q.options[q.correct] : '');
+        document.getElementById('edit-q-fix').value = q.target_word || (q.accepted_answers ? q.accepted_answers[0] : '');
       } else {
         document.getElementById('edit-options-section').style.display = 'block';
         document.getElementById('edit-typo-section').style.display = 'none';
@@ -1090,7 +998,8 @@
         for (let i = 0; i < 4; i++) {
           document.getElementById(`edit-opt-${i}`).value = (q.options && q.options[i]) ? q.options[i] : '';
         }
-        document.getElementById('edit-q-correct').value = q.correct !== undefined ? q.correct : 0;
+        const correctIdx = (q.correct_index !== undefined) ? q.correct_index : (q.correct || 0);
+        document.getElementById('edit-q-correct').value = correctIdx;
       }
 
       document.getElementById('edit-q-modal').style.display = 'flex';
@@ -1121,8 +1030,12 @@
         explanation: newExpl
       };
 
-      if (q.type === 'typo') {
-        updateData.correct_fix = document.getElementById('edit-q-fix').value.trim();
+      const isTyping = (q.type === 'typing' || q.type === 'typo');
+
+      if (isTyping) {
+        const fix = document.getElementById('edit-q-fix').value.trim();
+        updateData.target_word = fix;
+        updateData.accepted_answers = [fix];
       } else {
         updateData.options = [
           document.getElementById('edit-opt-0').value.trim(),
@@ -1130,18 +1043,15 @@
           document.getElementById('edit-opt-2').value.trim(),
           document.getElementById('edit-opt-3').value.trim()
         ];
-        updateData.correct = parseInt(document.getElementById('edit-q-correct').value);
+        updateData.correct_index = parseInt(document.getElementById('edit-q-correct').value);
       }
 
-      // Update in memory
       Object.assign(q, updateData);
-
-      // Record in overrides object
       questionOverrides[activeEditingQId] = updateData;
 
       closeEditModal();
       renderQuestionsManager();
-      alert('✔ تم حفظ التعديل محلياً! لا تنسَ الضغط على زر "🚀 نشر التعديلات سحابياً" لتصل للطلاب فوراً.');
+      alert('✔ تم حفظ التعديل محلياً! اضغط على زر "🚀 نشر التعديلات سحابياً" لتصل للطلاب فوراً.');
     }
 
     function publishQuestionOverridesToCloud() {
@@ -1171,7 +1081,7 @@
       })
       .then(res => res.json())
       .then(() => {
-        alert('✅ تم نشر التعديلات سحابياً بنجاح تام! ستظهر فوراً لأي طالب عند فتح الرابط على هاتفه أو لابتوبه.');
+        alert('✅ تم نشر التعديلات سحابياً بنجاح تام! ستظهر فوراً لأي طالب عند فتح الرابط.');
       })
       .catch(err => {
         alert('حدث خطأ أثناء الاتصال بالسحابة: ' + err);
