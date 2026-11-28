@@ -13,12 +13,12 @@
       "question": "إيه النتيجة اللي هتظهر على الشاشة لما نشغل الكود ده؟",
       "code": "print(\"Welcome kareem\")",
       "options": [
-        "Welcome kareem",
         "Welcome",
         "kareem",
+        "Welcome kareem",
         "error"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "دالة print بتطبع النص اللي بين علامات التنصيص بالظبط على الشاشة زي ما هو."
     },
     {
@@ -32,12 +32,12 @@
       "question": "إيه اللي هيتطبع على الشاشة لما نشغل الكود ده؟",
       "code": "cup = \"tea\"\nprint(cup)",
       "options": [
-        "tea",
+        "Error",
         "cup",
         "\"tea\"",
-        "Error"
+        "tea"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "المتغير cup شايل جواه كلمة tea، ولما كتبنا print(cup) بدون علامات تنصيص طبع محتوى المتغير."
     },
     {
@@ -51,12 +51,12 @@
       "question": "ركز في الكود ده كويس: إيه اللي هيتطبع بالظبط؟",
       "code": "x = 5\nprint(\"x\")",
       "options": [
+        "\"5\"",
         "x",
         "5",
-        "\"5\"",
         "Error"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "طالما x محطوطة بين علامات تنصيص \"x\"، بايثون بيعتبرها حرف نصي ويطبع الحرف x مش الرقم 5."
     },
     {
@@ -71,9 +71,9 @@
       "code": "x = 5\nx = 12\nprint(x)",
       "options": [
         "12",
-        "5",
+        "Error",
         "5 12",
-        "Error"
+        "5"
       ],
       "correct_index": 0,
       "explanation": "المتغير بيشيل قيمة واحدة في المرة، لما كتبنا x = 12، القيمة القديمة 5 اتبدلت بـ 12."
@@ -89,12 +89,12 @@
       "question": "إيه اللي هيتطبع في السطر الأخير؟",
       "code": "name = \"ali\"\nage = 12\nprint(age)",
       "options": [
-        "12",
+        "age",
         "ali",
         "ali 12",
-        "age"
+        "12"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "طلبنا طباعة age فقط، وقيمة age هي 12."
     },
     {
@@ -109,9 +109,9 @@
       "code": "name = \"ali\"\nprint(f\"my name is {name}\")",
       "options": [
         "my name is ali",
-        "my name is {name}",
         "my name is name",
-        "Error"
+        "Error",
+        "my name is {name}"
       ],
       "correct_index": 0,
       "explanation": "الـ f-string بتستبدل القوسين {name} بالقيمة المتخزنة جواه وهي ali."
@@ -127,12 +127,12 @@
       "question": "الرقم 12 في بايثون نوعه إيه؟",
       "code": "age = 12",
       "options": [
-        "int (رقم صحيح)",
         "float (رقم عشري)",
-        "string (نص)",
-        "boolean"
+        "int (رقم صحيح)",
+        "boolean",
+        "string (نص)"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "الأرقام الصحيحة بدون فاصلة عشرية مثل 12 و 0 و -5 هي أرقام من نوع int."
     },
     {
@@ -146,12 +146,12 @@
       "question": "دالة input() وظيفتها إيه في البرنامج؟",
       "code": "name = input(\"Enter your name : \")",
       "options": [
-        "بتطلب من المستخدم يكتب حاجة من الكيبورد وتخزنها في المتغير",
-        "بتطبع كلام ومش بتوقف البرنامج",
         "بتمسح المتغيرات",
-        "بتعمل عمليات حسابية"
+        "بتطبع كلام ومش بتوقف البرنامج",
+        "بتعمل عمليات حسابية",
+        "بتطلب من المستخدم يكتب حاجة من الكيبورد وتخزنها في المتغير"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "أمر input بيوقف البرنامج ويسيب المستخدم يكتب اللي عايزه وبعدين يضغط Enter."
     },
     {
@@ -166,8 +166,8 @@
       "code": "age = int(input(\"Enter your age : \"))",
       "options": [
         "عشان أمر input لوحده بيرجع نص، ودالة int بتحوله لرقم صحيح نقدر نحسب بيه",
-        "عشان البرنامج ميعملش خطأ",
         "عشان يطبع الرقم",
+        "عشان البرنامج ميعملش خطأ",
         "ملهاش لازمة"
       ],
       "correct_index": 0,
@@ -184,12 +184,12 @@
       "question": "لو الطالب عمره 14 سنة وشغلنا الكود ده، النتيجة هتكون كام؟",
       "code": "age = 14\nb = 2026 - age\nprint(b)",
       "options": [
-        "2012",
-        "2014",
         "2026",
-        "2040"
+        "2040",
+        "2012",
+        "2014"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "البرنامج بيطرح العمر 14 من سنة 2026: 2026 - 14 = 2012."
     },
     {
@@ -203,12 +203,12 @@
       "question": "ناتج تشغيل الكود ده هيكون كام؟",
       "code": "x = 10\ny = 5\nprint(x + y)",
       "options": [
-        "15",
-        "105",
         "50",
-        "5"
+        "5",
+        "15",
+        "105"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "علامة + بتجمع الرقمين: 10 + 5 = 15."
     },
     {
@@ -222,12 +222,12 @@
       "question": "الكود ده هيطبع كام على الشاشة؟",
       "code": "x = 10\ny = 5\nprint(x - y)",
       "options": [
-        "5",
         "15",
         "50",
-        "2"
+        "2",
+        "5"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "علامة - بتطرح: 10 - 5 = 5."
     },
     {
@@ -242,8 +242,8 @@
       "code": "length = 10\nwidth = 5\narea = length * width\nprint(area)",
       "options": [
         "50",
-        "15",
         "2",
+        "15",
         "500"
       ],
       "correct_index": 0,
@@ -260,12 +260,12 @@
       "question": "لما بنقسم 10 على 5 بعلامة قسمة واحدة / في بايثون، الناتج بيطلع إيه؟",
       "code": "print(10 / 5)",
       "options": [
-        "2.0",
         "2",
-        "0.5",
-        "50"
+        "2.0",
+        "50",
+        "0.5"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "القسمة العادية بشرطة مائلة واحدة / في بايثون بتطلع دائماً رقم عشري float (2.0)."
     },
     {
@@ -280,9 +280,9 @@
       "code": "print(5 // 3)",
       "options": [
         "1",
-        "1.666",
+        "0",
         "2",
-        "0"
+        "1.666"
       ],
       "correct_index": 0,
       "explanation": "علامة // هي القسمة الصحيحة (Floor Division)، بتاخد الناتج الصحيح وتهمل أي كسور: 5 فيها 3 واحدة فقط."
@@ -298,12 +298,12 @@
       "question": "الكود ده من ملف (s4p1.py)، هيطبع كام؟",
       "code": "print(5 % 3)",
       "options": [
+        "1.66",
         "2",
         "1",
-        "1.66",
         "0"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "علامة % بتحسب باقي القسمة (Modulo): 5 لما نقسمها على 3 يتبقى 2."
     },
     {
@@ -317,12 +317,12 @@
       "question": "لما نجمع كلمتين بينهم علامة + بالشكل ده، الناتج إيه؟",
       "code": "x = \"super\" + \"hero\"\nprint(x)",
       "options": [
-        "superhero",
         "super hero",
         "Error",
-        "super+hero"
+        "super+hero",
+        "superhero"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "علامة + بين النصوص بتلزقهم في بعض وتعمل دمج (Concatenation)."
     },
     {
@@ -336,12 +336,12 @@
       "question": "إيه اللي هيتطبع لما نضرب نص في رقم؟",
       "code": "print(\"ha\" * 3)",
       "options": [
-        "hahaha",
         "ha3",
         "ha ha ha",
-        "Error"
+        "Error",
+        "hahaha"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "ضرب النص في رقم في بايثون بيكرر النص بعدد مرات الرقم."
     },
     {
@@ -355,12 +355,12 @@
       "question": "في ملف (review.py)، الأرقام 2.3 و -4.7 و 0.0 نوعها إيه؟",
       "code": "z = -2.7\nv = 3.5",
       "options": [
-        "float",
+        "bool",
         "int",
         "string",
-        "bool"
+        "float"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "أي رقم يحتوي على علامة عشرية (بوينت) يسمى في بايثون float."
     },
     {
@@ -374,12 +374,12 @@
       "question": "دالة input() بدون دالة int() بتطلع البيانات دائماً من نوع إيه؟",
       "code": "x = input(\"Enter a number: \")",
       "options": [
-        "string (نص)",
         "int (رقم صحيح)",
+        "قائمة",
         "float (رقم عشري)",
-        "قائمة"
+        "string (نص)"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "دالة input() بمفردها تقرأ كل ما يكتبه المستخدم كنص String."
     },
     {
@@ -393,12 +393,12 @@
       "question": "ليه في جملة if بنكتب == بدلاً من = واحدة؟",
       "code": "if chips == \"cheese\":\n    print(\"buy chips\")",
       "options": [
-        "لأن == بتسأل وتقارن، بينما = بتخزن قيمة جديدة جوه المتغير",
-        "لأن بايثون بيشترط نكتب اتنين عشان السرعة",
         "مفيش فرق بينهم",
+        "لأن بايثون بيشترط نكتب اتنين عشان السرعة",
+        "لأن == بتسأل وتقارن، بينما = بتخزن قيمة جديدة جوه المتغير",
         "عشان نطبع"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "علامة = للتخزين (Assignment)، بينما == هي للمقارنة والتأكد من التساوي (Equality Check)."
     },
     {
@@ -431,12 +431,12 @@
       "question": "الكود ده من ملف (review.py)، لو سعر الشيبسي 10 جنيه، هيطبع إيه؟",
       "code": "price_chips = 10\nif price_chips <= 10:\n    print(\"its small size\")\nelse:\n    print(\"its large size\")",
       "options": [
-        "its small size",
         "its large size",
-        "10",
-        "Error"
+        "Error",
+        "its small size",
+        "10"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "الشرط price_chips <= 10 معناه (أصغر من أو يساوي 10)، وبما إن السعر 10 فالشرط تحقق وهيُطبع its small size."
     },
     {
@@ -450,12 +450,12 @@
       "question": "قسم else في بايثون بيتنفذ إمتى؟",
       "code": "if condition:\n    print(\"True\")\nelse:\n    print(\"False\")",
       "options": [
-        "بيتنفذ فقط لو شرط الـ if كان غير صحيح (False)",
-        "بيتنفذ دايماً في كل الحالات",
+        "مش بيتنفذ أبداً",
         "بيتنفذ قبل الـ if",
-        "مش بيتنفذ أبداً"
+        "بيتنفذ فقط لو شرط الـ if كان غير صحيح (False)",
+        "بيتنفذ دايماً في كل الحالات"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "قسم else هو البديل الذي يعمل فقط عندما يفشل شرط if ولا يتحقق."
     },
     {
@@ -470,9 +470,9 @@
       "code": "chips = \"cheese\"\nif chips == \"cheese\":\n    print(\"buy cheese chips\")\nelse:\n    print(\"go home\")",
       "options": [
         "buy cheese chips",
-        "go home",
         "cheese",
-        "Error"
+        "Error",
+        "go home"
       ],
       "correct_index": 0,
       "explanation": "قيمة المتغير chips هي cheese، والشرط chips == \"cheese\" متحقق، فيطبع buy cheese chips."
@@ -488,12 +488,12 @@
       "question": "الكود ده من درس الشروط (s5p3.py)، لو كتبنا 1234abc، هيطبع إيه؟",
       "code": "password = \"1234abc\"\nif password == \"1234abc\":\n    print(\"Correct password\")\nelse:\n    print(\"wrong password\")",
       "options": [
+        "1234abc",
         "Correct password",
         "wrong password",
-        "1234abc",
         "Error"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "الباسوورد المدخل مطابق للباسوورد المطلوب تماماً، فالنتيجة هي Correct password."
     },
     {
@@ -507,12 +507,12 @@
       "question": "كلمة elif في بايثون اختصار لإيه ومعناها إيه؟",
       "code": "",
       "options": [
+        "نوع متغير",
         "اختصار لـ else if، ومعناها: لو الشرط اللي فات متنفذش، جرب افحص الشرط ده",
         "اختصار لـ else فقط",
-        "أمر لإنهاء البرنامج",
-        "نوع متغير"
+        "أمر لإنهاء البرنامج"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "كلمة elif هي دمج لـ else if، وتسمح باختبار شروط متعددة متتالية بالترتيب."
     },
     {
@@ -527,8 +527,8 @@
       "code": "score = 85\nif score >= 90:\n    print(\"A\")\nelif score >= 80:\n    print(\"B\")\nelse:\n    print(\"F\")",
       "options": [
         "B",
-        "A",
         "F",
+        "A",
         "Error"
       ],
       "correct_index": 0,
@@ -545,12 +545,12 @@
       "question": "الكود ده من ملف (s6p2.py)، لو chips = \"kebab\"، هيطبع إيه؟",
       "code": "chips = \"kebab\"\nif chips == \"cheese\":\n    print(\"buy cheese chips\")\nelif chips == \"kebab\":\n    print(\"buy kebab chips\")\nelse:\n    print(\"go home\")",
       "options": [
-        "buy kebab chips",
         "buy cheese chips",
+        "Error",
         "go home",
-        "Error"
+        "buy kebab chips"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "قيمة chips هي kebab، فطابق شرط الـ elif وطبع buy kebab chips."
     },
     {
@@ -564,12 +564,12 @@
       "question": "إيه فايدة المسافة اللي بنسيبها في بداية السطر تحت الـ if؟",
       "code": "if age > 18:\n    print(\"allowed\")",
       "options": [
+        "بتخلي الكود أسرع",
         "بتعرف بايثون إن السطر ده تابع للـ if ومش هيتنفذ إلا لو الشرط صح",
         "ملهاش أي لازمة وشكل بس",
-        "بتخلي الكود أسرع",
         "بتطبع مسافة على الشاشة"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "المسافة البادئة (Indentation) في بايثون هي اللي بتحدد البلوك التابع للشرط."
     },
     {
@@ -583,12 +583,12 @@
       "question": "أمر while في بايثون وظيفته إيه؟",
       "code": "x = 0\nwhile x < 5:\n    print(x)\n    x = x + 1",
       "options": [
-        "تكرار تنفيذ الأكواد اللي جواه طالما الشرط ما زال صحيحاً",
-        "تنفيذ الكود مرة واحدة فقط",
+        "حذف المتغيرات",
         "اختيار رقم عشوائي",
-        "حذف المتغيرات"
+        "تنفيذ الكود مرة واحدة فقط",
+        "تكرار تنفيذ الأكواد اللي جواه طالما الشرط ما زال صحيحاً"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "الـ while loop هي حلقة تكرار تعيد تنفيذ الكود مراراً وتكراراً طالما الشرط True."
     },
     {
@@ -602,12 +602,12 @@
       "question": "السطر x = x + 1 وظيفته إيه جوة حلقة التكرار؟",
       "code": "x = x + 1",
       "options": [
-        "بيزود قيمة x بمقدار 1 في كل لفة",
-        "بيمسح قيمة x",
+        "بيطبع x",
         "بيقسم x على 1",
-        "بيطبع x"
+        "بيمسح قيمة x",
+        "بيزود قيمة x بمقدار 1 في كل لفة"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "السطر x = x + 1 هو العداد (Counter) الذي يزيد قيمة المتغير بمقدار واحد كل دورة."
     },
     {
@@ -621,12 +621,12 @@
       "question": "الكود ده اتكرر في ملفات (s1.py, s2p1.py, s2p2.py): معناه إيه السطر ده؟",
       "code": "while 1 > 0:",
       "options": [
-        "حلقة تكرار شغالة باستمرار مش هتقف لوحدها لأن 1 أكبر من 0 دايماً",
-        "حلقة تكرار هتقف بعد ثانية",
         "كود خطأ ومينفعش يتكتب",
+        "حلقة تكرار هتقف بعد ثانية",
+        "حلقة تكرار شغالة باستمرار مش هتقف لوحدها لأن 1 أكبر من 0 دايماً",
         "بتطبع 10"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "الشرط 1 > 0 هو شرط صحيح دائماً (دائم الترو)، فيجعل اللوب تعمل باستمرار حتى نوقفها بأمر break."
     },
     {
@@ -640,12 +640,12 @@
       "question": "وظيفة أمر break في بايثون هي:",
       "code": "if n == x:\n    print(\"won\")\n    break",
       "options": [
-        "إيقاف حلقة التكرار والخروج منها فوراً",
         "إعادة تشغيل اللوب من الأول",
+        "إيقاف حلقة التكرار والخروج منها فوراً",
         "طباعة كلمة break",
         "حذف المتغير x"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "كلمة break بتكسر وتوقف حلقة التكرار وتخرج البرنامج براها فوراً."
     },
     {
@@ -659,12 +659,12 @@
       "question": "السطر s = s + x في بايثون بيعمل إيه؟",
       "code": "s = 0\nx = 5\ns = s + x",
       "options": [
-        "بيضيف قيمة x على المجموع القديم s ويخزن الناتج الجديد في s",
         "بيطرح x من s",
         "بيمسح s",
-        "بيطبع 5"
+        "بيطبع 5",
+        "بيضيف قيمة x على المجموع القديم s ويخزن الناتج الجديد في s"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "السطر s = s + x هو أسلوب التجميع (Accumulator) لإضافة الأرقام على المجموع الكلي."
     },
     {
@@ -678,12 +678,12 @@
       "question": "في الكود ده من ملف (s2p2.py)، اللوب هتقف إمتى؟",
       "code": "while 1 > 0:\n    h = int(input(\"Enter a number: \"))\n    t = t + h\n    if t >= 100:\n        break",
       "options": [
-        "أول ما المجموع t يوصل 100 أو يعديها",
         "أول ما ندخل رقم سالب",
         "مش هتقف خالص",
+        "أول ما المجموع t يوصل 100 أو يعديها",
         "بعد 100 لفة بالظبط"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "explanation": "الشرط if t >= 100: متبوع بـ break يوقف اللوب فور وصول الإجمالي إلى 100 أو أكثر."
     },
     {
@@ -697,12 +697,12 @@
       "question": "الكود ده من ملف (s3p1.py)، اللوب هتفضل شغالة طول ما الاسم إيه؟",
       "code": "name = \"mohamed\"\nwhile name == \"mohamed\":\n    name = input(\"Enter your name : \")",
       "options": [
-        "طول ما المستخدم بيكتب mohamed",
-        "طول ما المستخدم بيكتب أي اسم تاني",
         "هتقف من أول لفة",
-        "مش هتشتغل خالص"
+        "طول ما المستخدم بيكتب أي اسم تاني",
+        "مش هتشتغل خالص",
+        "طول ما المستخدم بيكتب mohamed"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "explanation": "الشرط هو while name == \"mohamed\"، فهتفضل تعيد السؤال طول ما الاسم هو mohamed."
     },
     {
@@ -717,9 +717,9 @@
       "code": "x = 1\nwhile x <= 128:\n    print(x)\n    x = x * 2",
       "options": [
         "بيضاعف قيمة x بالضرب في 2 (1 ثم 2 ثم 4 ثم 8 وهكذا)",
+        "بيقسم على 2",
         "بيزود 2 بالجمع",
-        "بيفضل 1 زي ما هو",
-        "بيقسم على 2"
+        "بيفضل 1 زي ما هو"
       ],
       "correct_index": 0,
       "explanation": "السطر x = x * 2 يضاعف القيمة في كل دورة بضربها في 2."
@@ -735,12 +735,12 @@
       "question": "في لعبة تخمين الرقم (s1.py)، استخدمنا السطر ده عشان إيه؟",
       "code": "import random",
       "options": [
+        "عشان نحسب المساحة",
         "عشان نستدعي مكتبة بايثون الخاصة بتوليد أرقام عشوائية",
-        "عشان نطبع اسم اللعبة",
         "عشان نقفل البرنامج",
-        "عشان نحسب المساحة"
+        "عشان نطبع اسم اللعبة"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "explanation": "أمر import random بيستدعي مكتبة random المدمجة في بايثون لتوليد أرقام عشوائية."
     },
     {
@@ -756,8 +756,8 @@
       "options": [
         "بيختار رقم عشوائي سري بين 1 و 999 ويخزنه في x",
         "بيطبع كل الأرقام من 1 لـ 1000",
-        "بيجمع 1 على 1000",
-        "بيوقف اللعبة"
+        "بيوقف اللعبة",
+        "بيجمع 1 على 1000"
       ],
       "correct_index": 0,
       "explanation": "دالة random.randrange(1, 1000) تختار رقماً عشوائياً بين الرقم الأول وحتى قبل الرقم الثاني."
@@ -927,9 +927,9 @@
       "code": "cup = tea # نسينا علامات التنصيص!",
       "options": [
         "cup = \"tea\"",
-        "cup = tea()",
         "cup = 'tea",
-        "cup = (tea)"
+        "cup = (tea)",
+        "cup = tea()"
       ],
       "correct_index": 0,
       "explanation": "بايثون افتكر tea اسم متغير تاني ومش لاقيه. عشان نخليه نص صريح لازم نحطه بين علامات تنصيص \"tea\"."
@@ -948,12 +948,12 @@
         "question": "لو شغلنا السطر ده، إيه اللي هيتطبع؟",
         "code": "print(\"Hello\")",
         "options": [
-          "Hello",
-          "\"Hello\"",
           "hello world",
-          "Error"
+          "\"Hello\"",
+          "Error",
+          "Hello"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "النص المكتوب بين علامات التنصيص هو Hello، وهيطلع على الشاشة بدون علامات التنصيص."
       },
       {
@@ -967,12 +967,12 @@
         "question": "أمر الطباعة في بايثون بيتكتب إزاي؟",
         "code": "",
         "options": [
-          "print(\"Hi\")",
-          "Print(\"Hi\")",
           "prnt(\"Hi\")",
-          "echo \"Hi\""
+          "print(\"Hi\")",
+          "echo \"Hi\"",
+          "Print(\"Hi\")"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "أمر الطباعة في بايثون بيبدأ بحروف صغيرة سمول print متبوعة بقوسين وعلامات تنصيص."
       }
     ],
@@ -988,12 +988,12 @@
         "question": "الكود ده هيطبع إيه على الشاشة؟",
         "code": "name = \"ali\"\nprint(name)",
         "options": [
-          "ali",
           "name",
-          "\"ali\"",
-          "Error"
+          "ali",
+          "Error",
+          "\"ali\""
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "المتغير name بيحتوي على ali، وأمر print(name) بيطبع القيمة اللي جواه."
       },
       {
@@ -1007,12 +1007,12 @@
         "question": "لما نكتب x = 10 وبعدها print(x)، النتيجة هتكون إيه؟",
         "code": "x = 10\nprint(x)",
         "options": [
-          "10",
-          "x",
+          "Error",
           "\"10\"",
-          "Error"
+          "10",
+          "x"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "بايثون بيبص جوه المتغير x ويلاقي القيمة 10 ويطبعها."
       }
     ],
@@ -1028,12 +1028,12 @@
         "question": "لو عايزين نطبع الرقم 5 اللي متخزن جوه x، نكتب إيه؟",
         "code": "x = 5",
         "options": [
-          "print(x)",
-          "print(\"x\")",
+          "print(5 = x)",
           "Print(5)",
-          "print(5 = x)"
+          "print(\"x\")",
+          "print(x)"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "عشان نطبع قيمة المتغير بنكتب اسمه بدون أي علامات تنصيص print(x)."
       },
       {
@@ -1068,12 +1068,12 @@
         "question": "الكود ده هيطبع كام؟",
         "code": "score = 10\nscore = 25\nprint(score)",
         "options": [
-          "25",
-          "10",
           "35",
+          "10",
+          "25",
           "Error"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "آخر قيمة اتخزنت في المتغير score هي 25 وهي اللي بتفضل موجودة."
       },
       {
@@ -1087,12 +1087,12 @@
         "question": "لو كتبنا a = 1 وبعدها a = 2 وبعدها a = 3، قيمة a هتكون كام؟",
         "code": "a = 1\na = 2\na = 3\nprint(a)",
         "options": [
-          "3",
-          "1",
+          "6",
           "2",
-          "6"
+          "3",
+          "1"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "القيمة النهائية للمتغير هي آخر قيمة تم إعطاؤها له وهي 3."
       }
     ],
@@ -1109,9 +1109,9 @@
         "code": "name = \"ali\"\nage = 12",
         "options": [
           "ali",
-          "12",
+          "Error",
           "name",
-          "Error"
+          "12"
         ],
         "correct_index": 0,
         "explanation": "المتغير name بيحتوي على النص ali."
@@ -1127,12 +1127,12 @@
         "question": "الكود ده هيطبع إيه؟",
         "code": "length = 12\nwidth = 5\nprint(width)",
         "options": [
-          "5",
-          "12",
           "17",
-          "60"
+          "5",
+          "60",
+          "12"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "المتغير المطلوب طباعته هو width وقيمته 5."
       }
     ],
@@ -1148,12 +1148,12 @@
         "question": "الكود ده هيطبع إيه بالظبط؟",
         "code": "age = 12\nprint(f\"age is {age}\")",
         "options": [
+          "12",
           "age is 12",
           "age is {age}",
-          "age is age",
-          "12"
+          "age is age"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "القوسين {age} بيتعوض مكانهم بالرقم 12."
       },
       {
@@ -1168,9 +1168,9 @@
         "code": "",
         "options": [
           "قبل علامة التنصيص الأولى: print(f\"...\")",
-          "بعد علامات التنصيص",
+          "في آخر السطر",
           "جوة الأقواس المعقوفة",
-          "في آخر السطر"
+          "بعد علامات التنصيص"
         ],
         "correct_index": 0,
         "explanation": "حرف f بيتكتب مباشرة قبل علامة التنصيص الأولى مثل f\"hello {x}\"."
@@ -1188,12 +1188,12 @@
         "question": "القيمة \"mostafa\" نوعها إيه في بايثون؟",
         "code": "x = \"mostafa\"",
         "options": [
-          "string (نص)",
           "int (رقم صحيح)",
+          "Error",
           "float (رقم عشري)",
-          "Error"
+          "string (نص)"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "أي كلام محطوط بين علامات تنصيص \"...\" هو نص string (str)."
       },
       {
@@ -1207,12 +1207,12 @@
         "question": "الرقم 3.5 نوعه إيه في بايثون؟",
         "code": "v = 3.5",
         "options": [
+          "string (نص)",
           "float (رقم عشري)",
           "int (رقم صحيح)",
-          "string (نص)",
           "قائمة"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الأرقام اللي فيها علامة عشرية (بوينت) مثل 3.5 و 2.0 نوعها float."
       }
     ],
@@ -1230,8 +1230,8 @@
         "options": [
           "welcome kareem",
           "welcome name",
-          "Enter your name",
-          "kareem only"
+          "kareem only",
+          "Enter your name"
         ],
         "correct_index": 0,
         "explanation": "المتغير name بيشيل kareem، والـ f-string بتطبع welcome kareem."
@@ -1247,12 +1247,12 @@
         "question": "الجملة اللي بنكتبها جوة input مثل: input(\"Enter your name : \") بتظهر فين؟",
         "code": "",
         "options": [
+          "بتتحفظ ككود",
           "بتظهر على الشاشة للمستخدم كرسالة توضيحية عشان يعرف هيكتب إيه",
           "مش بتظهر خالص",
-          "بتتحفظ ككود",
           "بتعمل خطأ"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الرسالة اللي جوة input هي رسالة إرشادية (Prompt) بتظهر للمستخدم."
       }
     ],
@@ -1268,12 +1268,12 @@
         "question": "لو عايزين نستقبل رقم صحيح من المستخدم، السطر الصح هو:",
         "code": "",
         "options": [
+          "x = input() + int",
           "x = int(input(\"Enter number: \"))",
           "x = input(int(\"Enter number: \"))",
-          "x = int()",
-          "x = input() + int"
+          "x = int()"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الشكل الصحيح هو إحاطة input بدالة int: int(input(...))."
       },
       {
@@ -1287,12 +1287,12 @@
         "question": "دالة int(input(...)) بتطلع رقم نوعه إيه؟",
         "code": "",
         "options": [
-          "int (رقم صحيح)",
-          "string (نص)",
           "float (رقم عشري)",
-          "قائمة"
+          "int (رقم صحيح)",
+          "قائمة",
+          "string (نص)"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الدالة int بتحول المدخل إلى رقم صحيح Integer."
       }
     ],
@@ -1308,12 +1308,12 @@
         "question": "لو age = 10، الكود ده هيطبع كام؟",
         "code": "age = 10\nbirth = 2026 - age\nprint(birth)",
         "options": [
-          "2016",
-          "2026",
           "2010",
-          "2036"
+          "2016",
+          "2036",
+          "2026"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "2026 - 10 = 2016."
       },
       {
@@ -1327,12 +1327,12 @@
         "question": "السطر ده بيحسب إيه في بايثون؟\nbirth = 2026 - age",
         "code": "",
         "options": [
-          "سنة الميلاد بطرح العمر من السنة الحالية",
           "بيجمع العمر على 2026",
-          "بيطبع العمر",
-          "بيقسم السنة"
+          "سنة الميلاد بطرح العمر من السنة الحالية",
+          "بيقسم السنة",
+          "بيطبع العمر"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "علامة الطرح (-) بتطرح العمر من سنة 2026 لمعرفة سنة الميلاد."
       }
     ],
@@ -1348,12 +1348,12 @@
         "question": "لو a = 7 و b = 3، ناتج print(a + b) كام؟",
         "code": "a = 7\nb = 3\nprint(a + b)",
         "options": [
-          "10",
+          "4",
           "73",
-          "21",
-          "4"
+          "10",
+          "21"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "7 + 3 = 10."
       },
       {
@@ -1367,12 +1367,12 @@
         "question": "إيه الرمز اللي بنستخدمه للجمع في بايثون؟",
         "code": "",
         "options": [
-          "+",
-          "plus",
           "&",
-          "add"
+          "plus",
+          "add",
+          "+"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "الرمز المستخدم للجمع في بايثون هو علامة الزائد (+)."
       }
     ],
@@ -1388,12 +1388,12 @@
         "question": "لو x = 20 و y = 8، ناتج print(x - y) كام؟",
         "code": "x = 20\ny = 8\nprint(x - y)",
         "options": [
-          "12",
-          "28",
           "160",
-          "2"
+          "2",
+          "28",
+          "12"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "20 - 8 = 12."
       },
       {
@@ -1407,12 +1407,12 @@
         "question": "إيه الرمز اللي بنستخدمه لعملية الطرح في بايثون؟",
         "code": "",
         "options": [
+          "/",
           "-",
           "minus",
-          "_",
-          "/"
+          "_"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "علامة الناقص (-) هي الرمز المستخدم للطرح في بايثون."
       }
     ],
@@ -1428,12 +1428,12 @@
         "question": "لو طول المستطيل 12 وعرضه 5، المساحة هتكون كام؟",
         "code": "length = 12\nwidth = 5\narea = length * width\nprint(area)",
         "options": [
-          "60",
-          "17",
           "7",
-          "2.4"
+          "60",
+          "2.4",
+          "17"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "12 * 5 = 60."
       },
       {
@@ -1449,8 +1449,8 @@
         "options": [
           "* (نجمة)",
           "x (حرف إكس)",
-          "X",
-          "•"
+          "•",
+          "X"
         ],
         "correct_index": 0,
         "explanation": "رمز الضرب في البرمجة وبايثون هو علامة النجمة (*)."
@@ -1468,12 +1468,12 @@
         "question": "لو قسمنا print(6 / 2)، النتيجة هتكون:",
         "code": "print(6 / 2)",
         "options": [
-          "3.0",
           "3",
-          "0.33",
-          "12"
+          "3.0",
+          "12",
+          "0.33"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "القسمة العادية / بتطلع النتيجة بكسر عشري 3.0."
       },
       {
@@ -1528,9 +1528,9 @@
         "code": "",
         "options": [
           "/ بتطلع الناتج بالكسور، و // بتطلع الرقم الصحيح فقط بدون كسور",
-          "مفيش أي فرق بينهم",
           "// للجمع و / للقسمة",
-          "الاتنين بيطلعوا خطأ"
+          "الاتنين بيطلعوا خطأ",
+          "مفيش أي فرق بينهم"
         ],
         "correct_index": 0,
         "explanation": "القسمة / بتعطي float به كسور، بينما // تعطي فقط الرقم الصحيح بدون بواقي أو كسور."
@@ -1548,12 +1548,12 @@
         "question": "لو شغلنا print(6 % 3)، الناتج هيكون كام؟",
         "code": "print(6 % 3)",
         "options": [
+          "1",
           "0",
-          "2",
           "3",
-          "1"
+          "2"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الرقم 6 يقبل القسمة على 3 بالكامل، وبالتالي باقي القسمة هو 0."
       },
       {
@@ -1567,12 +1567,12 @@
         "question": "وظيفة علامة % في بايثون هي:",
         "code": "",
         "options": [
-          "حساب باقي القسمة",
-          "حساب النسبة المئوية",
+          "القسمة بدون كسور",
           "الضرب في 100",
-          "القسمة بدون كسور"
+          "حساب باقي القسمة",
+          "حساب النسبة المئوية"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "علامة % في بايثون تسمى Modulo ووظيفتها معرفة الباقي بعد القسمة."
       }
     ],
@@ -1588,12 +1588,12 @@
         "question": "الكود ده هيطبع إيه؟",
         "code": "a = \"cat\"\nb = \"dog\"\nprint(a + b)",
         "options": [
-          "catdog",
-          "cat dog",
           "cat+dog",
+          "cat dog",
+          "catdog",
           "Error"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "علامة + بتدمج الكلمتين ليصبحوا كلمة واحدة catdog."
       },
       {
@@ -1608,9 +1608,9 @@
         "code": "",
         "options": [
           "الأولى جمع أرقام (8)، والتانية دمج نصوص (\"53\")",
-          "الاتنين هيطلعوا 8",
           "الاتنين هيطلعوا 53",
-          "الاتنين خطأ"
+          "الاتنين خطأ",
+          "الاتنين هيطلعوا 8"
         ],
         "correct_index": 0,
         "explanation": "جمع الأرقام 5+3=8، لكن جمع النصوص \"5\"+\"3\" يلزقهم في بعض ويطلع \"53\"."
@@ -1628,12 +1628,12 @@
         "question": "الكود ده هيطبع إيه؟",
         "code": "print(\"=\" * 4)",
         "options": [
-          "====",
-          "=4",
           "===",
-          "Error"
+          "Error",
+          "=4",
+          "===="
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "تكرار علامة = أربع مرات ينتج عنه ===="
       },
       {
@@ -1647,12 +1647,12 @@
         "question": "لو كتبنا print(\"Hi\" * 2)، النتيجة هتكون:",
         "code": "",
         "options": [
+          "Error",
           "HiHi",
           "Hi2",
-          "Hi Hi",
-          "Error"
+          "Hi Hi"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الكلمة Hi هتتكرر مرتين متتاليتين HiHi."
       }
     ],
@@ -1687,12 +1687,12 @@
         "question": "لو المتغير x = 10 والمتغير y = 10.0، إيه الفرق بينهم؟",
         "code": "",
         "options": [
-          "x نوعه int (صحيح) و y نوعه float (عشري)",
+          "الاتنين float",
           "مفيش فرق خالص",
           "الاتنين نصوص",
-          "الاتنين float"
+          "x نوعه int (صحيح) و y نوعه float (عشري)"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "10 هو int، بينما 10.0 هو float لوجود العلامة العشرية."
       }
     ],
@@ -1708,12 +1708,12 @@
         "question": "لو المستخدم دخل الرقم 5 في الكود ده: x = input()، نوع x هيكون إيه؟",
         "code": "",
         "options": [
-          "نص string (\"5\")",
-          "رقم int (5)",
+          "Error",
           "float",
-          "Error"
+          "رقم int (5)",
+          "نص string (\"5\")"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "الرقم هيدخل كنص \"5\" طالما لم نستخدم دالة int()."
       },
       {
@@ -1727,12 +1727,12 @@
         "question": "لو عملنا x = input() والمستخدم كتب 5، وبعدها حاولنا نجمع x + 10 بدون تحويل، بايثون هيعمل إيه؟",
         "code": "",
         "options": [
-          "هيعمل خطأ (TypeError) لأنه مينفعش نجمع نص مع رقم",
           "هيطلع 15",
+          "هيمسح الرقم",
           "هيطلع 50",
-          "هيمسح الرقم"
+          "هيعمل خطأ (TypeError) لأنه مينفعش نجمع نص مع رقم"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "بايثون لا يسمح بجمع نص مع رقم، لذلك يحدث TypeError إلا إذا حولنا بـ int()."
       }
     ],
@@ -1748,12 +1748,12 @@
         "question": "السطر الصح لمقارنة إذا كانت x تساوي 10 هو:",
         "code": "",
         "options": [
-          "if x == 10:",
-          "if x = 10:",
           "if x === 10:",
-          "if x is 10 ="
+          "if x is 10 =",
+          "if x == 10:",
+          "if x = 10:"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "المقارنة في جملة if تتطلب علامتي يساوي ==."
       },
       {
@@ -1767,12 +1767,12 @@
         "question": "السطر ده بيعمل إيه في بايثون؟\nx = 10",
         "code": "",
         "options": [
+          "بيعمل خطأ",
           "بيخزن الرقم 10 جوه المتغير x",
-          "بيقارن هل x تساوي 10",
           "بيطبع 10",
-          "بيعمل خطأ"
+          "بيقارن هل x تساوي 10"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "علامة = الواحدة وظيفتها تعيين وتخزين القيمة في المتغير."
       }
     ],
@@ -1789,9 +1789,9 @@
         "code": "age = 15\nif age > 18:\n    print(\"allowed\")\nelse:\n    print(\"not allowed\")",
         "options": [
           "not allowed",
-          "allowed",
           "15",
-          "Error"
+          "Error",
+          "allowed"
         ],
         "correct_index": 0,
         "explanation": "الرقم 15 مش أكبر من 18، فالبرنامج هيروح لقسم else ويطبع not allowed."
@@ -1808,9 +1808,9 @@
         "code": "",
         "options": [
           "أكبر من (Greater than)",
+          "لا يساوي",
           "أصغر من",
-          "يساوي",
-          "لا يساوي"
+          "يساوي"
         ],
         "correct_index": 0,
         "explanation": "علامة > تعني أكبر من."
@@ -1828,12 +1828,12 @@
         "question": "علامة <= في بايثون معناها إيه؟",
         "code": "",
         "options": [
-          "أصغر من أو يساوي",
+          "يساوي فقط",
           "أكبر من أو يساوي",
-          "أصغر فقط",
-          "يساوي فقط"
+          "أصغر من أو يساوي",
+          "أصغر فقط"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "علامة <= تعني أصغر من أو يساوي (Less than or equal)."
       },
       {
@@ -1847,12 +1847,12 @@
         "question": "لو price_chips = 20، الكود السابق هيطبع إيه؟",
         "code": "price_chips = 20\nif price_chips <= 10:\n    print(\"small\")\nelse:\n    print(\"large\")",
         "options": [
-          "large",
-          "small",
           "20",
+          "small",
+          "large",
           "Error"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "الرقم 20 أكبر من 10، فالشرط لن يتحقق وسيطبع قسم else كلمة large."
       }
     ],
@@ -1870,8 +1870,8 @@
         "options": [
           "لأ، كلمة else بتتكتب لوحدها وبعدها نقطتين فقط : بدون أي شرط",
           "أيوه ينفع عادي",
-          "لازم نكتب شرط",
-          "بايثون بيفضل كده"
+          "بايثون بيفضل كده",
+          "لازم نكتب شرط"
         ],
         "correct_index": 0,
         "explanation": "كلمة else لا تأخذ أي شرط بعدها، تكتب كلمة else متبوعة بنقطتين :"
@@ -1887,12 +1887,12 @@
         "question": "لو شرط if تحقق وكان صحيحاً (True)، هل كود else هيتنفذ؟",
         "code": "",
         "options": [
-          "لأ، بيتجاهل كود else تماماً",
-          "أيوه الاتنين بيتنفذوا",
+          "بيحصل خطأ",
           "البرنامج بيوقف",
-          "بيحصل خطأ"
+          "لأ، بيتجاهل كود else تماماً",
+          "أيوه الاتنين بيتنفذوا"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "إذا تحقق شرط if، يتم تنفيذ أمره وتجاهل قسم else تماماً."
       }
     ],
@@ -1908,12 +1908,12 @@
         "question": "لو المستخدم كتب salt بدلاً من cheese في الكود السابق، النتيجة إيه؟",
         "code": "",
         "options": [
-          "go home",
-          "buy cheese chips",
           "salt",
-          "Error"
+          "buy cheese chips",
+          "Error",
+          "go home"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "كلمة salt لا تساوي cheese، فالشرط غير صحيح وينتقل البرنامج إلى else ويطبع go home."
       },
       {
@@ -1927,12 +1927,12 @@
         "question": "ليه بنحط النص cheese بين علامات تنصيص في الشرط: chips == \"cheese\"؟",
         "code": "",
         "options": [
-          "عشان بايثون يعرف إنه نص ومش اسم متغير تاني",
           "عشان البرنامج يبقى أسرع",
           "ملهاش فايدة",
-          "عشان يطبع"
+          "عشان يطبع",
+          "عشان بايثون يعرف إنه نص ومش اسم متغير تاني"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "النصوص الصريحة يجب وضعها دائماً بين علامات تنصيص لتمييزها عن المتغيرات."
       }
     ],
@@ -1948,12 +1948,12 @@
         "question": "لو شخص كتب 0000 في نفس كود الباسوورد، هيطبع إيه؟",
         "code": "",
         "options": [
-          "wrong password",
-          "Correct password",
           "0000",
-          "Error"
+          "Error",
+          "wrong password",
+          "Correct password"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "الباسوورد 0000 غير مطابق، فينفذ البرنامج قسم else ويطبع wrong password."
       },
       {
@@ -1967,12 +1967,12 @@
         "question": "هل بايثون بيفرق بين الحروف الكبيرة والصغيرة في الباسوورد مثل: ABC و abc؟",
         "code": "",
         "options": [
-          "أيوه بيفرق تماماً ولا يعتبرهم متطابقين",
-          "لأ مش بيفرق",
           "بيعتبرهم زي بعض",
-          "بيتجاهل الحروف"
+          "بيتجاهل الحروف",
+          "أيوه بيفرق تماماً ولا يعتبرهم متطابقين",
+          "لأ مش بيفرق"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "لغة بايثون حساسة لحالة الأحرف (Case Sensitive) فالحروف الكبيرة تختلف عن الصغيرة."
       }
     ],
@@ -1988,12 +1988,12 @@
         "question": "هل ينفع نكتب كذا elif ورا بعض في نفس جملة الشرط؟",
         "code": "",
         "options": [
-          "أيوه ينفع نكتب أي عدد من شروط elif حسب ما نحتاج",
           "لأ واحدة بس بالكتير",
-          "لازم اتنين بالظبط",
-          "ممنوع في بايثون"
+          "أيوه ينفع نكتب أي عدد من شروط elif حسب ما نحتاج",
+          "ممنوع في بايثون",
+          "لازم اتنين بالظبط"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "يمكن استخدام عدة أسطر elif لفحص خيارات متعددة كما رأينا في كود الدرجات والأطعمة."
       },
       {
@@ -2008,8 +2008,8 @@
         "code": "",
         "options": [
           "لأ، بيتجاهل باقي شروط elif بمجرد ما يلاقي أول شرط صحيح",
-          "أيوه هيفحصهم كلهم",
           "البرنامج هيقف",
+          "أيوه هيفحصهم كلهم",
           "هيعمل إيرور"
         ],
         "correct_index": 0,
@@ -2028,12 +2028,12 @@
         "question": "لو الطالب جاب 95 في نفس الكود السابق، هيطبع إيه؟",
         "code": "",
         "options": [
-          "A",
-          "B",
           "F",
-          "AB"
+          "A",
+          "AB",
+          "B"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "الدرجة 95 تحقق الشرط الأول score >= 90، فيطبع A فوراً."
       },
       {
@@ -2047,12 +2047,12 @@
         "question": "لو الطالب جاب 40 في نفس الكود السابق، هيطبع إيه؟",
         "code": "",
         "options": [
-          "F",
-          "A",
           "B",
-          "لا شيء"
+          "لا شيء",
+          "A",
+          "F"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "الدرجة 40 لم تحقق أي شرط من الشروط، فينتقل البرنامج لـ else ويطبع F."
       }
     ],
@@ -2068,12 +2068,12 @@
         "question": "لو كانت chips = \"chilli\"، والشرط elif chips == \"chilli\": print(\"buy chilli\") موجود، هيطبع إيه؟",
         "code": "",
         "options": [
-          "buy chilli",
-          "buy cheese chips",
+          "Error",
           "go home",
-          "Error"
+          "buy cheese chips",
+          "buy chilli"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "سيطابق شرط الـ chilli ويطبع buy chilli."
       },
       {
@@ -2088,9 +2088,9 @@
         "code": "",
         "options": [
           "go home (قسم else الأخير)",
-          "buy cheese",
           "buy kebab",
-          "هيقف"
+          "هيقف",
+          "buy cheese"
         ],
         "correct_index": 0,
         "explanation": "عند عدم تحقق أي خيار من النكهات المحددة، ينفذ كود else الأخير وهو go home."
@@ -2109,9 +2109,9 @@
         "code": "",
         "options": [
           "هيعمل خطأ IndentationError",
+          "هيطبع مسافة",
           "هيشغله عادي",
-          "هيمسح الكود",
-          "هيطبع مسافة"
+          "هيمسح الكود"
         ],
         "correct_index": 0,
         "explanation": "بايثون صارم جداً في المسافات البادئة ويعطي IndentationError إذا نسيتها."
@@ -2127,12 +2127,12 @@
         "question": "الزر اللي في الكيبورد اللي بنستخدمه غالباً لعمل المسافة البادئة هو:",
         "code": "",
         "options": [
-          "Tab",
-          "Enter",
+          "Caps Lock",
           "Shift",
-          "Caps Lock"
+          "Tab",
+          "Enter"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "زر Tab هو الزر القياسي لعمل المسافة البادئة للأكواد في بايثون."
       }
     ],
@@ -2149,9 +2149,9 @@
         "code": "",
         "options": [
           "أول ما الشرط بتاعها يبقى غير صحيح (False)",
+          "لما نطفي الجهاز",
           "مش بتقف أبداً",
-          "بعد دقيقة واحدة",
-          "لما نطفي الجهاز"
+          "بعد دقيقة واحدة"
         ],
         "correct_index": 0,
         "explanation": "تتوقف حلقة while فور أن يصبح الشرط الخاص بها غير صحيح (False)."
@@ -2169,8 +2169,8 @@
         "options": [
           "11 مرة (من 0 إلى 10)",
           "مرة واحدة",
-          "صفر",
-          "إلى ما لا نهاية"
+          "إلى ما لا نهاية",
+          "صفر"
         ],
         "correct_index": 0,
         "explanation": "ستعمل اللوب للقيم: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 أي 11 مرة."
@@ -2188,12 +2188,12 @@
         "question": "لو كانت x = 3 ونفذنا السطر x = x + 1، قيمة x الجديدة هتكون كام؟",
         "code": "",
         "options": [
-          "4",
-          "3",
           "1",
-          "31"
+          "4",
+          "31",
+          "3"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "3 + 1 = 4."
       },
       {
@@ -2207,12 +2207,12 @@
         "question": "لو نسينا نكتب سطر زيادة العداد x = x + 1 في لوب بتعتمد على x، إيه اللي هيحصل؟",
         "code": "",
         "options": [
+          "مفيش حاجة هتتأثر",
           "قيمة x مش هتتغير واللوب هتفضل شغالة إلى ما لا نهاية (Infinite Loop)",
-          "البرنامج هيقفل فوراً",
           "الرقم هيزيد لوحده",
-          "مفيش حاجة هتتأثر"
+          "البرنامج هيقفل فوراً"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "بدون زيادة العداد سيظل الشرط True دائماً ولن تتوقف الحلقة أبداً."
       }
     ],
@@ -2228,12 +2228,12 @@
         "question": "إيه السطر اللي معناه نفس معنى while 1 > 0: في بايثون؟",
         "code": "",
         "options": [
+          "if 1 > 0:",
           "while True:",
-          "while False:",
           "while 0 > 1:",
-          "if 1 > 0:"
+          "while False:"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "السطر while True: هو التعبير الشائع الآخر لعمل حلقة تكرار مستمرة."
       },
       {
@@ -2249,8 +2249,8 @@
         "options": [
           "باستخدام أمر break",
           "باستخدام أمر print",
-          "باستخدام أمر input",
-          "مش بنعرف نخرج خالص"
+          "مش بنعرف نخرج خالص",
+          "باستخدام أمر input"
         ],
         "correct_index": 0,
         "explanation": "أمر break هو الأمر المخصص للخروج من اللوب فوراً."
@@ -2268,12 +2268,12 @@
         "question": "في لعبة تخمين الرقم (s1.py)، لما اللاعب خمن الرقم الصح n == x، الكود عمل إيه؟",
         "code": "if n == x:\n    print(\"won\")\n    break",
         "options": [
-          "طبع won واستخدم break عشان اللعبة تخلص واللوب تقف",
-          "فضل يطلب أرقام تاني",
           "مسح اللعبة",
-          "طبع try again"
+          "فضل يطلب أرقام تاني",
+          "طبع try again",
+          "طبع won واستخدم break عشان اللعبة تخلص واللوب تقف"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "أمر break أوقف اللعبة واللوب بعد الفوز مباشرة."
       },
       {
@@ -2287,12 +2287,12 @@
         "question": "لو اللوب فيها أمر break ونفذناه، هل البرنامج هيكمل باقي لفات اللوب؟",
         "code": "",
         "options": [
-          "لأ، بيخرج فوراً ولا يكمل أي لفة تانية",
+          "بيعمل ريستارت",
           "أيوه بيكمل عادي",
-          "بيكرر اللفة الأخيرة",
-          "بيعمل ريستارت"
+          "لأ، بيخرج فوراً ولا يكمل أي لفة تانية",
+          "بيكرر اللفة الأخيرة"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "بمجرد تنفيذ أمر break، تتوقف الحلقة في نفس اللحظة."
       }
     ],
@@ -2308,12 +2308,12 @@
         "question": "لو كانت s = 10 و x = 5، بعد تنفيذ s = s + x قيمة s هتكون كام؟",
         "code": "",
         "options": [
-          "15",
           "10",
           "5",
+          "15",
           "105"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "10 + 5 = 15."
       },
       {
@@ -2327,12 +2327,12 @@
         "question": "في ملف (s2p2.py): t = t + h بيعمل إيه لما المستخدم يدخل رقم h؟",
         "code": "",
         "options": [
-          "بيجمع الرقم الجديد h على الإجمالي t",
           "بيطرح h من t",
           "بيضربهم",
-          "بيوقف البرنامج"
+          "بيوقف البرنامج",
+          "بيجمع الرقم الجديد h على الإجمالي t"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "بيجمع كل رقم يدخله المستخدم على المتغير الإجمالي t."
       }
     ],
@@ -2348,12 +2348,12 @@
         "question": "علامة >= معناها إيه في بايثون؟",
         "code": "",
         "options": [
-          "أكبر من أو يساوي",
-          "أصغر من أو يساوي",
+          "أكبر فقط",
           "يساوي فقط",
-          "أكبر فقط"
+          "أصغر من أو يساوي",
+          "أكبر من أو يساوي"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "العلامة >= تعني أكبر من أو يساوي (Greater than or equal)."
       },
       {
@@ -2367,12 +2367,12 @@
         "question": "لو كان t = 95 والمستخدم دخل h = 10، المجموع هيكون 105، هل اللوب هتقف؟",
         "code": "",
         "options": [
-          "أيوه هتقف لأن 105 أكبر من 100",
-          "لأ مش هتقف",
           "هتطلب رقم كمان",
-          "هتعمل خطأ"
+          "أيوه هتقف لأن 105 أكبر من 100",
+          "هتعمل خطأ",
+          "لأ مش هتقف"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "بما أن 105 أكبر من 100 فالشرط تحقق وينفذ أمر break فوراً."
       }
     ],
@@ -2388,12 +2388,12 @@
         "question": "لو المستخدم في الكود السابق كتب ali، إيه اللي هيحصل للـ while loop؟",
         "code": "",
         "options": [
-          "هتقف فوراً لأن الشرط أصبح غير صحيح (ali لا تساوي mohamed)",
           "هتفضل شغالة",
           "هتمسح الاسم",
+          "هتقف فوراً لأن الشرط أصبح غير صحيح (ali لا تساوي mohamed)",
           "هتعمل خطأ"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "عند إدخال ali يصبح الشرط False وتتوقف حلقة while فوراً."
       },
       {
@@ -2407,12 +2407,12 @@
         "question": "حلقة while بتفحص الشرط إمتى؟",
         "code": "",
         "options": [
-          "في بداية كل لفة قبل ما تنفذ الكود اللي جواها",
-          "مرة واحدة بس في أول البرنامج",
           "في آخر البرنامج بس",
+          "مرة واحدة بس في أول البرنامج",
+          "في بداية كل لفة قبل ما تنفذ الكود اللي جواها",
           "مش بتفحصه خالص"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "حلقة while تفحص الشرط في كل دورة قبل التنفيذ."
       }
     ],
@@ -2428,12 +2428,12 @@
         "question": "لو كانت x = 4 ونفذنا السطر x = x * 2، قيمة x هتكون كام؟",
         "code": "",
         "options": [
+          "16",
           "8",
-          "6",
           "4",
-          "16"
+          "6"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "4 * 2 = 8."
       },
       {
@@ -2447,12 +2447,12 @@
         "question": "أول رقمين هيتطبعوا من الكود ده هما:",
         "code": "x = 1\nwhile x <= 128:\n    print(x)\n    x = x * 2",
         "options": [
-          "1 ثم 2",
-          "0 ثم 1",
+          "1 ثم 3",
           "2 ثم 4",
-          "1 ثم 3"
+          "0 ثم 1",
+          "1 ثم 2"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "تبدأ بـ 1 وتطبعها، ثم تضرب في 2 فتصبح 2 وتطبعها في اللفة التالية."
       }
     ],
@@ -2468,12 +2468,12 @@
         "question": "كلمة import في بايثون بنستخدمها لما نكون عايزين:",
         "code": "",
         "options": [
-          "نستورد مكتبة أو أدوات جاهزة في بايثون نستخدمها في كودنا",
-          "نطبع نص على الشاشة",
           "نعمل حلقة تكرار",
-          "نحذف متغير"
+          "نحذف متغير",
+          "نطبع نص على الشاشة",
+          "نستورد مكتبة أو أدوات جاهزة في بايثون نستخدمها في كودنا"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "أمر import يستخدم لاستيراد واستدعاء المكتبات البرمجية."
       },
       {
@@ -2488,9 +2488,9 @@
         "code": "",
         "options": [
           "في أول الملف خالص قبل ما نستخدم أدوات المكتبة",
+          "مش بيفرق مكانه خالص",
           "جوة الـ if بس",
-          "في آخر سطر في البرنامج",
-          "مش بيفرق مكانه خالص"
+          "في آخر سطر في البرنامج"
         ],
         "correct_index": 0,
         "explanation": "من أفضل ممارسات البرمجة وضع أسطر الـ import في بداية الملف."
@@ -2508,12 +2508,12 @@
         "question": "لو كتبنا random.randrange(1, 10)، الرقم العشوائي هيكون بين كام وكام؟",
         "code": "",
         "options": [
-          "بين 1 و 9",
+          "دائماً 0",
           "بين 10 و 20",
-          "دائماً 10",
-          "دائماً 0"
+          "بين 1 و 9",
+          "دائماً 10"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "الدالة تختار بين 1 وحتى 9 (أقل من الرقم الأخير بواحد)."
       },
       {
@@ -2528,9 +2528,9 @@
         "code": "",
         "options": [
           "لأ، بيكون رقم مختلف وعشوائي في كل مرة",
-          "أيوه دايماً نفس الرقم",
+          "بيكون رقم ثابت",
           "بيكون صفر دايماً",
-          "بيكون رقم ثابت"
+          "أيوه دايماً نفس الرقم"
         ],
         "correct_index": 0,
         "explanation": "الهدف منها هو العشوائية الكاملة فيكون مختلفاً في كل مرة."
@@ -2565,12 +2565,12 @@
         "question": "أي من الكلمات التالية هي الكلمة الصحيحة لأمر الطباعة في بايثون؟",
         "code": "",
         "options": [
-          "print",
+          "PRINT",
           "prnt",
-          "Print",
-          "PRINT"
+          "print",
+          "Print"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "في بايثون تكتب print بحروف سمول بالكامل."
       }
     ],
@@ -2587,9 +2587,9 @@
         "code": "if score > 50",
         "options": [
           ": (نقطتين فوق بعض)",
+          "= (يساوي)",
           "; (فاصلة منقوطة)",
-          ". (نقطة)",
-          "= (يساوي)"
+          ". (نقطة)"
         ],
         "correct_index": 0,
         "explanation": "علامة النقطتين (:) إجبارية في نهاية سطر جملة الشرط في بايثون."
@@ -2624,12 +2624,12 @@
         "question": "الشكل الصحيح لكتابة else في بايثون هو:",
         "code": "",
         "options": [
-          "else:",
+          "else=",
           "else;",
           "else",
-          "else="
+          "else:"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "تكتب كلمة else متبوعة بنقطتين فقط: else:"
       },
       {
@@ -2662,12 +2662,12 @@
         "question": "السطر الصحيح لبداية حلقة while هو:",
         "code": "",
         "options": [
-          "while x <= 10:",
           "while x <= 10;",
           "while x <= 10",
+          "while x <= 10:",
           "while x <= 10 ="
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "يجب وضع النقطتين (:) في نهاية شرط الـ while."
       },
       {
@@ -2717,12 +2717,12 @@
         "question": "أي من الكلمات التالية هي دالة استقبال المدخلات الصحيحة في بايثون؟",
         "code": "",
         "options": [
-          "input",
           "inpt",
-          "inputt",
-          "read"
+          "read",
+          "input",
+          "inputt"
         ],
-        "correct_index": 0,
+        "correct_index": 2,
         "explanation": "الاسم الصحيح للدالة في بايثون هو input."
       }
     ],
@@ -2754,12 +2754,12 @@
         "question": "الكلمة الصحيحة لإيقاف اللوب والخروج منها في بايثون هي:",
         "code": "",
         "options": [
+          "stop",
           "break",
-          "brak",
           "brek",
-          "stop"
+          "brak"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "تكتب break بحروفها الصحيحة الكاملة."
       }
     ],
@@ -2791,12 +2791,12 @@
         "question": "السطر الصحيح لاستدعاء مكتبة الأرقام العشوائية في بايثون هو:",
         "code": "",
         "options": [
-          "import random",
           "imprt random",
           "import rand",
-          "load random"
+          "load random",
+          "import random"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "تكتب import random."
       }
     ],
@@ -2829,12 +2829,12 @@
         "question": "أي من الكلمات التالية هي الصيغة الصحيحة في لغة بايثون للشرط البديل؟",
         "code": "",
         "options": [
-          "elif",
+          "elf",
           "else if",
           "elseif",
-          "elf"
+          "elif"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "في بايثون تدمج الكلمتان في كلمة واحدة مختصرة هي elif."
       }
     ],
@@ -2867,12 +2867,12 @@
         "question": "الدالة المستخدمة لتحويل النص إلى رقم صحيح في بايثون هي:",
         "code": "",
         "options": [
-          "int()",
-          "number()",
           "integer()",
-          "num()"
+          "num()",
+          "number()",
+          "int()"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "الدالة المدمجة في بايثون هي int()."
       }
     ],
@@ -2888,12 +2888,12 @@
         "question": "السطر الصحيح لتخزين كلمة ali في المتغير name هو:",
         "code": "",
         "options": [
-          "name = \"ali\"",
           "name = ali",
+          "name = \"ali\"",
           "name = 'ali",
           "name = ali()"
         ],
-        "correct_index": 0,
+        "correct_index": 1,
         "explanation": "أي نص صريح يجب أن يوضع بين علامات تنصيص مزدوجة أو مفردة \"ali\"."
       },
       {
@@ -2907,12 +2907,12 @@
         "question": "لو كتبنا chips = cheese بدون علامات تنصيص، بايثون هيعتبر cheese إيه؟",
         "code": "",
         "options": [
-          "هيعتبرها اسم متغير تاني ويبحث عن قيمته",
           "هيعتبرها نص عادي",
           "هيطبعها فوراً",
-          "هيمسحها"
+          "هيمسحها",
+          "هيعتبرها اسم متغير تاني ويبحث عن قيمته"
         ],
-        "correct_index": 0,
+        "correct_index": 3,
         "explanation": "أي كلمة بدون علامات تنصيص يعتبرها بايثون اسماً لمتغير أو دالة."
       }
     ]

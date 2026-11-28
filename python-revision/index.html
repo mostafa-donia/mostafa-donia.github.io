@@ -539,7 +539,7 @@
           اكتب الكلمة أو الرمز الصحيح في المربع:
         </label>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="text" id="typo-answer-input" class="typo-input" placeholder="Type correct code here...">
+          <input type="text" id="typo-answer-input" class="typo-input" placeholder="Type correct code here..." onkeydown="if(event.key==='Enter') checkTypoAnswer()">
           <button class="btn btn-purple" id="btn-check-typo" onclick="checkTypoAnswer()">تحقق من الحل ✔</button>
         </div>
       </div>
@@ -607,9 +607,9 @@
   <script src="questions_data.js"></script>
 
   <script>
-    // Live Real-Time Pub/Sub Channel for GenieTech Python Revision
     const SYNC_TOPIC = 'genietech_python_rev_sub_8923';
     const SYNC_URL = `https://ntfy.sh/${SYNC_TOPIC}`;
+    const PENDING_QUEUE_KEY = 'genie_pending_sync_v2';
 
     let studentInfo = { name: '', group: '' };
     let totalMistakes = 0;
@@ -620,11 +620,11 @@
     let currentIndex = 0;
 
     const PARTS_META = [
-      { id: 1, part_id: 'part1', title: 'المتغيرات وأنواع البيانات والإدخال', desc: 'Variables, print, input, data types & casting (10 أسئلة)' },
-      { id: 2, part_id: 'part2', title: 'العمليات الحسابية والمنطقية والمقارنات', desc: 'Arithmetic, modulo, comparisons, and / or / not (10 أسئلة)' },
-      { id: 3, part_id: 'part3', title: 'الجمل الشرطية واتخاذ القرار', desc: 'If, elif, else, nested conditions & validation (10 أسئلة)' },
-      { id: 4, part_id: 'part4', title: 'التكرار بالـ While Loops والعشوائي', desc: 'While loop, counters, break & random (10 أسئلة)' },
-      { id: 5, part_id: 'part5', title: 'اختبارات الكتابة وصيد الأخطاء المطبعية', desc: 'Typo hunting, keyword syntax errors & typing (10 أسئلة)' }
+      { id: 1, part_id: 'part1', title: 'المتغيرات والطباعة ودوال الإدخال', desc: 'Variables, print, input, data types (10 أسئلة)' },
+      { id: 2, part_id: 'part2', title: 'العمليات الحسابية والأنواع والتحويل', desc: 'Arithmetic, //, %, concatenation & types (10 أسئلة)' },
+      { id: 3, part_id: 'part3', title: 'الجمل الشرطية واتخاذ القرار', desc: 'If, elif, else & comparisons (10 أسئلة)' },
+      { id: 4, part_id: 'part4', title: 'التكرار بالـ While Loops والمكتبات', desc: 'While loop, counters, break & random (10 أسئلة)' },
+      { id: 5, part_id: 'part5', title: 'اختبارات الكتابة وصيد الأخطاء المطبعية', desc: 'Typo hunting, colons & fixing bugs (10 أسئلة)' }
     ];
 
     function getStorageKey(name) {
@@ -633,6 +633,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      flushPendingQueue();
       const lastStudentName = localStorage.getItem('genie_last_active_student');
       if (lastStudentName) {
         document.getElementById('input-student-name').value = lastStudentName;
@@ -691,14 +692,14 @@
       }
     }
 
-    // Direct Instant Sync after every question
-    function saveStudentState() {
+    function saveStudentState(changedQId = null) {
       if (!studentInfo.name) return;
 
       const answeredCount = Object.keys(attemptsLog).filter(k => attemptsLog[k] && attemptsLog[k].correct).length;
       const firstTryCount = Object.values(attemptsLog).filter(a => a && a.firstTry).length;
+      const nowIso = new Date().toISOString();
 
-      const payload = {
+      const fullState = {
         studentInfo: {
           name: studentInfo.name,
           group: studentInfo.group || 'غير محدد'
@@ -708,22 +709,32 @@
         firstTryCount: firstTryCount,
         attemptsLog: attemptsLog,
         partsCompleted: partsCompleted,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: nowIso
       };
 
-      // 1. Local Storage save
       const key = getStorageKey(studentInfo.name);
-      localStorage.setItem(key, JSON.stringify(payload));
+      localStorage.setItem(key, JSON.stringify(fullState));
       localStorage.setItem('genie_last_active_student', studentInfo.name);
+      localStorage.setItem('genie_python_rev_state_v1', JSON.stringify(fullState));
 
-      // Also save to generic key for local dashboard inspection
-      localStorage.setItem('genie_python_rev_state_v1', JSON.stringify(payload));
+      // Build compact event (< 350 bytes) so ntfy NEVER turns it into a file attachment!
+      const compactEvent = {
+        v: 2,
+        type: changedQId ? 'answer' : 'login',
+        name: studentInfo.name,
+        group: studentInfo.group || 'غير محدد',
+        qid: changedQId,
+        att: changedQId ? attemptsLog[changedQId] : null,
+        totalMistakes: totalMistakes,
+        answeredCount: answeredCount,
+        firstTryCount: firstTryCount,
+        lastUpdated: nowIso
+      };
 
-      // 2. Real-time Live Cloud broadcast to Teacher Dashboard
-      broadcastToTeacher(payload);
+      sendCompactEvent(compactEvent);
     }
 
-    function broadcastToTeacher(payload) {
+    function sendCompactEvent(evt) {
       const badge = document.getElementById('cloud-status-badge');
       if (badge) {
         badge.className = 'cloud-pill syncing';
@@ -732,24 +743,54 @@
 
       fetch(SYNC_URL, {
         method: 'POST',
+        keepalive: true,
         headers: {
-          'Title': `Genie Student: ${payload.studentInfo.name}`,
-          'Tags': 'student,update'
+          'Title': `Genie: ${evt.name}`,
+          'Tags': 'student'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(evt)
       })
-      .then(() => {
+      .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         if (badge) {
           badge.className = 'cloud-pill';
           badge.innerText = '🟢 تم الإرسال للمعلم مباشرة';
         }
+        flushPendingQueue();
       })
       .catch(() => {
+        queuePendingEvent(evt);
         if (badge) {
           badge.className = 'cloud-pill';
-          badge.innerText = '🟢 محفوظ محلياً وسيرسل فوراً';
+          badge.innerText = '🟡 محفوظ محلياً وسيعاد الإرسال';
         }
       });
+    }
+
+    function queuePendingEvent(evt) {
+      try {
+        const list = JSON.parse(localStorage.getItem(PENDING_QUEUE_KEY) || '[]');
+        list.push(evt);
+        localStorage.setItem(PENDING_QUEUE_KEY, JSON.stringify(list.slice(-50)));
+      } catch(e) {}
+    }
+
+    function flushPendingQueue() {
+      try {
+        const list = JSON.parse(localStorage.getItem(PENDING_QUEUE_KEY) || '[]');
+        if (list.length === 0) return;
+        localStorage.removeItem(PENDING_QUEUE_KEY);
+        list.forEach((evt, idx) => {
+          setTimeout(() => {
+            fetch(SYNC_URL, {
+              method: 'POST',
+              keepalive: true,
+              headers: { 'Title': `Genie Retry: ${evt.name}` },
+              body: JSON.stringify(evt)
+            }).catch(() => queuePendingEvent(evt));
+          }, idx * 250);
+        });
+      } catch(e) {}
     }
 
     function updateHeaderUserBadge() {
@@ -805,7 +846,7 @@
       }
 
       updateHeaderUserBadge();
-      saveStudentState();
+      saveStudentState(null);
       showPartsScreen();
     }
 
@@ -889,7 +930,7 @@
       const q = queue[currentIndex];
       if (!q) {
         partsCompleted[currentPartId] = true;
-        saveStudentState();
+        saveStudentState(null);
         showPartsScreen();
         return;
       }
@@ -950,8 +991,9 @@
           btn.id = `opt-btn-${idx}`;
           btn.innerHTML = `
             <span class="option-letter">${letters[idx] || (idx+1)}</span>
-            <span style="direction: ltr; text-align: left; font-family: ${opt.includes('(') || opt.includes('=') ? 'JetBrains Mono' : 'inherit'}; font-weight: 700;">${opt}</span>
+            <span style="direction: ltr; text-align: left; font-family: ${opt.includes('(') || opt.includes('=') ? 'JetBrains Mono' : 'inherit'}; font-weight: 700;"></span>
           `;
+          btn.querySelector('span:last-child').textContent = opt;
           btn.onclick = () => selectOption(idx);
           optionsBox.appendChild(btn);
         });
@@ -998,9 +1040,7 @@
         fb.style.display = 'block';
 
         document.getElementById('btn-next-question').style.display = 'inline-flex';
-        
-        // Immediate sync to teacher dashboard after this question!
-        saveStudentState();
+        saveStudentState(q.id);
       } else {
         if (chosenBtn) chosenBtn.className = 'option-btn selected-wrong';
         totalMistakes += 1;
@@ -1012,9 +1052,7 @@
         if (log.attempts.length === 1) {
           triggerAdaptiveQuestions(q.concept_id);
         }
-
-        // Immediate sync of mistake to teacher dashboard!
-        saveStudentState();
+        saveStudentState(q.id);
       }
     }
 
@@ -1057,7 +1095,7 @@
         fb.style.display = 'block';
 
         document.getElementById('btn-next-question').style.display = 'inline-flex';
-        saveStudentState();
+        saveStudentState(q.id);
       } else {
         totalMistakes += 1;
 
@@ -1068,7 +1106,7 @@
         if (log.attempts.length === 1) {
           triggerAdaptiveQuestions(q.concept_id);
         }
-        saveStudentState();
+        saveStudentState(q.id);
       }
     }
 
@@ -1093,7 +1131,7 @@
       currentIndex += 1;
       if (currentIndex >= queue.length) {
         partsCompleted[currentPartId] = true;
-        saveStudentState();
+        saveStudentState(null);
 
         const allEssential = (typeof REVISION_DATA !== 'undefined') ? REVISION_DATA.essential_questions : [];
         const totalSolved = allEssential.filter(q => attemptsLog[q.id] && attemptsLog[q.id].correct).length;
@@ -1131,7 +1169,7 @@
       document.getElementById('rep-adaptive-done').innerText = adaptiveCount;
       document.getElementById('rep-mistakes').innerText = totalMistakes;
 
-      saveStudentState();
+      saveStudentState(null);
     }
 
     function sendReportWhatsApp() {

@@ -156,9 +156,6 @@
     .btn-gold { background: var(--gold); color: #22201E; }
     .btn-gold:hover { background: var(--gold-dark); color: #FFFFFF; }
 
-    .btn-green { background: var(--green); color: #FFFFFF; }
-    .btn-green:hover { background: #219653; color: #FFFFFF; }
-
     .btn-outline {
       background: transparent;
       border: 2px solid var(--border);
@@ -372,7 +369,6 @@
 </head>
 <body>
 
-  <!-- Top Dashboard Header -->
   <header class="dashboard-header">
     <div class="dash-brand">
       <img src="logo.png" alt="Genie Tech Logo" class="dash-logo" onerror="this.style.display='none'">
@@ -391,7 +387,6 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
   <nav class="tabs-nav">
     <button class="tab-btn active" id="tab-btn-students" onclick="switchTab('students')">
       📊 متابعة نتائج الطلاب والمحاولات
@@ -403,7 +398,6 @@
 
   <main class="main-wrap">
 
-    <!-- TAB 1: STUDENTS SUBMISSIONS -->
     <div id="tab-content-students">
       <div class="metrics-grid">
         <div class="metric-card">
@@ -475,7 +469,6 @@
       </div>
     </div>
 
-    <!-- TAB 2: QUESTION BANK MANAGER -->
     <div id="tab-content-questions" style="display: none;">
       <div class="filter-bar">
         <div>
@@ -495,7 +488,7 @@
           <select id="qb-filter-part" class="search-input" style="width: auto;" onchange="renderQuestionsManager()">
             <option value="all">كل الأجزاء (1 - 5)</option>
             <option value="part1">الجزء 1: المتغيرات ودوال الإدخال</option>
-            <option value="part2">الجزء 2: العمليات الحسابية والمنطقية</option>
+            <option value="part2">الجزء 2: العمليات الحسابية والأنواع</option>
             <option value="part3">الجزء 3: الجمل الشرطية واتخاذ القرار</option>
             <option value="part4">الجزء 4: التكرار بالـ While Loops والعشوائي</option>
             <option value="part5">الجزء 5: اختبارات الكتابة وصيد الأخطاء</option>
@@ -605,64 +598,156 @@
   <script>
     const SYNC_TOPIC = 'genietech_python_rev_sub_8923';
     const SYNC_URL = `https://ntfy.sh/${SYNC_TOPIC}`;
+    const TEACHER_CACHE_KEY = 'genie_teacher_students_cache_v1';
 
-    // Map: student_name -> full student payload
     let studentsMap = {};
     let activeEditingQId = null;
 
     window.addEventListener('DOMContentLoaded', () => {
-      // 1. Load any local storage student first (instant display if same device)
+      loadTeacherCache();
       loadLocalStorageStudents();
-
-      // 2. Poll past messages from ntfy topic (last 12 hours)
       refreshDashboardData();
-
-      // 3. Open real-time SSE listener for instant live incoming answers
       initRealtimeListener();
+      // Safety periodic refresh every 20 seconds
+      setInterval(refreshDashboardData, 20000);
     });
 
+    function loadTeacherCache() {
+      try {
+        const cached = localStorage.getItem(TEACHER_CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          Object.assign(studentsMap, parsed);
+        }
+      } catch(e) {}
+    }
+
+    function saveTeacherCache() {
+      try {
+        localStorage.setItem(TEACHER_CACHE_KEY, JSON.stringify(studentsMap));
+      } catch(e) {}
+    }
+
     function loadLocalStorageStudents() {
-      // Scan localStorage for any students
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
         if (k && k.startsWith('genie_python_rev_st_')) {
           try {
             const data = JSON.parse(localStorage.getItem(k));
             if (data && data.studentInfo && data.studentInfo.name) {
-              studentsMap[data.studentInfo.name] = data;
+              mergeFullStudentData(data);
             }
           } catch(e) {}
         }
       }
-
-      // Check generic state
-      const generic = localStorage.getItem('genie_python_rev_state_v1');
-      if (generic) {
-        try {
-          const data = JSON.parse(generic);
-          if (data && data.studentInfo && data.studentInfo.name) {
-            studentsMap[data.studentInfo.name] = data;
-          }
-        } catch(e) {}
-      }
-
       renderDashboard();
     }
 
-    // Connect to Server-Sent Events for instant sub-second answer streaming
+    function mergeIncomingPayload(payload) {
+      if (!payload) return null;
+
+      // Format v2: compact per-question delta event
+      if (payload.v === 2 && payload.name) {
+        const stName = payload.name.trim();
+        if (!studentsMap[stName]) {
+          studentsMap[stName] = {
+            studentInfo: { name: stName, group: payload.group || 'غير محدد' },
+            totalMistakes: 0,
+            answeredCount: 0,
+            firstTryCount: 0,
+            attemptsLog: {},
+            lastUpdated: payload.lastUpdated || new Date().toISOString()
+          };
+        }
+
+        const st = studentsMap[stName];
+        if (payload.group && payload.group !== 'غير محدد') {
+          st.studentInfo.group = payload.group;
+        }
+        if (payload.qid && payload.att) {
+          st.attemptsLog[payload.qid] = payload.att;
+        }
+
+        const incomingTs = new Date(payload.lastUpdated || 0).getTime();
+        const existingTs = new Date(st.lastUpdated || 0).getTime();
+        if (incomingTs >= existingTs) {
+          st.totalMistakes = payload.totalMistakes !== undefined ? payload.totalMistakes : st.totalMistakes;
+          st.answeredCount = payload.answeredCount !== undefined ? payload.answeredCount : Object.keys(st.attemptsLog).length;
+          st.firstTryCount = payload.firstTryCount !== undefined ? payload.firstTryCount : st.firstTryCount;
+          st.lastUpdated = payload.lastUpdated || st.lastUpdated;
+        } else {
+          // Recalculate from merged attemptsLog if out-of-order
+          st.answeredCount = Object.values(st.attemptsLog).filter(a => a && a.correct).length;
+          st.firstTryCount = Object.values(st.attemptsLog).filter(a => a && a.firstTry).length;
+        }
+
+        saveTeacherCache();
+        return stName;
+      }
+
+      // Legacy full-state format
+      if (payload.studentInfo && payload.studentInfo.name) {
+        return mergeFullStudentData(payload);
+      }
+
+      return null;
+    }
+
+    function mergeFullStudentData(data) {
+      const stName = data.studentInfo.name.trim();
+      const existing = studentsMap[stName];
+      const incomingCount = Object.keys(data.attemptsLog || {}).length;
+      const existingCount = existing ? Object.keys(existing.attemptsLog || {}).length : -1;
+
+      if (!existing || incomingCount >= existingCount) {
+        studentsMap[stName] = {
+          studentInfo: { name: stName, group: data.studentInfo.group || 'غير محدد' },
+          totalMistakes: data.totalMistakes || 0,
+          answeredCount: data.answeredCount || Object.values(data.attemptsLog || {}).filter(a => a && a.correct).length,
+          firstTryCount: data.firstTryCount || Object.values(data.attemptsLog || {}).filter(a => a && a.firstTry).length,
+          attemptsLog: Object.assign({}, existing ? existing.attemptsLog : {}, data.attemptsLog || {}),
+          lastUpdated: data.lastUpdated || new Date().toISOString()
+        };
+        saveTeacherCache();
+      }
+      return stName;
+    }
+
+    function processNtfyMessageObj(msgObj) {
+      if (!msgObj) return;
+
+      // Case 1: Inline JSON in msgObj.message
+      if (msgObj.message && msgObj.message.trim().startsWith('{')) {
+        try {
+          const payload = JSON.parse(msgObj.message);
+          const updatedName = mergeIncomingPayload(payload);
+          if (updatedName) return updatedName;
+        } catch(e) {}
+      }
+
+      // Case 2: Large legacy message turned into attachment file by ntfy.sh
+      if (msgObj.attachment && msgObj.attachment.url) {
+        fetch(msgObj.attachment.url)
+          .then(r => r.json())
+          .then(payload => {
+            const updatedName = mergeIncomingPayload(payload);
+            if (updatedName) renderDashboard();
+          })
+          .catch(() => {});
+      }
+      return null;
+    }
+
     function initRealtimeListener() {
       try {
         const sse = new EventSource(`${SYNC_URL}/sse`);
         sse.onmessage = (event) => {
           try {
             const parsed = JSON.parse(event.data);
-            if (parsed && parsed.message) {
-              const studentData = JSON.parse(parsed.message);
-              if (studentData && studentData.studentInfo && studentData.studentInfo.name) {
-                studentsMap[studentData.studentInfo.name] = studentData;
-                renderDashboard();
-                showLiveToast(studentData.studentInfo.name);
-              }
+            const updatedName = processNtfyMessageObj(parsed);
+            if (updatedName) {
+              renderDashboard();
+              showLiveToast(updatedName);
             }
           } catch(e) {}
         };
@@ -682,11 +767,10 @@
     function showLiveToast(studentName) {
       const pill = document.getElementById('server-status-pill');
       if (pill) {
-        const origText = pill.innerText;
         pill.innerText = `⚡ تحديث جديد من الطالب: ${studentName}!`;
         pill.className = 'tag-status tag-yellow';
         setTimeout(() => {
-          pill.innerText = origText;
+          pill.innerText = '🟢 متصل بالبث المباشر (لايف)';
           pill.className = 'tag-status tag-green';
         }, 3000);
       }
@@ -697,7 +781,7 @@
       pill.className = 'tag-status tag-yellow';
       pill.innerText = '🟡 جاري جلب التحديثات...';
 
-      fetch(`${SYNC_URL}/json?poll=1`)
+      fetch(`${SYNC_URL}/json?poll=1&since=all`)
         .then(res => res.text())
         .then(rawText => {
           pill.className = 'tag-status tag-green';
@@ -708,12 +792,7 @@
             if (line.trim()) {
               try {
                 const msgObj = JSON.parse(line);
-                if (msgObj.message) {
-                  const studentData = JSON.parse(msgObj.message);
-                  if (studentData && studentData.studentInfo && studentData.studentInfo.name) {
-                    studentsMap[studentData.studentInfo.name] = studentData;
-                  }
-                }
+                processNtfyMessageObj(msgObj);
               } catch(e) {}
             }
           });
@@ -782,7 +861,6 @@
         return;
       }
 
-      // Sort by lastUpdated descending (newest activity first)
       filtered.sort((a, b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
 
       filtered.forEach(s => {
@@ -793,25 +871,52 @@
         const accuracy = (answered > 0) ? Math.round(((s.firstTryCount || 0) / answered) * 100) : 0;
         const timeAgo = formatTimeAgo(s.lastUpdated);
 
-        tr.innerHTML = `
-          <td style="font-weight: 800; color: var(--purple);">${stName}</td>
-          <td><span class="badge-admin" style="border: none;">${stGroup}</span></td>
-          <td><strong>${answered} / 50</strong></td>
-          <td>
-            <span style="color: ${accuracy >= 80 ? 'var(--green)' : (accuracy >= 50 ? 'var(--gold-dark)' : 'var(--red)')}; font-weight: 800;">
-              ${accuracy}%
-            </span>
-          </td>
-          <td style="color: ${(s.totalMistakes || 0) > 4 ? 'var(--red)' : 'inherit'}; font-weight: 800;">
-            ${s.totalMistakes || 0}
-          </td>
-          <td style="font-size: 12px; color: var(--text-muted);">${timeAgo}</td>
-          <td>
-            <button class="btn btn-purple" style="font-size: 12px; padding: 6px 12px;" onclick="inspectStudentDetails('${stName}')">
-              🔍 تفاصيل الأداء
-            </button>
-          </td>
-        `;
+        const tdName = document.createElement('td');
+        tdName.style.fontWeight = '800';
+        tdName.style.color = 'var(--purple)';
+        tdName.textContent = stName;
+
+        const tdGroup = document.createElement('td');
+        const spanGroup = document.createElement('span');
+        spanGroup.className = 'badge-admin';
+        spanGroup.style.border = 'none';
+        spanGroup.textContent = stGroup;
+        tdGroup.appendChild(spanGroup);
+
+        const tdAns = document.createElement('td');
+        tdAns.innerHTML = `<strong>${answered} / 50</strong>`;
+
+        const tdAcc = document.createElement('td');
+        tdAcc.style.fontWeight = '800';
+        tdAcc.style.color = accuracy >= 80 ? 'var(--green)' : (accuracy >= 50 ? 'var(--gold-dark)' : 'var(--red)');
+        tdAcc.textContent = `${accuracy}%`;
+
+        const tdMis = document.createElement('td');
+        tdMis.style.fontWeight = '800';
+        if ((s.totalMistakes || 0) > 4) tdMis.style.color = 'var(--red)';
+        tdMis.textContent = s.totalMistakes || 0;
+
+        const tdTime = document.createElement('td');
+        tdTime.style.fontSize = '12px';
+        tdTime.style.color = 'var(--text-muted)';
+        tdTime.textContent = timeAgo;
+
+        const tdAction = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-purple';
+        btn.style.fontSize = '12px';
+        btn.style.padding = '6px 12px';
+        btn.textContent = '🔍 تفاصيل الأداء';
+        btn.addEventListener('click', () => inspectStudentDetails(stName));
+        tdAction.appendChild(btn);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdGroup);
+        tr.appendChild(tdAns);
+        tr.appendChild(tdAcc);
+        tr.appendChild(tdMis);
+        tr.appendChild(tdTime);
+        tr.appendChild(tdAction);
         tbody.appendChild(tr);
       });
     }
@@ -893,12 +998,15 @@
             <span style="font-weight: 900; color: var(--purple);">سؤال ${index + 1}: ${qInfo.question}</span>
             ${statusBadge}
           </div>
-          ${qInfo.code ? `<div class="code-preview">${qInfo.code}</div>` : ''}
+          ${qInfo.code ? `<div class="code-preview"></div>` : ''}
           ${attemptsHistoryHtml}
           <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted); background: #FFFFFF; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);">
             💡 <strong>الشرح:</strong> ${qInfo.explanation || 'غير متاح'}
           </div>
         `;
+        if (qInfo.code) {
+          item.querySelector('.code-preview').textContent = qInfo.code;
+        }
         modalList.appendChild(item);
       });
 
@@ -909,7 +1017,6 @@
       document.getElementById('inspect-modal').style.display = 'none';
     }
 
-    // Question Bank Manager
     function renderQuestionsManager() {
       const container = document.getElementById('questions-editor-list');
       container.innerHTML = '';
@@ -973,7 +1080,7 @@
             ${idx + 1}. ${q.question}
           </div>
 
-          ${q.code ? `<div class="code-preview">${q.code}</div>` : ''}
+          ${q.code ? `<div class="code-preview"></div>` : ''}
 
           ${!isTyping && q.options ? `
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 10px 0;">
@@ -993,6 +1100,9 @@
             💡 <strong>الشرح بالمصري:</strong> ${q.explanation}
           </div>
         `;
+        if (q.code) {
+          card.querySelector('.code-preview').textContent = q.code;
+        }
         container.appendChild(card);
       });
     }
